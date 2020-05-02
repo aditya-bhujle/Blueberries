@@ -1,11 +1,13 @@
+import React from "react";
+
 import {
 	CardPreviewInfo,
 	CardPreviewList,
-} from "../../components/cards/PreviewCards";
+} from "../../cards/PreviewCards";
 
 export default function SchoolPreview() {
 	return (
-		<>
+		<div className="hub_column_right">
 			<CardPreviewInfo
 				title="Explore UNCC"
 				members={541}
@@ -74,6 +76,6 @@ export default function SchoolPreview() {
 				]}
 				link="See All Chats"
 			/>
-		</>
+		</div>
 	);
 }

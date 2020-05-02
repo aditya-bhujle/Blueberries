@@ -1,29 +1,29 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-export default function PageNav({ type }) {
+export default function PageNav({ type, baseLink }) {
 	let links;
 
 	switch (type) {
 		case "school":
 			links = [
-				{ content: "Posts", path: "/school", icon: "post" },
-				{ content: "Majors", path: "/school/majors", icon: "rocket" },
-				{ content: "Classes", path: "/school/classes", icon: "flask" },
-				{ content: "Clubs", path: "/school/clubs", icon: "football" },
-				{ content: "Events", path: "/school/events", icon: "calendar" },
-				{ content: "Chats", path: "/school/chats", icon: "chat" },
+				{ content: "Posts", path: "", icon: "post" },
+				{ content: "Majors", path: "majors", icon: "rocket" },
+				{ content: "Classes", path: "classes", icon: "flask" },
+				{ content: "Clubs", path: "clubs", icon: "football" },
+				{ content: "Events", path: "events", icon: "calendar" },
+				{ content: "Chats", path: "chats", icon: "chat" },
 			];
 			break;
 
 		case "class":
 			links = [
-				{ content: "Posts", path: "/class", icon: "post" },
-				{ content: "Chat", path: "/class/chat", icon: "chat" },
-				{ content: "Notes", path: "/class/notes", icon: "notes" },
-				{ content: "Calendar", path: "/class/calendar", icon: "calendar" },
-				{ content: "Thoughts", path: "/class/thoughts", icon: "thoughts" },
-				{ content: "Reviews", path: "/class/reviews", icon: "reviews" },
+				{ content: "Posts", path: "", icon: "post" },
+				{ content: "Chat", path: "chat", icon: "chat" },
+				{ content: "Notes", path: "notes", icon: "notes" },
+				{ content: "Calendar", path: "calendar", icon: "calendar" },
+				{ content: "Thoughts", path: "thoughts", icon: "thoughts" },
+				{ content: "Reviews", path: "reviews", icon: "reviews" },
 			];
 			break;
 
@@ -37,7 +37,7 @@ export default function PageNav({ type }) {
 				return (
 					<NavLink
 						exact
-						to={link.path}
+						to={`${baseLink}/${link.path}`}
 						className="nav_link"
 						activeClassName="nav_link current"
 						key={link.path}

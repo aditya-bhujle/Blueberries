@@ -25,7 +25,8 @@ export default function App() {
 				<Route path="/signup" component={Signup}/>
 				<Route exact path="/" component={DashboardHub}/>
 
-				<Route exact path="/school/:id" component={SchoolRouter}/> {/* Nested routing in here, can do persistant rendering for schools and classes and stuff */}
+				<Route path="/school/:id/class/:classId" component={ClassRouter}/>
+				<Route path="/school/:id" component={SchoolRouter}/>
 				
 				<Route path="/post/:id" component={Post}/>
 			</Switch>
