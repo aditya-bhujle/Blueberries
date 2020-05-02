@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Header from "../../layout/header/Header";
 import PageNav from "../../layout/header/PageNav";
+import Section from "../../layout/Section";
 
 export default function SchoolRouter() {
 	return (
 		<Router>
 			<Section>
-				<Header name={title} short={short} />
-				<PageNav links={links} />
+				<Header name={"University of North Carolina at Charlotte"} short={"UNCC"} />
+				<PageNav type="school" />
 				<div className="line" />
 				<Switch>
 					<Route exact path="/" component={DashboardHub} />

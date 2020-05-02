@@ -12,6 +12,7 @@ import DashboardHub from "./components/pages/dashboard/dashboard";
 import Post from "./components/pages/post/post";
 import Login from "./components/pages/auth/login";
 import Signup from "./components/pages/auth/signup";
+import SchoolRouter from "./components/pages/school/router";
 
 export default function App() {
 	return (
@@ -24,7 +25,7 @@ export default function App() {
 				<Route path="/signup" component={Signup}/>
 				<Route exact path="/" component={DashboardHub}/>
 
-				<Route exact path="/school/:id" component={School}/> {/* Nested routing in here, can do persistant rendering for schools and classes and stuff */}
+				<Route exact path="/school/:id" component={SchoolRouter}/> {/* Nested routing in here, can do persistant rendering for schools and classes and stuff */}
 				
 				<Route path="/post/:id" component={Post}/>
 			</Switch>
