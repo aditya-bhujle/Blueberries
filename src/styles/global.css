@@ -19,15 +19,6 @@
 	width: 18px;
 	height: 18px;
 	margin-bottom: 5px;
-	fill: #a5a5a5;
-}
-
-.nav_link:hover .nav_svg {
-	fill: #000;
-}
-
-.nav_svg.active {
-	fill: #000;
 }
 
 .menu_svg {
@@ -386,14 +377,17 @@ strong {
 	display: inline-block;
 	margin-right: 15px;
 	color: #a5a5a5;
+	fill: #a5a5a5;
 }
 
 .nav_link:hover {
 	color: #000;
+	fill: #000;
 }
 
 .nav_link.current {
 	color: #000;
+	fill: #000;
 }
 
 .hub_post_link {

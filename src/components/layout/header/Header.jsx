@@ -4,7 +4,7 @@ export default function Header({ name, short, subShort }) {
 	return (
 		<div className="hub_header">
 			<div>
-				<div className="hub_parent_title">{short}}</div>
+				<div className="hub_parent_title">{short}</div>
 				{subShort && (
 					<>
 						<div className="hub_parent_title">/</div>

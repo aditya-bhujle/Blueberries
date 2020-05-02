@@ -9,16 +9,16 @@ export default function SchoolRouter() {
 	return (
 		<Router>
 			<Section>
-				<Header name={"University of North Carolina at Charlotte"} short={"UNCC"} />
+				<Header name="University of North Carolina at Charlotte" short="UNCC" />
 				<PageNav type="school" />
 				<div className="line" />
-				<Switch>
+				<Switch>{/*
 					<Route exact path="/" component={DashboardHub} />
                     <Route path="/majors" component={DashboardHub} />
                     <Route path="/classes" component={DashboardHub} />
                     <Route path="/clubs" component={DashboardHub} />
                     <Route path="/events" component={DashboardHub} />
-                    <Route path="/chats" component={DashboardHub} />
+                    <Route path="/chats" component={DashboardHub} />*/}
 				</Switch>
 			</Section>
 		</Router>

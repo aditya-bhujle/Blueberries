@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function PageNav({ type }) {
 	let links;
@@ -35,14 +35,18 @@ export default function PageNav({ type }) {
 		<div className="hub_nav">
 			{links.map((link) => {
 				return (
-					<Link to={link.path} className="nav_link" key={link.path}>
-						{/* Active should be nav_link current */}
-						<svg className={"nav_svg" + (isActive ? " active" : "")}>
-							{/* TO DO Change styling so nav_link current changes svg color too, remove nav_svg active */}
+					<NavLink
+						exact
+						to={link.path}
+						className="nav_link"
+						activeClassName="nav_link current"
+						key={link.path}
+					>
+						<svg className="nav_svg">
 							<use xlinkHref={`#${link.icon}`} />
 						</svg>
 						<div className="menu_link post">{link.content}</div>
-					</Link>
+					</NavLink>
 				);
 			})}
 		</div>
