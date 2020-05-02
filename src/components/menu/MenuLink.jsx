@@ -9,11 +9,7 @@ export default function MenuLink({ content, icon, selected, submenu }) {
 				selected ? "selected" : ""
 			}`}
 		>
-			<svg
-				className={
-					"menu_svg" + (selected ? " active" : submenu ? " submenu" : "")
-				}
-			>
+			<svg className="menu_svg">
 				<use xlinkHref={`#${icon}`} />
 			</svg>
 			<strong className="menu_link">{content}</strong>

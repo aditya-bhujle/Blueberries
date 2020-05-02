@@ -24,15 +24,6 @@
 .menu_svg {
 	width: 18px;
 	height: 18px;
-	fill: #000;
-}
-
-.menu_svg.submenu {
-	fill: #a5a5a5;
-}
-
-.menu_svg.active {
-	fill: #1a73e8;
 }
 
 .back_link {
@@ -718,6 +709,7 @@ strong {
 
 .list_div.category.selected {
 	color: #1a73e8;
+	fill: #1a73e8;
 }
 
 .list_div.category.title {
@@ -728,6 +720,7 @@ strong {
 }
 
 .list_div.category.menu {
+	fill: #000;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -738,7 +731,13 @@ strong {
 	border-radius: 5px;
 }
 
+.list_div.category.menu.selected {
+	color: #1a73e8;
+	fill: #1a73e8;
+}
+
 .list_div.category.submenu {
+	fill: #a5a5a5;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
