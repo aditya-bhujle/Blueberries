@@ -1,31 +1,35 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Header from "../../layout/header/Header";
-import PageNav from "../../layout/header/PageNav";
-import Section from "../../layout/Section";
+import Header from "../../header/Header";
+import PageNav from "../../header/PageNav";
+import Section from "../../Section";
 
 import Posts from "./posts/index";
-import Majors from "./majors/majors";
-import Classes from "./classes/classes";
-import Clubs from "./clubs/clubs";
-import Events from "./events/events";
-import Chats from "./chats/chats";
+import Chat from "./chat/chat";
+import Notes from "./notes/notes";
+import Calendar from "./calendar/calendar";
+import Thoughts from "./thoughts/thoughts";
+import Reviews from "./reviews/reviews";
 
-export default function SchoolRouter({ match }) {
+export default function ClassRouter({ match }) {
 	return (
 		<Router>
 			<Section>
-				<Header name="University of North Carolina at Charlotte" short="UNCC" />
-				<PageNav type="school" baseLink={match.url} />
+				<Header
+					name="Data Structures and Algorithms"
+					short="UNCC"
+					subShort="ITSC 2214 Professor Long"
+				/>
+				<PageNav type="class" baseLink={match.url} />
 				<div className="line" />
 				<Switch>
 					<Route exact path={`${match.path}`} component={Posts} />
-					<Route exact path={`${match.path}/majors`} component={Majors} />
-					<Route exact path={`${match.path}/classes`} component={Classes} />
-					<Route exact path={`${match.path}/clubs`} component={Clubs} />
-					<Route exact path={`${match.path}/events`} component={Events} />
-					<Route exact path={`${match.path}/chats`} component={Chats} />
+					<Route exact path={`${match.path}/chat`} component={Chat} />
+					<Route exact path={`${match.path}/notes`} component={Notes} />
+					<Route exact path={`${match.path}/calendar`} component={Calendar} />
+					<Route exact path={`${match.path}/thoughts`} component={Thoughts} />
+					<Route exact path={`${match.path}/reviews`} component={Reviews} />
 				</Switch>
 			</Section>
 		</Router>

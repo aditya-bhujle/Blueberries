@@ -1,69 +1,8 @@
 import React, { useState } from "react";
 
-import ChatPreview from "../../collections/ChatPreview";
-import ChatCard from "../../cards/ChatCard";
-
-export default function Chat() {
-	const contentCard = (
-		<ChatCard>
-			<Message
-				user="TestName1"
-				time="11:30 AM"
-				messages={["Lorem ipsum", "Lorem ipsum", "Lorem ipsum"]}
-			/>
-			<Message
-				user="TestName2"
-				time="12:31 AM"
-				event={{
-					title: "Graduation Ceremony",
-					date: "February 10",
-					day: "Monday",
-					time_span: "1:30 pm - 5:30 pm",
-				}}
-			/>
-			<Message
-				user="TestName1"
-				time="12:36 AM"
-				poll={{
-					title: "Should UNCC close down because of Corona",
-					votes: 23,
-					choices: [
-						{ name: "Major", votes: 13 },
-						{ name: "Classes", votes: 1 },
-						{ name: "Clubs", votes: 0 },
-						{ name: "Chats", votes: 1 },
-					],
-					multiple: true,
-				}}
-				self
-			/>
-			<Message
-				user="TestName1"
-				time="12:36 AM"
-				post={{
-					author: "Anonymous",
-					time: "Yesterday",
-					title: "Who else has Assignment 3 pushed back?",
-					alert:
-						"This post was posted in the Data Structures and Algorithms hub",
-					content:
-						"I'm in Long's class and he pushed it back to Monday. Was wondering about other teachers.",
-				}}
-			/>
-		</ChatCard>
-	);
-
-	return (
-		<div className="hub_column_layout">
-			{contentCard}
-			<ChatPreview />
-		</div>
-	);
-}
-
-function Message({ user, time, messages, self, ...props }) {
-	const [pollSelected, setPollSelected] = useState(-1);
-
+export default function Message({ user, time, messages, self, ...props }) {
+    const [selected, setSelected] = useState(-1);
+    
 	function chatEvent({ title, date, day, time_span }) {
 		return (
 			<div className="hub_card bot_padding send">
@@ -88,10 +27,8 @@ function Message({ user, time, messages, self, ...props }) {
 				</p>
 				{choices.map((choice, index) => (
 					<div
-						className={
-							"list_div poll" + (index == pollSelected ? " selected" : "")
-						}
-						onClick={() => setPollSelected(index)}
+						className={"list_div poll" + (index == selected ? " selected" : "")}
+						onClick={() => setSelected(index)}
 						key={index}
 					>
 						<strong>{`${choice.name} - ${choice.votes} Votes`}</strong>

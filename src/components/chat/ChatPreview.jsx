@@ -1,9 +1,9 @@
 import React from "react";
-import { CardPreviewInfo, CardPreviewPictures, CardPreviewList } from "../../cards/PreviewCards";
+import { CardPreviewInfo, CardPreviewPictures, CardPreviewList } from "../cards/PreviewCards";
 
 export default function ChatPreview() {
 	return (
-		<>
+		<div className="hub_column_right">
 			<CardPreviewInfo
 				title="Data Structures and Algorithms"
 				subtitle="Professor Bruce Long"
@@ -72,6 +72,6 @@ export default function ChatPreview() {
 					},
 				]}
 			/>
-		</>
+		</div>
 	);
 }

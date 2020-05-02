@@ -3,78 +3,92 @@ import React from "react";
 import {
 	CardPreviewInfo,
 	CardPreviewList,
+	CardPreviewReview
 } from "../../cards/PreviewCards";
 
-export default function SchoolPreview() {
+export default function ClassPreview() {
 	return (
 		<div className="hub_column_right">
 			<CardPreviewInfo
-				title="Explore UNCC"
-				members={541}
-				description="The University of North Carolina at Charlotte is a public research university in Charlotte, North Carolina."
+				title="Data Structures and Algorithms"
+				subtitle="Professor Bruce Long"
+				members={72}
 			/>
-			<CardPreviewList
-				title="Join Major"
+			<CardPreviewReview
+				title="Professor Bruce Long"
 				elements={[
-					{ header: "Accounting", content: "240 Students" },
-					{ header: "Computer Science", content: "212 Students" },
-					{ header: "Pre-Med", content: "112 Students" },
-					{ header: "Computer Engineering", content: "54 Students" },
-					{ header: "Electrical Engineering", content: "45 Students" },
-					{ header: "Nursing", content: "31 Students" },
+					{ header: "Overall Rating", content: "4.6 / 5" },
+					{ header: "Average Difficulty", content: "2.3 / 5" },
+					{ header: "Attendance Mandatory", content: "71%" },
+					{ header: "Textbook Use", content: "42%" },
 				]}
-				link="See All Majors"
 				isDouble
+				link={["Add Review", "See All Reviews"]}
+				take_again={91}
+				quote="An amazingly passionate, enthusiastic teacher!"
+				tags={[
+					"Gives Good Feedback",
+					"Respected",
+					"Lots of Homework",
+					"Lots of Writing",
+					"Test Heavy",
+				]}
 			/>
 			<CardPreviewList
-				title="Join Classes"
+				title="Chat"
 				elements={[
-					{ header: "Data Structures", content: "ITSC 2214 ⋅ 24 Students" },
 					{
-						header: "Logic and Algorithms",
-						content: "ITSC 2175 ⋅ 46 Students",
+						header: "You Have 2 Unread Messages",
+						right: "Now",
 					},
 					{
-						header: "Introduction to Computer Science II",
-						content: "ITSC 1213 ⋅ 24 Students",
+						header: "Someone Mentioned You",
+						right: "2 Days Ago",
+						content: "ITSC 2214 Group Chat",
 					},
 				]}
-				link="See All Classes"
+				link="Open Group Chat"
 			/>
 			<CardPreviewList
-				title="Join Clubs"
+				title="Upcoming Activity"
 				elements={[
 					{
-						header: "Charlotte Hacks",
-						content: "Computer Science ⋅ 24 Students",
-					},
-					{
-						header: "Association for Computing Machinery",
-						content: "Computer Science ⋅ 46 Students",
-					},
-				]}
-				link="See All Clubs"
-			/>
-			<CardPreviewList
-				title="Upcoming Events"
-				elements={[
-					{
-						header: "Badminton Club Interest Meeting",
-						content: "Clubs ⋅ Athletics",
+						header: "Unit 2 Test",
 						right: "In 2 Days",
+						content: "Test ⋅ Open Notes",
+					},
+					{
+						header: "Zybooks Due",
+						right: "In 1 Week",
+						content: "Assignment",
 					},
 				]}
-				link="See All Events"
+				link="Open Calendar"
 			/>
 			<CardPreviewList
-				title="Public Chats"
+				title="Hot Posts"
 				elements={[
 					{
-						header: "Witherspoon Residence Hall",
-						content: "49 Students",
+						header: "Taking this class with Logic and Algorithms?",
+						right: "Yesterday",
+						content: [
+							<strong className="list_category red" key="red">
+								Not In Class
+							</strong>,
+							" ⋅ Anonymous ⋅ 4 replies",
+						],
+					},
+					{
+						header: "Who else has Assignment 3 pushed back",
+						right: "Yesterday",
+						content: [
+							<strong className="list_category" key="blue">
+								Hub
+							</strong>,
+							" ⋅ Anonymous ⋅ 4 replies",
+						],
 					},
 				]}
-				link="See All Chats"
 			/>
 		</div>
 	);

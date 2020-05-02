@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Header from "../../layout/header/Header";
-import PageNav from "../../layout/header/PageNav";
-import Section from "../../layout/Section";
+import Header from "../../header/Header";
+import PageNav from "../../header/PageNav";
+import Section from "../../Section";
 
 import Posts from "./posts/index";
 import Majors from "./majors/majors";

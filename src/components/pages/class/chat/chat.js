@@ -1,7 +1,7 @@
 import React from "react";
 
-import ContentTitle from "../../../layout/header/ContentTitle";
-import Sidebar from "../Sidebar";
+import ContentTitle from "../../../header/ContentTitle";
+import ChatPreview from "../../../chat/ChatPreview"
 import Content from "./Content"
 
 export default function SchoolPosts() {
@@ -10,7 +10,7 @@ export default function SchoolPosts() {
 			<ContentTitle header="Your Feed" sortList={["Hot", "Top", "New"]} />
 			<div className="hub_column_layout">
 				<Content />
-				<Sidebar />
+				<ChatPreview />
 			</div>
 		</>
 	);

@@ -1,5 +1,5 @@
 import React from "react"
-import SortList from "../../SortList"
+import SortList from "../SortList"
 
 export default function ContentTitle({ header, sortList, content, subtitle }) {
 	return (

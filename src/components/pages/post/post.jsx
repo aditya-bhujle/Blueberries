@@ -1,6 +1,6 @@
 import React from "react";
 
-import Section from "../../layout/Section";
+import Section from "../../Section";
 import Content from "./Content";
 import Sidebar from "./Sidebar";
 

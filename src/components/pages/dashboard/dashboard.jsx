@@ -1,7 +1,7 @@
 import React from "react";
 
-import ContentTitle from "../../layout/header/ContentTitle";
-import Section from "../../layout/Section";
+import ContentTitle from "../../header/ContentTitle";
+import Section from "../../Section";
 import Content from "./Content";
 import Sidebar from "./Sidebar";
 

@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "./components/layout/Navbar";
-import Menu from "./components/layout/menu/Menu";
+import Navbar from "./components/Navbar";
+import Menu from "./components/menu/Menu";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import "./styles/normalize.css";
@@ -13,6 +13,7 @@ import Post from "./components/pages/post/post";
 import Login from "./components/pages/auth/login";
 import Signup from "./components/pages/auth/signup";
 import SchoolRouter from "./components/pages/school/router";
+import ClassRouter from "./components/pages/class/router";
 
 export default function App() {
 	return (

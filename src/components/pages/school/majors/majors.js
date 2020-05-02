@@ -1,6 +1,6 @@
 import React from "react";
 
-import ContentTitle from "../../../layout/header/ContentTitle";
+import ContentTitle from "../../../header/ContentTitle";
 import Sidebar from "../Sidebar";
 import Content from "./Content"
 
