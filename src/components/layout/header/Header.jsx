@@ -1,3 +1,5 @@
+import React from "react"
+
 export default function Header({ name, short }) {
 	return (
 		<div className="hub_header">

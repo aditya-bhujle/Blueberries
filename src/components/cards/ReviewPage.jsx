@@ -1,3 +1,5 @@
+import React from "react"
+
 function AvgReviewCard({ title, id, children, tags, h3 }) {
 	return (
 		<div className="hub_card review" id={id}>

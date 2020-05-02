@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 function CardCreate({ title, placeholder, createPlaceholder }) {
 	const [showCreate, setShowCreate] = useState(false);
@@ -66,14 +66,6 @@ function CardSearch({ placeholder }) {
 }
 
 function CardPost(props) {
-	function PostActionLinks(links) {
-		return links.map((content) => (
-			<div className="action_div post" key={content}>
-				<strong>{content}</strong>
-			</div>
-		));
-	}
-
 	return (
 		<div className={"hub_card" + (props.followed ? " followed" : "")}>
 			{props.image && (
@@ -151,7 +143,7 @@ function CardEvent({ title, content, event_date, category, type }) {
 	return (
 		<div className="hub_card">
 			<div className="hub_post_details">
-				<strong class="list_category">{event_date}</strong> ⋅ {category} ⋅{" "}
+				<strong className="list_category">{event_date}</strong> ⋅ {category} ⋅{" "}
 				{type}
 			</div>
 			<h3>{title}</h3>

@@ -1,3 +1,5 @@
+import React from "react"
+
 function CardPreviewInfo({ title, subtitle, members, description }) {
 	return (
 		<div className="hub_card">

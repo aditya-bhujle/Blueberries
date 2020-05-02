@@ -1,3 +1,5 @@
+import React from "react"
+
 export default function ChatCard({ children }) {
 	return (
 		<div className="hub_card chat">

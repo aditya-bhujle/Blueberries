@@ -1,4 +1,6 @@
+import React from "react";
 import MenuLink from "./MenuLink";
+import SubMenuHead from "./SubMenuHead";
 
 export default function Menu() {
 	const user = {
@@ -18,23 +20,51 @@ export default function Menu() {
 	return (
 		<div className="nav_menu">
 			<MenuLink content="Your Feed" icon="home" selected />
-			<MenuLink content="UNCC" icon="school" />
+
+			<SubMenuHead content="UNCC" icon="school" expand>
+				<MenuLink submenu content="Posts" icon="post" />
+
+				<SubMenuHead submenu content="Join" icon="school" expand>
+					<MenuLink submenu content="Majors" icon="rocket" />
+					<MenuLink submenu content="Classes" icon="flask" />
+					<MenuLink submenu content="Clubs" icon="football" />
+					<MenuLink submenu content="Chats" icon="chat" />
+				</SubMenuHead>
+
+				<MenuLink submenu content="Events" icon="calendar" />
+			</SubMenuHead>
+
 			<MenuLink content="Community" icon="community" />
 			<div className="line even" />
+
 			<MenuLink content={`${user.major} Hub`} icon="hub" />
 			<div className="line even" />
-			{[
-				{ content: user.classes || [], icon: "flask" },
-				{ content: user.clubs || [], icon: "football" },
-				{ content: user.chats || [], icon: "chat" },
-			].map((category) => (
-				<div key={category.content}>
-					{category.content.map((hub) => (
-						<MenuLink key={hub} content={hub} icon={category.icon} />
+
+			{mapLinks(user.classes, "flask", [
+				{ content: "Posts", icon: "post" },
+				{ content: "Chat", icon: "chat" },
+				{ content: "Notes", icon: "notes" },
+				{ content: "Calendar", icon: "calendar" },
+				{ content: "Thoughts", icon: "thoughts" },
+				{ content: "Reviews", icon: "reviews" },
+			])}
+
+			{mapLinks(user.clubs, "football", [
+				{ content: "Posts", icon: "post" },
+				{ content: "Chat", icon: "chat" },
+				{ content: "Announcement", icon: "announcement" },
+				{ content: "Calendar", icon: "calendar" },
+			])}
+
+			{user.chats && (
+				<>
+					{user.chats.map((chat) => (
+						<MenuLink content={chat} icon={"chat"} key={chat} />
 					))}
-					{category.content.length ? <div className="line even" /> : <></>}
-				</div>
-			))}
+					<div className="line even" />
+				</>
+			)}
+
 			<div className="nav_menu_details">
 				<p>Settings</p>
 				<p>Download the Android App</p>
@@ -45,4 +75,29 @@ export default function Menu() {
 			</div>
 		</div>
 	);
+
+	function mapLinks(list, icon, submenu) {
+		return (
+			list && (
+				<>
+					{list.map((item) => (
+						<div key={item}>
+							<SubMenuHead content={item} icon={icon}>
+								{submenu &&
+									submenu.map(({ content, icon }) => (
+										<MenuLink
+											submenu
+											content={content}
+											icon={icon}
+											key={content}
+										/>
+									))}
+							</SubMenuHead>
+						</div>
+					))}
+					<div className="line even" />
+				</>
+			)
+		);
+	}
 }

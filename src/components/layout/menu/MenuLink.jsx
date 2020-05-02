@@ -1,14 +1,22 @@
-import Link from "next/link"
+import React from "react";
+import { Link } from "react-router-dom";
 
-export default function MenuLink({ content, icon, selected }) {
+export default function MenuLink({ content, icon, selected, submenu }) {
 	return (
-		<Link href="/school">
-			<a className={`list_div category menu ${selected ? "selected" : ""}`}>
-				<svg className={"menu_svg" + (selected ? " active" : "")}>
-					<use xlinkHref={`#${icon}`} />
-				</svg>
-				<strong className="menu_link">{content}</strong>
-			</a>
+		<Link
+			to="/school"
+			className={`list_div category ${submenu ? "submenu" : "menu"} ${
+				selected ? "selected" : ""
+			}`}
+		>
+			<svg
+				className={
+					"menu_svg" + (selected ? " active" : submenu ? " submenu" : "")
+				}
+			>
+				<use xlinkHref={`#${icon}`} />
+			</svg>
+			<strong className="menu_link">{content}</strong>
 		</Link>
 	);
 }
