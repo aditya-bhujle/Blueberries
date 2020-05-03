@@ -1,37 +1,36 @@
 import React, { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
 export default function SubMenuLink({
 	content,
 	icon,
-	selected,
+	link,
 	submenu,
-	expand,
 	children,
 }) {
 	const [dropped, setDropped] = useState(true);
-	let svgClassname =
-		"menu_svg" + (selected ? " active" : submenu ? " submenu" : "");
+	let selected = useLocation().pathname === link;
 
 	return (
 		<>
-			<div
-				className={`list_div category 
-						${submenu ? "submenu" : "menu"}
-						${selected ? "selected" : ""}`}
+			<NavLink
+				exact
+				className={`list_div category ${submenu ? "submenu" : "menu"}`}
 				onClick={() => setDropped(!dropped)}
-				style={{ cursor: "pointer" }}
+				to={link || "/"}
+				activeClassName="selected"
 			>
-				<svg className={svgClassname}>
+				<svg className="menu_svg">
 					<use xlinkHref={`#${icon}`} />
 				</svg>
 				<strong className="menu_link">{content}</strong>
-				{expand && (
-					<svg className={svgClassname}>
+				{selected && (
+					<svg className="menu_svg">
 						<use xlinkHref={dropped ? "#up" : "#down"} />
 					</svg>
 				)}
-			</div>
-			{expand && dropped && <div className="submenu_div">{children}</div>}
+			</NavLink>
+			{selected && dropped && <div className="submenu_div">{children}</div>}
 		</>
 	);
 }

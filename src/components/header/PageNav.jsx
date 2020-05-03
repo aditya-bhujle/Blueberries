@@ -39,7 +39,7 @@ export default function PageNav({ type, baseLink }) {
 						exact
 						to={`${baseLink}/${link.path}`}
 						className="nav_link"
-						activeClassName="nav_link current"
+						activeClassName="current"
 						key={link.path}
 					>
 						<svg className="nav_svg">

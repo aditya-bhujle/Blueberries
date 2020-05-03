@@ -755,6 +755,7 @@ strong {
 	-ms-flex-align: start;
 	align-items: flex-start;
 	background-color: #dbecff;
+	fill: #1a73e8;
 }
 
 .list_div.dropdown {

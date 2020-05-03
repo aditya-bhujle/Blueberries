@@ -19,12 +19,12 @@ export default function Menu() {
 
 	return (
 		<div className="nav_menu">
-			<MenuLink content="Your Feed" icon="home" selected />
+			<MenuLink content="Your Feed" icon="home" link="/" />
 
-			<SubMenuHead content="UNCC" icon="school" expand>
+			<SubMenuHead content="UNCC" icon="school" link="/school/uncc">
 				<MenuLink submenu content="Posts" icon="post" />
 
-				<SubMenuHead submenu content="Join" icon="school" expand>
+				<SubMenuHead submenu content="Join" icon="school">
 					<MenuLink submenu content="Majors" icon="rocket" />
 					<MenuLink submenu content="Classes" icon="flask" />
 					<MenuLink submenu content="Clubs" icon="football" />

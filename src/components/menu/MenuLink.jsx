@@ -1,18 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-export default function MenuLink({ content, icon, selected, submenu }) {
+export default function MenuLink({ content, icon, link, selected, submenu }) {
+	const className = `list_div category ${submenu ? "submenu" : "menu"}`;
 	return (
-		<Link
-			to="/school"
-			className={`list_div category ${submenu ? "submenu" : "menu"} ${
-				selected ? "selected" : ""
-			}`}
+		<NavLink
+			exact
+			to={link || "/school"}
+			className={className}
+			activeClassName="selected"
 		>
 			<svg className="menu_svg">
 				<use xlinkHref={`#${icon}`} />
 			</svg>
 			<strong className="menu_link">{content}</strong>
-		</Link>
+		</NavLink>
 	);
 }
