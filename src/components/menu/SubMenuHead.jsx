@@ -27,13 +27,14 @@ export default function SubMenuLink({
 					<use xlinkHref={`#${icon}`} />
 				</svg>
 				<strong className="menu_link">{content}</strong>
-				{selected && (
+				{/*selected && (
 					<svg className="menu_svg">
 						<use xlinkHref={dropped ? "#up" : "#down"} />
 					</svg>
-				)}
+				)*/}
 			</NavLink>
-			{selected && dropped && <div className="submenu_div">{children}</div>}
+			{//selected && dropped && <div className="submenu_div">{children}</div>
+			}
 		</>
 	);
 }
