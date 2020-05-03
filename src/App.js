@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "./components/Navbar";
 import Menu from "./components/menu/Menu";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import "./styles/normalize.css";
 import "./styles/webflow.css";
@@ -16,20 +16,21 @@ import SchoolRouter from "./components/pages/school/router";
 import ClassRouter from "./components/pages/class/router";
 
 export default function App() {
+	const user = { school: { id: "KMLrVq9pltD3OgFouIIV", name: "UNCC" } };
 	return (
 		<Router>
 			<SVG />
 			<Navbar />
-			<Menu />
+			<Menu data={user} />
 			<Switch>
-				<Route path="/login" component={Login}/>
-				<Route path="/signup" component={Signup}/>
-				<Route exact path="/" component={DashboardHub}/>
+				<Route path="/login" component={Login} />
+				<Route path="/signup" component={Signup} />
+				<Route exact path="/" component={DashboardHub} />
 
-				<Route path="/school/:id/class/:classId" component={ClassRouter}/>
-				<Route path="/school/:id" component={SchoolRouter}/>
-				
-				<Route path="/post/:id" component={Post}/>
+				<Route path="/school/:id/class/:classId" component={ClassRouter} />
+				<Route path="/school/:id" component={SchoolRouter} />
+
+				<Route path="/post/:id" component={Post} />
 			</Switch>
 		</Router>
 	);

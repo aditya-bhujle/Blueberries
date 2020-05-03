@@ -1,13 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-export default function MenuLink({ content, icon, link, selected, submenu }) {
-	const className = `list_div category ${submenu ? "submenu" : "menu"}`;
+export default function MenuLink({ content, icon, link, submenu }) {
 	return (
 		<NavLink
 			exact
-			to={link || "/school"}
-			className={className}
+			to={link || "/notfound"}
+			className={`list_div category menu ${submenu ? "sub" : ""}`}
 			activeClassName="selected"
 		>
 			<svg className="menu_svg">

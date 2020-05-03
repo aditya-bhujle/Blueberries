@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useRouteMatch } from "react-router-dom";
 
 export default function SubMenuLink({
 	content,
@@ -9,7 +9,7 @@ export default function SubMenuLink({
 	children,
 }) {
 	const [dropped, setDropped] = useState(true);
-	let selected = useLocation().pathname === link;
+	let selected = useRouteMatch(link);
 
 	function toggleDropdown() {
 		selected ? setDropped(!dropped) : setDropped(true);
@@ -18,8 +18,7 @@ export default function SubMenuLink({
 	return (
 		<>
 			<NavLink
-				exact
-				className={`list_div category ${submenu ? "submenu" : "menu"}`}
+				className={`list_div category menu${submenu ? " sub head" : ""}`}
 				onClick={toggleDropdown}
 				to={link || "/"}
 				activeClassName="selected"

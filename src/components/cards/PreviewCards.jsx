@@ -1,10 +1,14 @@
-import React from "react"
+import React from "react";
 
 function CardPreviewInfo({ title, subtitle, members, description }) {
 	return (
 		<div className="hub_card">
 			<h3>{title}</h3>
-			{subtitle && <h4 className="hub_preview_subtitle">{subtitle}</h4>}
+			{subtitle && (
+				<h4 className="main_color">
+					<strong>{subtitle}</strong>
+				</h4>
+			)}
 			<div className="hub_about_count">{members} Joined</div>
 			<p>{description}</p>
 		</div>
@@ -23,7 +27,11 @@ function CardPreviewList({
 	return (
 		<div className={"hub_card" + (bot_padding ? " bot_padding" : "")}>
 			{title && <h3>{title}</h3>}
-			{subtitle && <h4 className="hub_preview_subtitle">{subtitle}</h4>}
+			{subtitle && (
+				<h4 className="main_color">
+					<strong>{subtitle}</strong>
+				</h4>
+			)}
 
 			<div className={isDouble ? "list_grid_div" : ""}>
 				{elements.map((element, index) => (
@@ -49,14 +57,14 @@ function CardPreviewList({
 					{Array.isArray(link) ? (
 						<div className="hub_card_links multiple">
 							{link.map((link) => (
-								<a href="#" className="link" key={link}>
+								<a href="www.google.com" className="link" key={link}>
 									{link}
 								</a>
 							))}
 						</div>
 					) : (
 						<div className="hub_card_links">
-							<a href="#" className="link">
+							<a href="www.google.com" className="link">
 								{link}
 							</a>
 						</div>
@@ -75,13 +83,18 @@ function CardPreviewPictures({ title, subtitle, pictures, link }) {
 				<strong>{subtitle}</strong>
 				<div className="hub_chat_photos_div">
 					{pictures.map((picture, index) => (
-						<img src={picture} sizes="100vw" className="hub_chat_photo" key={index} />
+						<img
+							src={picture}
+							sizes="100vw"
+							className="hub_chat_photo"
+							key={index}
+						/>
 					))}
 				</div>
 			</div>
 			<div className="hub_card_line" />
 			<div className="hub_card_links">
-				<a href="#" className="link">
+				<a href="www.google.com" className="link">
 					{link}
 				</a>
 			</div>
@@ -90,7 +103,7 @@ function CardPreviewPictures({ title, subtitle, pictures, link }) {
 }
 
 function CardPreviewReview(props) {
-	const {take_again, quote, tags, ...list_props} = props;
+	const { take_again, quote, tags, ...list_props } = props;
 
 	return (
 		<CardPreviewList
@@ -117,7 +130,9 @@ function CardPreviewReview(props) {
 				<strong>Common Tags</strong>
 				<div>
 					{tags.map((tag) => (
-						<div className="tag preview" key={tag}>{tag}</div>
+						<div className="tag preview" key={tag}>
+							{tag}
+						</div>
 					))}
 				</div>
 			</div>
@@ -125,4 +140,9 @@ function CardPreviewReview(props) {
 	);
 }
 
-export { CardPreviewInfo, CardPreviewList, CardPreviewPictures, CardPreviewReview };
+export {
+	CardPreviewInfo,
+	CardPreviewList,
+	CardPreviewPictures,
+	CardPreviewReview,
+};

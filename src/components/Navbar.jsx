@@ -17,8 +17,12 @@ export default function Navbar() {
 
 	const signedoutLinks = (
 		<>
-			<button className="button no_margin">Create an Account</button>
-			<button className="button select">Log In</button>
+			<Link to="/signup" className="button no_margin">
+				Creates an Account
+			</Link>
+			<Link to="login" className="button select">
+				Log In
+			</Link>
 		</>
 	);
 

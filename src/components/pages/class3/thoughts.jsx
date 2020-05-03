@@ -9,7 +9,7 @@ import { AvgReviewCard, ReviewCard } from "../../components/cards/ReviewPage";
 export default function Thoughts() {
 	function ActionLinks(links) {
 		return links.map((text) => (
-			<div href="#" className="action_div post" key={text}>
+			<div href="www.google.com" className="action_div post" key={text}>
 				<strong>{text}</strong>
 			</div>
 		));

@@ -17,30 +17,120 @@ export default function Menu() {
 		chats: ["Witherspoon Residence Hall"],
 	};
 
+	const data = {
+		school: {
+			id: "KMLrVq9pltD3OgFouIIV",
+			short: "UNCC",
+		},
+		major: {
+			id: "KMLrVq9pltD3OgFouIIV",
+			name: "Computer Science",
+		},
+		classes: [
+			{
+				id: "KMLrVq9pltD3OgFouIIV",
+				name: "Data Structures and Algorithms",
+			},
+			{
+				id: "KMLrVq9pltD3OgFouIIV",
+				name: "Logic and Algorithms",
+			},
+			{
+				id: "KMLrVq9pltD3OgFouIIV",
+				name: "Principles of Accounting II",
+			},
+			{
+				id: "KMLrVq9pltD3OgFouIIV",
+				name: "Introduction to Technical Communication",
+			},
+		],
+		clubs: [
+			{
+				id: "KMLrVq9pltD3OgFouIIV",
+				name: "Track and Field",
+			},
+			{
+				id: "KMLrVq9pltD3OgFouIIV",
+				name: "ACM",
+			},
+		],
+		chats: [
+			{
+				id: "KMLrVq9pltD3OgFouIIV",
+				name: "Witherspoon Residence Hall",
+			},
+		],
+	};
+
+	const { school, major, chats, classes, clubs } = data;
+
 	return (
 		<div className="nav_menu">
 			<MenuLink content="Your Feed" icon="home" link="/" />
 
-			<SubMenuHead content="UNCC" icon="school" link="/school/uncc">
-				<MenuLink submenu content="Posts" icon="post" />
+			<SubMenuHead
+				content={school.short}
+				icon="school"
+				link={`/school/${school.id}`}
+			>
+				<MenuLink
+					submenu
+					content="Posts"
+					icon="post"
+					link={`/school/${school.id}`}
+				/>
 
-				<SubMenuHead submenu content="Join" icon="school" link="/school/uncc">
-					<MenuLink submenu content="Majors" icon="rocket" />
-					<MenuLink submenu content="Classes" icon="flask" />
-					<MenuLink submenu content="Clubs" icon="football" />
-					<MenuLink submenu content="Chats" icon="chat" />
+				<SubMenuHead
+					submenu
+					content="Join"
+					icon="school"
+					link={`/school/${school.id}`}
+				>
+					<MenuLink
+						submenu
+						content="Majors"
+						icon="rocket"
+						link={`/school/${school.id}/majors`}
+					/>
+					<MenuLink
+						submenu
+						content="Classes"
+						icon="flask"
+						link={`/school/${school.id}/classes`}
+					/>
+					<MenuLink
+						submenu
+						content="Clubs"
+						icon="football"
+						link={`/school/${school.id}/clubs`}
+					/>
+					<MenuLink
+						submenu
+						content="Chats"
+						icon="chat"
+						link={`/school/${school.id}/chat`}
+					/>
 				</SubMenuHead>
 
-				<MenuLink submenu content="Events" icon="calendar" />
+				<MenuLink
+					submenu
+					content="Events"
+					icon="calendar"
+					link={`/school/${school.id}/events`}
+				/>
 			</SubMenuHead>
 
-			<MenuLink content="Community" icon="community" />
+			<MenuLink content="Community" icon="community" link="/community" />
 			<div className="line even" />
 
-			<MenuLink content={`${user.major} Hub`} icon="hub" />
+			<MenuLink
+				content={`${major.name} Hub`}
+				icon="hub"
+				link={`/school/${school.id}/major/${major.id}`}
+			/>
 			<div className="line even" />
 
-			{mapLinks(user.classes, "flask", [
+			{mapLinks(classes, "class", "flask", [
 				{ content: "Posts", icon: "post" },
 				{ content: "Chat", icon: "chat" },
 				{ content: "Notes", icon: "notes" },
@@ -49,7 +139,7 @@ export default function Menu() {
 				{ content: "Reviews", icon: "reviews" },
 			])}
 
-			{mapLinks(user.clubs, "football", [
+			{mapLinks(clubs, "club", "football", [
 				{ content: "Posts", icon: "post" },
 				{ content: "Chat", icon: "chat" },
 				{ content: "Announcement", icon: "announcement" },
@@ -58,8 +148,8 @@ export default function Menu() {
 
 			{user.chats && (
 				<>
-					{user.chats.map((chat) => (
-						<MenuLink content={chat} icon={"chat"} key={chat} />
+					{chats.map((chat) => (
+						<MenuLink content={chat.name} icon={"chat"} link={`/school/${school.id}/chat/${chat.id}`} key={chat.id} />
 					))}
 					<div className="line even" />
 				</>
@@ -76,13 +166,17 @@ export default function Menu() {
 		</div>
 	);
 
-	function mapLinks(list, icon, submenu) {
+	function mapLinks(list, hubType, icon, submenu) {
 		return (
 			list && (
 				<>
 					{list.map((item) => (
-						<div key={item}>
-							<SubMenuHead content={item} icon={icon}>
+						<div key={item.id}>
+							<SubMenuHead
+								content={item.name}
+								icon={icon}
+								link={`/school/${school.id}/${hubType}/${item.id}`}
+							>
 								{submenu &&
 									submenu.map(({ content, icon }) => (
 										<MenuLink

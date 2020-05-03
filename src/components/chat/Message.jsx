@@ -12,8 +12,8 @@ export default function Message({ user, time, messages, self, ...props }) {
 					<strong>{date}</strong>
 					<p className="list_subtitle">{time_span}</p>
 				</div>
-				<a className="button no_margin w-button">Attend</a>
-				<a className="button select w-button">Not Attend</a>
+				<a href="www.google.com" className="button no_margin w-button">Attend</a>
+				<a href="www.google.com" className="button select w-button">Not Attend</a>
 			</div>
 		);
 	}
@@ -34,7 +34,7 @@ export default function Message({ user, time, messages, self, ...props }) {
 						<strong>{`${choice.name} - ${choice.votes} Votes`}</strong>
 					</div>
 				))}
-				<a href="#" className="button poll w-button">
+				<a href="www.google.com" className="button poll w-button">
 					Vote
 				</a>
 			</div>

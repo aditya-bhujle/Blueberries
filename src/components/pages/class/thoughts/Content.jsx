@@ -4,7 +4,7 @@ import { CardCreate } from "../../../cards/CenterCards";
 export default function SchoolMajorsContent() {
 	function ActionLinks(links) {
 		return links.map((text) => (
-			<div href="#" className="action_div post" key={text}>
+			<div href="www.google.com" className="action_div post" key={text}>
 				<strong>{text}</strong>
 			</div>
 		));

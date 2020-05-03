@@ -736,26 +736,20 @@ strong {
 	fill: #1a73e8;
 }
 
-.list_div.category.submenu {
+.list_div.category.menu.sub {
 	fill: #a5a5a5;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: -ms-flexbox;
-	display: flex;
-	margin-bottom: 0px;
 	padding-top: 7px;
 	padding-bottom: 7px;
 	padding-left: 10px;
-	border-radius: 5px;
 }
 
-.list_div.category.submenu.selected {
-	-webkit-box-align: start;
-	-webkit-align-items: flex-start;
-	-ms-flex-align: start;
-	align-items: flex-start;
+.list_div.category.menu.sub.selected {
 	background-color: #dbecff;
 	fill: #1a73e8;
+}
+
+.list_div.category.menu.sub.head.selected {
+	background-color: inherit;
 }
 
 .list_div.dropdown {

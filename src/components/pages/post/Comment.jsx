@@ -48,7 +48,7 @@ export default function Comment({
 							maxLength="5000"
 							className="search_input w-input"
 						/>
-						<button href="#" className="button comment w-button">
+						<button href="www.google.com" className="button comment w-button">
 							Comment
 						</button>
 					</form>

@@ -15,10 +15,10 @@ export default function Login() {
 			<div className="w-container hub_card modal">
 				<h2 className="main_color">Welcome Back!</h2>
 				<div className="signup_button_div">
-					<a href="#" className="button no_margin w-button">
+					<a href="www.google.com" className="button no_margin w-button">
 						Sign in with Google
 					</a>
-					<a href="#" className="button w-button">
+					<a href="www.google.com" className="button w-button">
 						Sign in with Facebook
 					</a>
 				</div>

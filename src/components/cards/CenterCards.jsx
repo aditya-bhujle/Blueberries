@@ -37,12 +37,14 @@ function CardCreate({ title, placeholder, createPlaceholder }) {
 		</>
 	);
 
+	function handleSubmit(e) {}
+
 	return (
 		<div className="hub_card">
 			<div className="hub_title_div content">
 				<h3 className="hub_create_title">{title}</h3>
 			</div>
-			<form className="form_block_create w-form">
+			<form className="form_block_create w-form" onSubmit={handleSubmit}>
 				<input
 					onClick={() => setShowCreate(true)}
 					className="search_input w-input"
