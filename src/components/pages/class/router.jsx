@@ -5,7 +5,7 @@ import Header from "../../header/Header";
 import PageNav from "../../header/PageNav";
 import Section from "../../Section";
 
-import Posts from "./posts/index";
+import Posts from "./posts/posts";
 import Chat from "./chat/chat";
 import Notes from "./notes/notes";
 import Calendar from "./calendar/calendar";

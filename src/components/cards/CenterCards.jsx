@@ -3,12 +3,16 @@ import React, { useState } from "react";
 function CardCreate({ title, placeholder, createPlaceholder }) {
 	const [showCreate, setShowCreate] = useState(false);
 
+	const [postTitle, setPostTitle] = useState("");
+	const [postDescription, setPostDescription] = useState("");
+
 	const createPost = (
 		<>
 			<textarea
 				placeholder="Description (optional)"
 				maxLength="5000"
 				className="search_input description w-input"
+				onChange={(e) => setPostDescription(e.target.value)}
 			/>
 			<div className="hub_create_details">
 				<label className="w-checkbox checkbox_div">
@@ -44,6 +48,7 @@ function CardCreate({ title, placeholder, createPlaceholder }) {
 					className="search_input w-input"
 					maxLength="256"
 					placeholder={showCreate ? createPlaceholder : placeholder}
+					onChange={(e) => setPostTitle(e.target.value)}
 				/>
 				{showCreate && createPost}
 			</form>

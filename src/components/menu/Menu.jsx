@@ -24,7 +24,7 @@ export default function Menu() {
 			<SubMenuHead content="UNCC" icon="school" link="/school/uncc">
 				<MenuLink submenu content="Posts" icon="post" />
 
-				<SubMenuHead submenu content="Join" icon="school">
+				<SubMenuHead submenu content="Join" icon="school" link="/school/uncc">
 					<MenuLink submenu content="Majors" icon="rocket" />
 					<MenuLink submenu content="Classes" icon="flask" />
 					<MenuLink submenu content="Clubs" icon="football" />

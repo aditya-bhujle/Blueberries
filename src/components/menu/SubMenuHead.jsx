@@ -11,12 +11,16 @@ export default function SubMenuLink({
 	const [dropped, setDropped] = useState(true);
 	let selected = useLocation().pathname === link;
 
+	function toggleDropdown() {
+		selected ? setDropped(!dropped) : setDropped(true);
+	}
+
 	return (
 		<>
 			<NavLink
 				exact
 				className={`list_div category ${submenu ? "submenu" : "menu"}`}
-				onClick={() => setDropped(!dropped)}
+				onClick={toggleDropdown}
 				to={link || "/"}
 				activeClassName="selected"
 			>
