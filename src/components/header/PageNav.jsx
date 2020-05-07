@@ -8,22 +8,22 @@ export default function PageNav({ type, baseLink }) {
 		case "school":
 			links = [
 				{ content: "Posts", path: "", icon: "post" },
-				{ content: "Majors", path: "majors", icon: "rocket" },
-				{ content: "Classes", path: "classes", icon: "flask" },
-				{ content: "Clubs", path: "clubs", icon: "football" },
-				{ content: "Events", path: "events", icon: "calendar" },
-				{ content: "Chats", path: "chats", icon: "chat" },
+				{ content: "Majors", path: "/majors", icon: "rocket" },
+				{ content: "Classes", path: "/classes", icon: "flask" },
+				{ content: "Clubs", path: "/clubs", icon: "football" },
+				{ content: "Events", path: "/events", icon: "calendar" },
+				{ content: "Chats", path: "/chats", icon: "chat" },
 			];
 			break;
 
 		case "class":
 			links = [
 				{ content: "Posts", path: "", icon: "post" },
-				{ content: "Chat", path: "chat", icon: "chat" },
-				{ content: "Notes", path: "notes", icon: "notes" },
-				{ content: "Calendar", path: "calendar", icon: "calendar" },
-				{ content: "Thoughts", path: "thoughts", icon: "thoughts" },
-				{ content: "Reviews", path: "reviews", icon: "reviews" },
+				{ content: "Chat", path: "/chat", icon: "chat" },
+				{ content: "Notes", path: "/notes", icon: "notes" },
+				{ content: "Calendar", path: "/calendar", icon: "calendar" },
+				{ content: "Thoughts", path: "/thoughts", icon: "thoughts" },
+				{ content: "Reviews", path: "/reviews", icon: "reviews" },
 			];
 			break;
 
@@ -37,7 +37,7 @@ export default function PageNav({ type, baseLink }) {
 				return (
 					<NavLink
 						exact
-						to={`${baseLink}/${link.path}`}
+						to={`${baseLink}${link.path}`}
 						className="nav_link"
 						activeClassName="current"
 						key={link.path}

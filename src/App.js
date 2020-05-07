@@ -23,11 +23,14 @@ export default function App() {
 			<Navbar />
 			<Menu data={user} />
 			<Switch>
-				<Route path="/login" component={Login} />
+				<Route path="/login" component={Login}></Route>
 				<Route path="/signup" component={Signup} />
 				<Route exact path="/" component={DashboardHub} />
 
+				<Route path="/school/:id/major/:majorId" component={ClassRouter} />
 				<Route path="/school/:id/class/:classId" component={ClassRouter} />
+				<Route path="/school/:id/club/:clubId" component={ClassRouter} />
+				<Route path="/school/:id/chat/:chatId" component={ClassRouter} />
 				<Route path="/school/:id" component={SchoolRouter} />
 
 				<Route path="/post/:id" component={Post} />

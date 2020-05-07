@@ -18,6 +18,7 @@ export default function SubMenuLink({
 	return (
 		<>
 			<NavLink
+				exact
 				className={`list_div category menu${submenu ? " sub head" : ""}`}
 				onClick={toggleDropdown}
 				to={link || "/"}

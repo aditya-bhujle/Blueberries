@@ -1,10 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CardSearch, CardPost } from "../../cards/CenterCards";
+import { db } from "../../../firebase/config";
 
-export default function DashboardContent() {
+export default function DashboardContent(props) {
+	const [post, setPost] = useState(null);
+
+	/*useEffect(() => {
+		//db.collection("schools")
+			// .doc("bjqzPlSzvQZUivxCAFIY")
+			// .collection("classes")
+			// .doc("tMDQlZ37elhZdqWK7HTq")
+			props.dbPath
+			.collection("posts")
+			.get()
+			.then(function (doc) {
+				if (doc.exists) {
+					console.log("Document data:", doc.data());
+					let { date_posted, ...restOfPost } = doc.data();
+					setPost(restOfPost);
+				} else {
+					// doc.data() will be undefined in this case
+					console.log("No such document!");
+				}
+			})
+			.catch(function (error) {
+				console.log("Error getting document:", error);
+			});
+	}, [props.dbPath]);*/
+
 	return (
 		<div className="hub_content">
 			<CardSearch placeholder="Search Popular Posts" />
+			<CardPost {...post} />
 			<CardPost
 				title="Taking this class with Logic and Algorithms"
 				author="Anonymous"

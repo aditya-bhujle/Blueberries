@@ -3,7 +3,7 @@ import MenuLink from "./MenuLink";
 import SubMenuHead from "./SubMenuHead";
 
 export default function Menu() {
-	const user = {
+	/*const user = {
 		handle: "FirstUser",
 		school: "University of North Carolina at Charlotte",
 		major: "Computer Science",
@@ -15,7 +15,7 @@ export default function Menu() {
 		],
 		clubs: ["Track and Field", "ACM"],
 		chats: ["Witherspoon Residence Hall"],
-	};
+	};*/
 
 	const data = {
 		school: {
@@ -146,7 +146,7 @@ export default function Menu() {
 				{ content: "Calendar", icon: "calendar" },
 			])}
 
-			{user.chats && (
+			{chats && (
 				<>
 					{chats.map((chat) => (
 						<MenuLink content={chat.name} icon={"chat"} link={`/school/${school.id}/chat/${chat.id}`} key={chat.id} />

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function CardCreate({ title, placeholder, createPlaceholder }) {
+function CardCreate({ title, placeholder, createPlaceholder, handleSubmit }) {
 	const [showCreate, setShowCreate] = useState(false);
 
 	const [postTitle, setPostTitle] = useState("");
@@ -37,14 +37,15 @@ function CardCreate({ title, placeholder, createPlaceholder }) {
 		</>
 	);
 
-	function handleSubmit(e) {}
-
 	return (
 		<div className="hub_card">
 			<div className="hub_title_div content">
 				<h3 className="hub_create_title">{title}</h3>
 			</div>
-			<form className="form_block_create w-form" onSubmit={handleSubmit}>
+			<form
+				className="form_block_create w-form"
+				onSubmit={(e) => handleSubmit(e, postTitle, postDescription)}
+			>
 				<input
 					onClick={() => setShowCreate(true)}
 					className="search_input w-input"
@@ -84,12 +85,10 @@ function CardPost(props) {
 			)}
 			<div className="hub_post_details">
 				<div>
-					{props.source ? (
+					{props.source && (
 						<>
 							<strong>{props.source}</strong> ⋅{" "}
 						</>
-					) : (
-						<></>
 					)}
 					{props.author} ⋅ {props.date_posted}
 				</div>

@@ -4,12 +4,12 @@ import ContentTitle from "../../../header/ContentTitle";
 import Sidebar from "../Sidebar";
 import Content from "./Content"
 
-export default function SchoolPosts() {
+export default function SchoolPosts({schoolId}) {
 	return (
 		<>
-			<ContentTitle header="Your Feed" sortList={["Hot", "Top", "New"]} />
+			<ContentTitle header="Popular Posts" sortList={["Hot", "Top", "New"]} />
 			<div className="hub_column_layout">
-				<Content />
+				<Content /> {/* Posts subcollection */}
 				<Sidebar />
 			</div>
 		</>
