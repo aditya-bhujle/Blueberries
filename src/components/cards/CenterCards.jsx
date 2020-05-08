@@ -75,11 +75,11 @@ function CardSearch({ placeholder }) {
 }
 
 function CardPost({ loading, ...props }) {
-	function actionLink(content, icon) {
+	function actionLink(content, icon, clickFunction) {
 		return (
-			<div className="action_div post">
+			<div className="action_div post" onClick={clickFunction}>
 				{loading ? (
-					<Skeleton width={icon ? 75 : 50}/>
+					<Skeleton width={icon ? 75 : 50} />
 				) : (
 					<>
 						{icon && (
@@ -95,7 +95,11 @@ function CardPost({ loading, ...props }) {
 	}
 
 	return (
-		<div className={"hub_card" + (props.followed ? " followed" : "")}>
+		<a
+			className={"hub_card" + (props.followed ? " followed" : "")}
+			href={props.link}
+			style={{ display: "block" }}
+		>
 			{props.image && (
 				<img
 					src={"images/" + props.image}
@@ -112,7 +116,7 @@ function CardPost({ loading, ...props }) {
 				) : (
 					<>
 						<div>
-							{props.source && (
+							{props.showSource && props.source && (
 								<>
 									<strong>{props.source}</strong> ⋅{" "}
 								</>
@@ -154,15 +158,15 @@ function CardPost({ loading, ...props }) {
 			<div className="hub_card_line"></div>
 			<div className="hub_card_links multiple post">
 				<div>
-					{actionLink(`Like ⋅ ${props.likes}`, "heart")}
+					{actionLink(`Like ⋅ ${props.likes}`, "heart", props.likePost)}
 					{actionLink(`Comment ⋅ ${props.comments}`, "chat")}
 				</div>
 				<div>
 					{actionLink("Share")}
-					{actionLink("Heart")}
+					{actionLink("Report")}
 				</div>
 			</div>
-		</div>
+		</a>
 	);
 }
 

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Menu from "./components/menu/Menu";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import "./styles/normalize.css";
 import "./styles/webflow.css";
@@ -14,14 +14,38 @@ import Login from "./components/pages/auth/login";
 import Signup from "./components/pages/auth/signup";
 import SchoolRouter from "./components/pages/school/router";
 import ClassRouter from "./components/pages/class/router";
+import { db } from "./firebase/config";
 
 export default function App() {
 	const user = { school: { id: "KMLrVq9pltD3OgFouIIV", name: "UNCC" } };
+	const [loading, setLoading] = useState(true);
+	const [userInfo, setUserInfo] = useState();
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				let fetchUserInfo = await db
+					.collection("users")
+					.doc("i24nevgPdghkfXgSAmx8")
+					.get();
+				console.log("UserInfo fetched!");
+				setUserInfo(fetchUserInfo.data());
+				console.log(fetchUserInfo.data());
+			} catch (error) {
+				console.error(error);
+			}
+
+			setLoading(false);
+		};
+
+		fetchData();
+	}, []);
+
 	return (
 		<Router>
 			<SVG />
 			<Navbar />
-			<Menu data={user} />
+			<Menu data={userInfo} loading={loading} />
 			<Switch>
 				<Route path="/login" component={Login}></Route>
 				<Route path="/signup" component={Signup} />

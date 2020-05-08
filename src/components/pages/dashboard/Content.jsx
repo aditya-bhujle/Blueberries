@@ -1,9 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { CardSearch, CardPost } from "../../cards/CenterCards";
+import firebase from "firebase/app";
 import { db } from "../../../firebase/config";
 
-export default function DashboardContent(props) {
-	const [post, setPost] = useState(null);
+export default function DashboardContent() {
+	const [posts, setPosts] = useState([]);
+	const [loading, setLoading] = useState(true);
+
+	const postsCollectionRef = db
+		.collection("schools")
+		.doc("bjqzPlSzvQZUivxCAFIY")
+		.collection("classes")
+		.doc("tMDQlZ37elhZdqWK7HTq")
+		.collection("posts");
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				let fetchPosts = await postsCollectionRef.get();
+				console.log("Data fetched!");
+				setPosts(fetchPosts.docs);
+			} catch (error) {
+				console.error(error);
+			}
+
+			setLoading(false);
+		};
+
+		fetchData();
+	}, []);
 
 	/*useEffect(() => {
 		//db.collection("schools")
@@ -31,8 +56,37 @@ export default function DashboardContent(props) {
 	return (
 		<div className="hub_content">
 			<CardSearch placeholder="Search Popular Posts" />
-			<CardPost {...post} loading/>
-			<CardPost
+			{loading ? (
+				<>
+					<CardPost loading />
+					<CardPost loading />
+					<CardPost loading />
+					<CardPost loading />
+				</>
+			) : (
+				posts.map((post) => {
+					let { date_posted, ...restOfPost } = post.data();
+					return (
+						<CardPost
+							{...restOfPost}
+							date_posted={date_posted.toDate().toString()}
+							key={post}
+							likePost={async () => {
+								try {
+									await postsCollectionRef.doc(post.id).update({
+										likes: firebase.firestore.FieldValue.increment(1),
+									});
+									console.log("Post Liked!");
+								} catch (error) {
+									console.error(error);
+								}
+							}}
+						/>
+					);
+				})
+			)}
+
+			{/*<CardPost
 				title="Taking this class with Logic and Algorithms"
 				author="Anonymous"
 				date_posted="Yesterday"
@@ -66,7 +120,7 @@ export default function DashboardContent(props) {
 				comments={4}
 				follows={0}
 				source="UNCC"
-			/>
+			/>*/}
 		</div>
 	);
 }
