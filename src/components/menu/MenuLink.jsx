@@ -1,7 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
 
-export default function MenuLink({ content, icon, link, submenu }) {
+export default function MenuLink({ content, icon, link, submenu, loading }) {
 	return (
 		<NavLink
 			exact
@@ -9,10 +10,16 @@ export default function MenuLink({ content, icon, link, submenu }) {
 			className={`list_div category menu ${submenu ? "sub" : ""}`}
 			activeClassName="selected"
 		>
-			<svg className="menu_svg">
-				<use xlinkHref={`#${icon}`} />
-			</svg>
-			<strong className="menu_link">{content}</strong>
+			{loading ? (
+				<Skeleton width={18} height={18} />
+			) : (
+				<svg className="menu_svg">
+					<use xlinkHref={`#${icon}`} />
+				</svg>
+			)}
+			<strong className="menu_link">
+				{loading ? <Skeleton width={150} height={18}/> : content}
+			</strong>
 		</NavLink>
 	);
 }

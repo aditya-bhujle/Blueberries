@@ -3,6 +3,7 @@ import MenuLink from "./MenuLink";
 import SubMenuHead from "./SubMenuHead";
 
 export default function Menu() {
+	const loading = false;
 	/*const user = {
 		handle: "FirstUser",
 		school: "University of North Carolina at Charlotte",
@@ -66,12 +67,13 @@ export default function Menu() {
 
 	return (
 		<div className="nav_menu">
-			<MenuLink content="Your Feed" icon="home" link="/" />
+			<MenuLink content="Your Feed" icon="home" link="/" loading={loading} />
 
-			<SubMenuHead
+			<MenuLink
 				content={school.short}
 				icon="school"
 				link={`/school/${school.id}`}
+				loading={loading}
 			>
 				<MenuLink
 					submenu
@@ -118,15 +120,21 @@ export default function Menu() {
 					icon="calendar"
 					link={`/school/${school.id}/events`}
 				/>
-			</SubMenuHead>
+			</MenuLink>
 
-			<MenuLink content="Community" icon="community" link="/community" />
+			<MenuLink
+				content="Community"
+				icon="community"
+				link="/community"
+				loading={loading}
+			/>
 			<div className="line even" />
 
 			<MenuLink
 				content={`${major.name} Hub`}
 				icon="hub"
 				link={`/school/${school.id}/major/${major.id}`}
+				loading={loading}
 			/>
 			<div className="line even" />
 
@@ -149,7 +157,13 @@ export default function Menu() {
 			{chats && (
 				<>
 					{chats.map((chat) => (
-						<MenuLink content={chat.name} icon={"chat"} link={`/school/${school.id}/chat/${chat.id}`} key={chat.id} />
+						<MenuLink
+							content={chat.name}
+							icon={"chat"}
+							link={`/school/${school.id}/chat/${chat.id}`}
+							key={chat.id}
+							loading={loading}
+						/>
 					))}
 					<div className="line even" />
 				</>
@@ -167,15 +181,23 @@ export default function Menu() {
 	);
 
 	function mapLinks(list, hubType, icon, submenu) {
-		return (
+		return loading ? (
+			<>
+				<MenuLink loading={loading} />
+				<MenuLink loading={loading} />
+				<MenuLink loading={loading} />
+				<div className="line even" />
+			</>
+		) : (
 			list && (
 				<>
 					{list.map((item) => (
 						<div key={item.id}>
-							<SubMenuHead
+							<MenuLink
 								content={item.name}
 								icon={icon}
 								link={`/school/${school.id}/${hubType}/${item.id}`}
+								loading={loading}
 							>
 								{submenu &&
 									submenu.map(({ content, icon }) => (
@@ -186,7 +208,7 @@ export default function Menu() {
 											key={content}
 										/>
 									))}
-							</SubMenuHead>
+							</MenuLink>
 						</div>
 					))}
 					<div className="line even" />

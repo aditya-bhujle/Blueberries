@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { CardPreviewList } from "../../cards/PreviewCards";
+import PreviewHub from "../../cards/PreviewHub";
 
 export default function DashboardContent() {
+	const loading = false;
 	return (
 		<div className="hub_column_right">
-			<CardPreviewList
+			<PreviewHub
 				title="University of North Carolina at Charlotte"
 				subtitle="Your Classes"
 				elements={[
@@ -27,10 +29,11 @@ export default function DashboardContent() {
 						],
 					},
 				]}
-				bot_padding
-			>
-				<button className="button no_margin w-button">Add More Classes</button>
-			</CardPreviewList>
+				button={{
+					content: "Add More Classes",
+				}}
+				loading={loading}
+			/>
 			<CardPreviewList
 				title="Upcoming UNCC Events"
 				elements={[

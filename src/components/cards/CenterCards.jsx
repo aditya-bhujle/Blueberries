@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Skeleton from "react-loading-skeleton";
 
 function CardCreate({ title, placeholder, createPlaceholder, handleSubmit }) {
 	const [showCreate, setShowCreate] = useState(false);
@@ -73,7 +74,26 @@ function CardSearch({ placeholder }) {
 	);
 }
 
-function CardPost(props) {
+function CardPost({ loading, ...props }) {
+	function actionLink(content, icon) {
+		return (
+			<div className="action_div post">
+				{loading ? (
+					<Skeleton width={icon ? 75 : 50}/>
+				) : (
+					<>
+						{icon && (
+							<svg style={{ width: "18px", height: "18px" }}>
+								<use xlinkHref={`#${icon}`} />
+							</svg>
+						)}
+						<strong className="menu_link post">{content}</strong>
+					</>
+				)}
+			</div>
+		);
+	}
+
 	return (
 		<div className={"hub_card" + (props.followed ? " followed" : "")}>
 			{props.image && (
@@ -84,19 +104,28 @@ function CardPost(props) {
 				/>
 			)}
 			<div className="hub_post_details">
-				<div>
-					{props.source && (
-						<>
-							<strong>{props.source}</strong> ⋅{" "}
-						</>
-					)}
-					{props.author} ⋅ {props.date_posted}
-				</div>
-				<strong className="main_color">
-					{props.followed
-						? "Followed!"
-						: "Follow" + (props.follows ? " ⋅ " + props.follows : "")}
-				</strong>
+				{loading ? (
+					<>
+						<Skeleton width={200} />
+						<Skeleton width={75} />
+					</>
+				) : (
+					<>
+						<div>
+							{props.source && (
+								<>
+									<strong>{props.source}</strong> ⋅{" "}
+								</>
+							)}
+							{props.author} ⋅ {props.date_posted}
+						</div>
+						<strong className="main_color">
+							{props.followed
+								? "Followed!"
+								: "Follow" + (props.follows ? " ⋅ " + props.follows : "")}
+						</strong>
+					</>
+				)}
 			</div>
 
 			{props.category && (
@@ -117,28 +146,20 @@ function CardPost(props) {
 				</div>
 			)}
 
-			<h3 style={{ lineHeight: "24px" }}>{props.title}</h3>
+			<h3 style={{ lineHeight: "24px" }}>
+				{loading ? <Skeleton height={24} /> : props.title}
+			</h3>
 			<p className="alert">{props.alert}</p>
-			<p>{props.content}</p>
+			<p>{loading ? <Skeleton count={3} /> : props.content}</p>
 			<div className="hub_card_line"></div>
 			<div className="hub_card_links multiple post">
 				<div>
-					<div className="action_div post">
-						<svg style={{ width: "18px", height: "18px" }}>
-							<use xlinkHref="#heart" />
-						</svg>
-						<strong className="menu_link post">{`Like ⋅ ${props.likes}`}</strong>
-					</div>
-					<div className="action_div post">
-						<svg style={{ width: "18px", height: "18px" }}>
-							<use xlinkHref="#chat" />
-						</svg>
-						<strong className="menu_link post">{`Comment ⋅ ${props.comments}`}</strong>
-					</div>
+					{actionLink(`Like ⋅ ${props.likes}`, "heart")}
+					{actionLink(`Comment ⋅ ${props.comments}`, "chat")}
 				</div>
 				<div>
-					<strong className="action_div post">{`Share`}</strong>
-					<strong className="action_div post">{`Report`}</strong>
+					{actionLink("Share")}
+					{actionLink("Heart")}
 				</div>
 			</div>
 		</div>

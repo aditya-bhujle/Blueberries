@@ -31,7 +31,7 @@ export default function DashboardContent(props) {
 	return (
 		<div className="hub_content">
 			<CardSearch placeholder="Search Popular Posts" />
-			<CardPost {...post} />
+			<CardPost {...post} loading/>
 			<CardPost
 				title="Taking this class with Logic and Algorithms"
 				author="Anonymous"

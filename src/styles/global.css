@@ -1522,6 +1522,7 @@ strong {
 
 .action_div.post {
 	margin-bottom: 0px;
+	display: inline-flex;
 }
 
 .post_comment_action_div {
@@ -1557,7 +1558,7 @@ strong {
 }
 
 .menu_link.post {
-	display: inline-block;
+	display: inline-flex;
 	margin-left: 5px;
 }
 
