@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Skeleton from "react-loading-skeleton";
+import firebase from "firebase/app";
 
 function CardCreate({ title, placeholder, createPlaceholder, handleSubmit }) {
 	const [showCreate, setShowCreate] = useState(false);
@@ -75,6 +76,9 @@ function CardSearch({ placeholder }) {
 }
 
 function CardPost({ loading, ...props }) {
+	const [likes, setLikes] = useState(props.likes);
+	const [liked, setLiked] = useState(false);
+
 	function actionLink(content, icon, clickFunction) {
 		return (
 			<div className="action_div post" onClick={clickFunction}>
@@ -88,6 +92,47 @@ function CardPost({ loading, ...props }) {
 							</svg>
 						)}
 						<strong className="menu_link post">{content}</strong>
+					</>
+				)}
+			</div>
+		);
+	}
+
+	function likeLink() {
+		async function likePost() {
+			try {
+				if (!liked) {
+					setLiked(true);
+					setLikes(likes + 1);
+
+					await props.postRef.update({
+						likes: firebase.firestore.FieldValue.increment(1),
+					});
+					console.log("Post Liked!");
+				} else {
+					setLiked(false);
+					setLikes(likes - 1);
+
+					await props.postRef.update({
+						likes: firebase.firestore.FieldValue.increment(-1),
+					});
+					console.log("Post Unliked!");
+				}
+			} catch (error) {
+				console.error(error);
+			}
+		}
+
+		return (
+			<div className="action_div post" onClick={likePost}>
+				{loading ? (
+					<Skeleton width={75} />
+				) : (
+					<>
+						<svg style={{ width: "18px", height: "18px" }}>
+							<use xlinkHref={"#" + (liked ? "heart-filled" : "heart")} />
+						</svg>
+						<strong className="menu_link post">{`Like ⋅ ${likes}`}</strong>
 					</>
 				)}
 			</div>
@@ -158,7 +203,7 @@ function CardPost({ loading, ...props }) {
 			<div className="hub_card_line"></div>
 			<div className="hub_card_links multiple post">
 				<div>
-					{actionLink(`Like ⋅ ${props.likes}`, "heart", props.likePost)}
+					{likeLink()}
 					{actionLink(`Comment ⋅ ${props.comments}`, "chat")}
 				</div>
 				<div>

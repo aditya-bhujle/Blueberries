@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { CardSearch, CardPost } from "../../cards/CenterCards";
-import firebase from "firebase/app";
 import { db } from "../../../firebase/config";
 
 export default function DashboardContent() {
@@ -18,7 +17,7 @@ export default function DashboardContent() {
 		const fetchData = async () => {
 			try {
 				let fetchPosts = await postsCollectionRef.get();
-				console.log("Data fetched!");
+				console.log("Post data fetched!");
 				setPosts(fetchPosts.docs);
 			} catch (error) {
 				console.error(error);
@@ -71,16 +70,7 @@ export default function DashboardContent() {
 							{...restOfPost}
 							date_posted={date_posted.toDate().toString()}
 							key={post}
-							likePost={async () => {
-								try {
-									await postsCollectionRef.doc(post.id).update({
-										likes: firebase.firestore.FieldValue.increment(1),
-									});
-									console.log("Post Liked!");
-								} catch (error) {
-									console.error(error);
-								}
-							}}
+							postRef={postsCollectionRef.doc(post.id)}
 						/>
 					);
 				})
