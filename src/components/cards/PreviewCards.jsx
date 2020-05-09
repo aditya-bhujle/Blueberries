@@ -1,4 +1,5 @@
 import React from "react";
+import Skeleton from "react-loading-skeleton";
 
 function CardPreviewInfo({ title, subtitle, members, description }) {
 	return (
@@ -22,7 +23,8 @@ function CardPreviewList({
 	link,
 	isDouble,
 	bot_padding,
-	children
+	children,
+	loading,
 }) {
 	return (
 		<div className={"hub_card" + (bot_padding ? " bot_padding" : "")}>
@@ -46,7 +48,9 @@ function CardPreviewList({
 						)}
 						<p className="list_date">{element.right}</p>
 						<strong>{element.header}</strong>
-						<p className="list_subtitle">{element.content}</p>
+						<p className="list_subtitle">
+							{loading ? <Skeleton width={50} /> : element.content}
+						</p>
 					</div>
 				))}
 			</div>
@@ -103,37 +107,52 @@ function CardPreviewPictures({ title, subtitle, pictures, link }) {
 }
 
 function CardPreviewReview(props) {
-	const { take_again, quote, tags, ...list_props } = props;
+	const { loading, title } = props;
 
 	return (
 		<CardPreviewList
-			{...list_props}
-			title="Professor Bruce Long"
+			title={title}
 			elements={[
-				{ header: "Overall Rating", content: "4.6 / 5" },
-				{ header: "Average Difficulty", content: "2.3 / 5" },
-				{ header: "Attendance Mandatory", content: "71%" },
-				{ header: "Textbook Use", content: "42%" },
+				{ header: "Overall Rating", content: props.overall + " / 5" },
+				{ header: "Average Difficulty", content: props.difficulty + " / 5" },
+				{ header: "Attendance Mandatory", content: props.attendance_perc + "%" },
+				{ header: "Textbook Use", content: props.textbook_perc + "%" },
 			]}
 			isDouble
 			link={["Add Review", "See All Reviews"]}
+			loading={loading}
 		>
 			<div className="list_div w-clearfix">
 				<strong>Would Take Professor Again</strong>
-				<p className="list_subtitle">{take_again}%</p>
+				<p className="list_subtitle">
+					{loading ? <Skeleton width={50} /> : props.take_again_perc + "%"}
+				</p>
 			</div>
 			<div className="list_div w-clearfix">
 				<strong>Featured Quote</strong>
-				<p className="list_subtitle">"{quote}"</p>
+				<p className="list_subtitle">
+					{loading ? <Skeleton width={200} /> : props.quote}
+				</p>
 			</div>
 			<div className="list_div w-clearfix">
 				<strong>Common Tags</strong>
 				<div>
-					{tags.map((tag) => (
-						<div className="tag preview" key={tag}>
-							{tag}
-						</div>
-					))}
+					{loading
+						? Array(4)
+								.fill()
+								.map((i, index) => (
+									<div
+										style={{ marginRight: "5px", display: "inline-block" }}
+										key={index}
+									>
+										<Skeleton width={120} height={30} />
+									</div>
+								))
+						: props.tags.map((tag) => (
+								<div className="tag preview" key={tag}>
+									{tag}
+								</div>
+						  ))}
 				</div>
 			</div>
 		</CardPreviewList>

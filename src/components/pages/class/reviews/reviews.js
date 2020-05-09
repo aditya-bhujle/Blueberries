@@ -13,7 +13,7 @@ export default function SchoolPosts(props) {
 			/>
 			<div className="hub_column_layout">
 				<Content {...props} />
-				<Sidebar reviews />
+				<Sidebar current="reviews" />
 			</div>
 		</>
 	);

@@ -1,7 +1,7 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 
-function AvgReviewCard({ title, id, children, tags, h3, loading }) {
+function AvgReviewCard({ title, id, children, h3, loading }) {
 	return (
 		<div className="hub_card review" id={id}>
 			{h3 ? (

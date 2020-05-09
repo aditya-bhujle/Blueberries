@@ -3,7 +3,11 @@ import { CardSearch, CardCreate } from "../../../cards/CenterCards";
 import { AvgReviews, ReviewCard } from "../../../cards/ReviewPage";
 import ContentTitle from "../../../header/ContentTitle";
 
-export default function SchoolMajorsContent({ classRef, avgReviews, reviewsLoading }) {
+export default function SchoolMajorsContent({
+	classRef,
+	avgReviews,
+	reviewsLoading,
+}) {
 	const [reviews, setReviews] = useState([]);
 	const [loading, setLoading] = useState(true);
 
@@ -24,10 +28,8 @@ export default function SchoolMajorsContent({ classRef, avgReviews, reviewsLoadi
 	}, []);
 	return (
 		<div className="hub_content">
-			<AvgReviews
-				{...avgReviews}
-				loading={reviewsLoading}
-			/>
+			<AvgReviews {...avgReviews} loading={reviewsLoading} />
+
 			<ContentTitle
 				header="All Reviews"
 				sortList={["Recent", "Most Liked", "Old"]}
@@ -62,17 +64,14 @@ export default function SchoolMajorsContent({ classRef, avgReviews, reviewsLoadi
 				unhelpful={1}
 			/>
 
-			{reviews.map((review, index) => {
-				if (review.id !== "average") {
-					let { date_posted, ...restOfReview } = review.data();
-					return (
-						<ReviewCard
-							{...restOfReview}
-							date_posted={date_posted.toDate().toString()}
-						/>
-					);
-				}
-				return null;
+			{reviews.map((review) => {
+				let { date_posted, ...restOfReview } = review.data();
+				return (
+					<ReviewCard
+						{...restOfReview}
+						date_posted={date_posted.toDate().toString()}
+					/>
+				);
 			})}
 		</div>
 	);

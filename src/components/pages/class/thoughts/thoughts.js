@@ -10,7 +10,7 @@ export default function SchoolPosts() {
 			<ContentTitle header="All Thoughts" sortList={["Hot", "Top", "New"]} />
 			<div className="hub_column_layout">
 				<Content />
-				<Sidebar thoughts />
+				<Sidebar current="thoughts" />
 			</div>
 		</>
 	);

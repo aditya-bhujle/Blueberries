@@ -10,7 +10,11 @@ export default function SchoolPosts(props) {
 			<ContentTitle header="Popular Posts" sortList={["Hot", "Top", "New"]} />
 			<div className="hub_column_layout">
 				<Content {...props} />
-				<Sidebar posts />
+				<Sidebar
+					current="posts"
+					avgReviews={props.avgReviews}
+					reviewsLoading={props.reviewsLoading}
+				/>
 			</div>
 		</>
 	);

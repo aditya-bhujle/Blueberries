@@ -10,7 +10,7 @@ export default function SchoolPosts() {
 			<ContentTitle header="Your Feed" sortList={["Hot", "Top", "New"]} />
 			<div className="hub_column_layout">
 				<Content />
-				<Sidebar calendar/>
+				<Sidebar current="calendar"/>
 			</div>
 		</>
 	);
