@@ -12,8 +12,8 @@ export default function SchoolPosts(props) {
 				<Content {...props} />
 				<Sidebar
 					current="posts"
-					avgReviews={props.avgReviews}
-					reviewsLoading={props.reviewsLoading}
+					classInfo={props.classInfo}
+					classLoading={props.classLoading}
 				/>
 			</div>
 		</>

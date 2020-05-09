@@ -70,6 +70,7 @@ export default function SchoolMajorsContent({
 					<ReviewCard
 						{...restOfReview}
 						date_posted={date_posted.toDate().toString()}
+						key={review.id}
 					/>
 				);
 			})}

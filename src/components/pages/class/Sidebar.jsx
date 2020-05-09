@@ -6,20 +6,22 @@ import {
 	CardPreviewReview,
 } from "../../cards/PreviewCards";
 
-export default function ClassPreview({ current, avgReviews, reviewsLoading }) {
+export default function ClassPreview({ current, classInfo, classLoading }) {
 	return (
 		<div className="hub_column_right">
 			<CardPreviewInfo
-				title="Data Structures and Algorithms"
-				subtitle="Professor Bruce Long"
-				members={72}
+				title={classInfo.name}
+				subtitle={`Professor ${classInfo.professor_first} ${classInfo.professor_last}`}
+				members={classInfo.members}
+				loading={classLoading}
 			/>
 
 			{current !== "reviews" && (
 				<CardPreviewReview
 					title="Professor Bruce Long"
-					{...avgReviews}
-					loading={reviewsLoading}
+					{...classInfo.reviews}
+					loading={classLoading}
+					titleLoading
 				/>
 			)}
 

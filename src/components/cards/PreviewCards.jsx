@@ -1,17 +1,19 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 
-function CardPreviewInfo({ title, subtitle, members, description }) {
+function CardPreviewInfo({ title, subtitle, members, description, loading }) {
 	return (
 		<div className="hub_card">
-			<h3>{title}</h3>
+			<h3>{loading ? <Skeleton height={24} /> : title}</h3>
 			{subtitle && (
 				<h4 className="main_color">
-					<strong>{subtitle}</strong>
+					<strong>{loading ? <Skeleton width={200} /> : subtitle}</strong>
 				</h4>
 			)}
-			<div className="hub_about_count">{members} Joined</div>
-			<p>{description}</p>
+			<div className="hub_about_count">
+				{loading ? <Skeleton width={50} /> : members + " Joined"}
+			</div>
+			<p>{description && (loading ? <Skeleton count={3} /> : description)}</p>
 		</div>
 	);
 }
@@ -24,11 +26,14 @@ function CardPreviewList({
 	isDouble,
 	bot_padding,
 	children,
+	titleLoading,
 	loading,
 }) {
 	return (
 		<div className={"hub_card" + (bot_padding ? " bot_padding" : "")}>
-			{title && <h3>{title}</h3>}
+			{title && (
+				<h3>{titleLoading && loading ? <Skeleton height={24} /> : title}</h3>
+			)}
 			{subtitle && (
 				<h4 className="main_color">
 					<strong>{subtitle}</strong>
@@ -115,12 +120,16 @@ function CardPreviewReview(props) {
 			elements={[
 				{ header: "Overall Rating", content: props.overall + " / 5" },
 				{ header: "Average Difficulty", content: props.difficulty + " / 5" },
-				{ header: "Attendance Mandatory", content: props.attendance_perc + "%" },
+				{
+					header: "Attendance Mandatory",
+					content: props.attendance_perc + "%",
+				},
 				{ header: "Textbook Use", content: props.textbook_perc + "%" },
 			]}
 			isDouble
 			link={["Add Review", "See All Reviews"]}
 			loading={loading}
+			titleLoading={props.titleLoading}
 		>
 			<div className="list_div w-clearfix">
 				<strong>Would Take Professor Again</strong>

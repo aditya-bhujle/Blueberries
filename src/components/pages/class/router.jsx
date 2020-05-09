@@ -22,7 +22,6 @@ export default function ClassRouter({ match, school }) {
 		.doc(classId);
 
 	const [classInfo, setClassInfo] = useState({});
-	const [avgReviews, setAvgReviews] = useState({});
 
 	const [loading, setLoading] = useState(true);
 
@@ -32,9 +31,7 @@ export default function ClassRouter({ match, school }) {
 				let fetchInfo = await classRef.get();
 				console.log("Class info fetched!");
 
-				let {reviews, ...restOfClassInfo} = fetchInfo.data();
-				setClassInfo(restOfClassInfo);
-				setAvgReviews(reviews);
+				setClassInfo(fetchInfo.data());
 			} catch (error) {
 				console.error(error);
 			}
@@ -52,7 +49,12 @@ export default function ClassRouter({ match, school }) {
 					name={classInfo.name}
 					short={school.short}
 					loading={loading || school === "loading"}
-					subShort={classInfo.short || true}
+					subShort={
+						classInfo.short +
+							(classInfo.professor_last
+								? " Professor " + classInfo.professor_last
+								: "") || true
+					}
 				/>
 				<PageNav type="class" baseLink={match.url} />
 				<div className="line" />
@@ -63,8 +65,8 @@ export default function ClassRouter({ match, school }) {
 						render={(props) => (
 							<Posts
 								{...props}
-								avgReviews={avgReviews}
-								reviewsLoading={loading}
+								classInfo={classInfo}
+								classLoading={loading}
 								classRef={classRef.collection("posts")}
 							/>
 						)}
@@ -79,7 +81,7 @@ export default function ClassRouter({ match, school }) {
 						render={(props) => (
 							<Reviews
 								{...props}
-								avgReviews={avgReviews}
+								avgReviews={classInfo.reviews}
 								reviewsLoading={loading}
 								classRef={classRef.collection("reviews")}
 							/>
