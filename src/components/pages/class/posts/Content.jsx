@@ -9,7 +9,7 @@ export default function SchoolPostContent({ classRef }) {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				let fetchPosts = await classRef.get();
+				let fetchPosts = await classRef.orderBy("date_posted").get();
 				console.log("Post data fetched!");
 				setPosts(fetchPosts.docs);
 			} catch (error) {

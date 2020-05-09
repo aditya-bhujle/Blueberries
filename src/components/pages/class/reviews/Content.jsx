@@ -1,48 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { CardSearch, CardCreate } from "../../../cards/CenterCards";
-import { AvgReviewCard, ReviewCard } from "../../../cards/ReviewPage";
+import { AvgReviews, ReviewCard } from "../../../cards/ReviewPage";
 import ContentTitle from "../../../header/ContentTitle";
 
+export default function SchoolMajorsContent({ classRef, avgReviews, reviewsLoading }) {
+	const [reviews, setReviews] = useState([]);
+	const [loading, setLoading] = useState(true);
 
-export default function SchoolMajorsContent() {
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				let fetchReviews = await classRef.get();
+				console.log("All reviews fetched!");
+				setReviews(fetchReviews.docs);
+			} catch (error) {
+				console.error(error);
+			}
+
+			setLoading(false);
+		};
+
+		fetchData();
+	}, []);
 	return (
 		<div className="hub_content">
-			<div className="hub_review_avg_div">
-				<AvgReviewCard title="4.6/5" id="review_half">
-					Overall Rating
-				</AvgReviewCard>
-				<AvgReviewCard title="2.3/5" id="review_half">
-					Average Difficulty
-				</AvgReviewCard>
-				<AvgReviewCard title="91%" id="review_third">
-					Would Take Again
-				</AvgReviewCard>
-				<AvgReviewCard title="42%" id="review_third">
-					Recommend Textbook
-				</AvgReviewCard>
-				<AvgReviewCard title="71%" id="review_third">
-					Say Come to Class
-				</AvgReviewCard>
-				<AvgReviewCard
-					tags={[
-						"Gives Good Feedback",
-						"Respected",
-						"Lots of Homework",
-						"Lots of Writing",
-						"Test Heavy",
-					]}
-					id="review_full"
-				>
-					Common Tags
-				</AvgReviewCard>
-				<AvgReviewCard
-					title='"An amazingly passionate, enthusiastic teacher!"'
-					h3
-					id="review_full"
-				>
-					Featured Quote
-				</AvgReviewCard>
-			</div>
+			<AvgReviews
+				{...avgReviews}
+				loading={reviewsLoading}
+			/>
 			<ContentTitle
 				header="All Reviews"
 				sortList={["Recent", "Most Liked", "Old"]}
@@ -76,6 +61,19 @@ export default function SchoolMajorsContent() {
 				helpful={3}
 				unhelpful={1}
 			/>
+
+			{reviews.map((review, index) => {
+				if (review.id !== "average") {
+					let { date_posted, ...restOfReview } = review.data();
+					return (
+						<ReviewCard
+							{...restOfReview}
+							date_posted={date_posted.toDate().toString()}
+						/>
+					);
+				}
+				return null;
+			})}
 		</div>
 	);
 }

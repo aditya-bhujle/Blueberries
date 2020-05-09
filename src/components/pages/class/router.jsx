@@ -22,6 +22,8 @@ export default function ClassRouter({ match, school }) {
 		.doc(classId);
 
 	const [classInfo, setClassInfo] = useState({});
+	const [avgReviews, setAvgReviews] = useState({});
+
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
@@ -29,7 +31,10 @@ export default function ClassRouter({ match, school }) {
 			try {
 				let fetchInfo = await classRef.get();
 				console.log("Class info fetched!");
-				setClassInfo(fetchInfo.data());
+
+				let {reviews, ...restOfClassInfo} = fetchInfo.data();
+				setClassInfo(restOfClassInfo);
+				setAvgReviews(reviews);
 			} catch (error) {
 				console.error(error);
 			}
@@ -66,7 +71,18 @@ export default function ClassRouter({ match, school }) {
 					<Route exact path={`${match.path}/notes`} component={Notes} />
 					<Route exact path={`${match.path}/calendar`} component={Calendar} />
 					<Route exact path={`${match.path}/thoughts`} component={Thoughts} />
-					<Route exact path={`${match.path}/reviews`} component={Reviews} />
+					<Route
+						exact
+						path={`${match.path}/reviews`}
+						render={(props) => (
+							<Reviews
+								{...props}
+								avgReviews={avgReviews}
+								reviewsLoading={loading}
+								classRef={classRef.collection("reviews")}
+							/>
+						)}
+					/>
 				</Switch>
 			</Section>
 		</Router>

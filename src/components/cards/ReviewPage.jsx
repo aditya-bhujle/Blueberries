@@ -1,20 +1,85 @@
-import React from "react"
+import React from "react";
+import Skeleton from "react-loading-skeleton";
 
-function AvgReviewCard({ title, id, children, tags, h3 }) {
+function AvgReviewCard({ title, id, children, tags, h3, loading }) {
 	return (
 		<div className="hub_card review" id={id}>
 			{h3 ? (
-				<h3 className="hub_create_title">{title}</h3>
+				<h3 className="hub_create_title">
+					{loading ? <Skeleton width={300} /> : title}
+				</h3>
 			) : (
-				<h2 className="hub_create_title">{title}</h2>
+				<h2 className="hub_create_title">
+					{loading ? <Skeleton width={50} /> : title}
+				</h2>
 			)}
-			{tags &&
-				tags.map((tag) => (
-					<div className="tag big" key={tag}>
-						{tag}
-					</div>
-				))}
 			<p>{children}</p>
+		</div>
+	);
+}
+
+function AvgReviews({
+	overall,
+	difficulty,
+	take_again_perc,
+	textbook_perc,
+	attendance_perc,
+	tags,
+	quote,
+	loading,
+}) {
+	return (
+		<div className="hub_review_avg_div">
+			<AvgReviewCard title={`${overall}/5`} id="review_half" loading={loading}>
+				Overall Rating
+			</AvgReviewCard>
+			<AvgReviewCard
+				title={`${difficulty}/5`}
+				id="review_half"
+				loading={loading}
+			>
+				Average Difficulty
+			</AvgReviewCard>
+			<AvgReviewCard
+				title={`${take_again_perc}%`}
+				id="review_third"
+				loading={loading}
+			>
+				Would Take Again
+			</AvgReviewCard>
+			<AvgReviewCard
+				title={`${textbook_perc}%`}
+				id="review_third"
+				loading={loading}
+			>
+				Recommend Textbook
+			</AvgReviewCard>
+			<AvgReviewCard
+				title={`${attendance_perc}%`}
+				id="review_third"
+				loading={loading}
+			>
+				Say Come to Class
+			</AvgReviewCard>
+			<div className="hub_card review" id="review_full">
+				{loading
+					? Array(4)
+							.fill()
+							.map((i, index) => (
+								<div style={{ marginRight: "5px", display: "inline-block" }} key={index}>
+									<Skeleton width={100} height={36} />
+								</div>
+							))
+					: tags.map((tag) => (
+							<div className="tag big" key={tag}>
+								{tag}
+							</div>
+					  ))}
+				<p>Common Tags</p>
+			</div>
+			<AvgReviewCard title={quote} h3 id="review_full" loading={loading}>
+				Featured Quote
+			</AvgReviewCard>
 		</div>
 	);
 }
@@ -100,4 +165,4 @@ function ReviewCard({
 	);
 }
 
-export { AvgReviewCard, ReviewCard };
+export { AvgReviews, ReviewCard };

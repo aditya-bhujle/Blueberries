@@ -20,7 +20,7 @@ export default function App() {
 	const user = { school: { id: "KMLrVq9pltD3OgFouIIV", name: "UNCC" } };
 	const [loading, setLoading] = useState(true);
 	const [userInfo, setUserInfo] = useState();
-
+	
 	useEffect(() => {
 		const fetchData = async () => {
 			try {

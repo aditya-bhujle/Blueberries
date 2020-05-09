@@ -4,7 +4,7 @@ import ContentTitle from "../../../header/ContentTitle";
 import Sidebar from "../Sidebar";
 import Content from "./Content";
 
-export default function SchoolPosts() {
+export default function SchoolPosts(props) {
 	return (
 		<>
 			<ContentTitle
@@ -12,7 +12,7 @@ export default function SchoolPosts() {
 				subtitle="13 Reviews"
 			/>
 			<div className="hub_column_layout">
-				<Content />
+				<Content {...props} />
 				<Sidebar reviews />
 			</div>
 		</>
