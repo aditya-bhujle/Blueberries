@@ -27,7 +27,7 @@ export default function Message({ user, time, messages, self, ...props }) {
 				</p>
 				{choices.map((choice, index) => (
 					<div
-						className={"list_div poll" + (index == selected ? " selected" : "")}
+						className={"list_div poll" + (index === selected ? " selected" : "")}
 						onClick={() => setSelected(index)}
 						key={index}
 					>

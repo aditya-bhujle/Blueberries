@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { db } from "../../../firebase/config";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Header from "../../header/Header";
@@ -12,19 +13,55 @@ import Calendar from "./calendar/calendar";
 import Thoughts from "./thoughts/thoughts";
 import Reviews from "./reviews/reviews";
 
-export default function ClassRouter({ match }) {
+export default function ClassRouter({ match, school }) {
+	let { schoolId, classId } = match.params;
+	const classRef = db
+		.collection("schools")
+		.doc(schoolId)
+		.collection("classes")
+		.doc(classId);
+
+	const [classInfo, setClassInfo] = useState({});
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				let fetchInfo = await classRef.get();
+				console.log("Class info fetched!");
+				setClassInfo(fetchInfo.data());
+			} catch (error) {
+				console.error(error);
+			}
+
+			setLoading(false);
+		};
+
+		fetchData();
+	}, []);
+
 	return (
 		<Router>
 			<Section>
 				<Header
-					name="Data Structures and Algorithms"
-					short="UNCC"
-					subShort="ITSC 2214 Professor Long"
+					name={classInfo.name}
+					short={school.short}
+					loading={loading || school === "loading"}
+					subShort={classInfo.short || true}
 				/>
 				<PageNav type="class" baseLink={match.url} />
 				<div className="line" />
 				<Switch>
-					<Route exact path={`${match.path}`} component={Posts} />
+					<Route
+						exact
+						path={`${match.path}`}
+						render={(props) => (
+							<Posts
+								{...props}
+								classRef={classRef.collection("posts")}
+							/>
+						)}
+					/>
 					<Route exact path={`${match.path}/chat`} component={Chat} />
 					<Route exact path={`${match.path}/notes`} component={Notes} />
 					<Route exact path={`${match.path}/calendar`} component={Calendar} />

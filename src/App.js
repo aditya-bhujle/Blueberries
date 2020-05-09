@@ -28,9 +28,10 @@ export default function App() {
 					.collection("users")
 					.doc("i24nevgPdghkfXgSAmx8")
 					.get();
+
 				console.log("UserInfo fetched!");
+
 				setUserInfo(fetchUserInfo.data());
-				console.log(fetchUserInfo.data());
 			} catch (error) {
 				console.error(error);
 			}
@@ -51,11 +52,17 @@ export default function App() {
 				<Route path="/signup" component={Signup} />
 				<Route exact path="/" component={DashboardHub} />
 
-				<Route path="/school/:id/major/:majorId" component={ClassRouter} />
-				<Route path="/school/:id/class/:classId" component={ClassRouter} />
-				<Route path="/school/:id/club/:clubId" component={ClassRouter} />
-				<Route path="/school/:id/chat/:chatId" component={ClassRouter} />
-				<Route path="/school/:id" component={SchoolRouter} />
+				<Route
+					path="/school/:schoolId/major/:majorId"
+					component={ClassRouter}
+				/>
+				<Route
+					path="/school/:schoolId/class/:classId"
+					render={(props) => <ClassRouter {...props} school={userInfo ? userInfo.school : "loading"} />}
+				/>
+				<Route path="/school/:schoolId/club/:clubId" component={ClassRouter} />
+				<Route path="/school/:schoolId/chat/:chatId" component={ClassRouter} />
+				<Route path="/school/:schoolId" component={SchoolRouter} />
 
 				<Route path="/post/:id" component={Post} />
 			</Switch>
