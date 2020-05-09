@@ -2,7 +2,7 @@ import React from "react";
 
 import ContentTitle from "../../../header/ContentTitle";
 import Sidebar from "../Sidebar";
-import Content from "./Content"
+import Content from "./Content";
 
 export default function SchoolPosts() {
 	return (
@@ -10,7 +10,7 @@ export default function SchoolPosts() {
 			<ContentTitle header="Recent Notes" sortList={["Hot", "Top", "New"]} />
 			<div className="hub_column_layout">
 				<Content />
-				<Sidebar />
+				<Sidebar notes />
 			</div>
 		</>
 	);

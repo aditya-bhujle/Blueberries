@@ -6,7 +6,7 @@ import {
 	CardPreviewReview
 } from "../../cards/PreviewCards";
 
-export default function ClassPreview() {
+export default function ClassPreview({posts, chat, notes, calendar, thoughts, reviews}) {
 	return (
 		<div className="hub_column_right">
 			<CardPreviewInfo
@@ -14,7 +14,7 @@ export default function ClassPreview() {
 				subtitle="Professor Bruce Long"
 				members={72}
 			/>
-			<CardPreviewReview
+			{!reviews && <CardPreviewReview
 				title="Professor Bruce Long"
 				elements={[
 					{ header: "Overall Rating", content: "4.6 / 5" },
@@ -33,8 +33,8 @@ export default function ClassPreview() {
 					"Lots of Writing",
 					"Test Heavy",
 				]}
-			/>
-			<CardPreviewList
+			/>}
+			{!chat && <CardPreviewList
 				title="Chat"
 				elements={[
 					{
@@ -48,8 +48,8 @@ export default function ClassPreview() {
 					},
 				]}
 				link="Open Group Chat"
-			/>
-			<CardPreviewList
+			/>}
+			{!calendar && <CardPreviewList
 				title="Upcoming Activity"
 				elements={[
 					{
@@ -64,8 +64,8 @@ export default function ClassPreview() {
 					},
 				]}
 				link="Open Calendar"
-			/>
-			<CardPreviewList
+			/>}
+			{!posts && <CardPreviewList
 				title="Hot Posts"
 				elements={[
 					{
@@ -89,7 +89,7 @@ export default function ClassPreview() {
 						],
 					},
 				]}
-			/>
+			/>}
 		</div>
 	);
 }

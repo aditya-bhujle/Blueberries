@@ -69,7 +69,7 @@ export default function DashboardContent() {
 						<CardPost
 							{...restOfPost}
 							date_posted={date_posted.toDate().toString()}
-							key={post}
+							key={post.id}
 							postRef={postsCollectionRef.doc(post.id)}
 						/>
 					);

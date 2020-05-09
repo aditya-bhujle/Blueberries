@@ -22,6 +22,7 @@ function CardPreviewList({
 	link,
 	isDouble,
 	bot_padding,
+	children
 }) {
 	return (
 		<div className={"hub_card" + (bot_padding ? " bot_padding" : "")}>
@@ -49,6 +50,7 @@ function CardPreviewList({
 					</div>
 				))}
 			</div>
+			{children}
 			{link && (
 				<>
 					<div className="hub_card_line" />

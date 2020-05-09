@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import firebase from "firebase/app";
 import { CardSearch, CardCreate, CardPost } from "../../../cards/CenterCards";
 
 export default function SchoolPostContent({ classRef }) {
 	const [posts, setPosts] = useState([]);
 	const [loading, setLoading] = useState(true);
-	
+
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -21,6 +22,24 @@ export default function SchoolPostContent({ classRef }) {
 		fetchData();
 	}, []);
 
+	async function createPost(e, title, description) {
+		e.preventDefault();
+
+		try {
+			await classRef.add({
+				title,
+				content: description,
+				likes: 0,
+				comments: 0,
+				author: "TODO",
+				date_posted: firebase.firestore.Timestamp.now(),
+			});
+			console.log(`${title} successfully created!`);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
 	return (
 		<div className="hub_content">
 			<CardSearch placeholder="Search Popular Posts" />
@@ -28,6 +47,7 @@ export default function SchoolPostContent({ classRef }) {
 				title="Create Post"
 				placeholder="Ask questions, share information, or start a discussion!"
 				createPlaceholder="Post Title"
+				handleSubmit={createPost}
 			/>
 
 			{loading ? (
@@ -44,7 +64,7 @@ export default function SchoolPostContent({ classRef }) {
 						<CardPost
 							{...restOfPost}
 							date_posted={date_posted.toDate().toString()}
-							key={post}
+							key={post.id}
 							postRef={classRef.doc(post.id)}
 						/>
 					);
