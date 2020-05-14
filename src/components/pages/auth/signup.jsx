@@ -1,15 +1,20 @@
 import React, { useState } from "react";
+import { signup } from "../../../firebase/auth";
 
 export default function Signup() {
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	function handleSubmit(e) {
+	const [loginError, setLoginError] = useState("");
+
+	async function handleSubmit(e) {
 		e.preventDefault();
-		console.log(username);
-		console.log(email);
-		console.log(password);
+
+		setLoginError(await signup(email, password));
+		setUsername("");
+		setEmail("");
+		setPassword("");
 	}
 
 	return (
@@ -32,6 +37,7 @@ export default function Signup() {
 						className="hub_card input w-input"
 						maxLength="256"
 						placeholder="Enter your username"
+						value={username}
 						onChange={(e) => setUsername(e.target.value)}
 					/>
 					<label>Email Address</label>
@@ -40,6 +46,7 @@ export default function Signup() {
 						className="hub_card input w-input"
 						maxLength="256"
 						placeholder="Enter your email address"
+						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 					/>
 					<label>Password</label>
@@ -48,6 +55,7 @@ export default function Signup() {
 						className="hub_card input w-input"
 						maxLength="256"
 						placeholder="Enter your password"
+						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 					/>
 					<input
@@ -57,6 +65,8 @@ export default function Signup() {
 						className="button no_margin w-button"
 					/>
 				</form>
+
+				{loginError && <p className="alert">{loginError}</p>}
 
 				<div className="line"></div>
 				<p>

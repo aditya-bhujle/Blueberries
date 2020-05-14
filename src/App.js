@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "./components/Navbar";
-import Menu from "./components/menu/Menu";
+import React, { useEffect, useState, createContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { db, auth } from "./firebase/config";
 
 import "./styles/normalize.css";
 import "./styles/webflow.css";
 import "./styles/global.css";
 import SVG from "./styles/SVG";
+
+import Navbar from "./components/Navbar";
+import Menu from "./components/menu/Menu";
 
 import DashboardHub from "./components/pages/dashboard/dashboard";
 import Post from "./components/pages/post/post";
@@ -14,13 +16,18 @@ import Login from "./components/pages/auth/login";
 import Signup from "./components/pages/auth/signup";
 import SchoolRouter from "./components/pages/school/router";
 import ClassRouter from "./components/pages/class/router";
-import { db } from "./firebase/config";
+
+export const UserContext = createContext({ user: null });
 
 export default function App() {
-	const user = { school: { id: "KMLrVq9pltD3OgFouIIV", name: "UNCC" } };
 	const [loading, setLoading] = useState(true);
 	const [userInfo, setUserInfo] = useState();
-	
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		auth().onAuthStateChanged((userAuth) => setUser(userAuth));
+	}, []);
+
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -28,7 +35,6 @@ export default function App() {
 					.collection("users")
 					.doc("i24nevgPdghkfXgSAmx8")
 					.get();
-
 				console.log("UserInfo fetched!");
 
 				setUserInfo(fetchUserInfo.data());
@@ -39,33 +45,43 @@ export default function App() {
 			setLoading(false);
 		};
 
-		fetchData();
-	}, []);
+		user ? fetchData() : setUserInfo(null);
+	}, [user]);
 
 	return (
-		<Router>
-			<SVG />
-			<Navbar />
-			<Menu data={userInfo} loading={loading} />
-			<Switch>
-				<Route path="/login" component={Login}></Route>
-				<Route path="/signup" component={Signup} />
-				<Route exact path="/" component={DashboardHub} />
+		<UserContext.Provider value={userInfo}>
+			<Router>
+				<SVG />
+				<Navbar user={user} />
+				{userInfo && <Menu data={userInfo} loading={loading} />}
 
-				<Route
-					path="/school/:schoolId/major/:majorId"
-					component={ClassRouter}
-				/>
-				<Route
-					path="/school/:schoolId/class/:classId"
-					render={(props) => <ClassRouter {...props} school={userInfo ? userInfo.school : "loading"} />}
-				/>
-				<Route path="/school/:schoolId/club/:clubId" component={ClassRouter} />
-				<Route path="/school/:schoolId/chat/:chatId" component={ClassRouter} />
-				<Route path="/school/:schoolId" component={SchoolRouter} />
+				<Switch>
+					<Route path="/login" component={Login}></Route>
+					<Route path="/signup" component={Signup} />
 
-				<Route path="/post/:id" component={Post} />
-			</Switch>
-		</Router>
+					<Route exact path="/" component={DashboardHub} />
+
+					<Route
+						path="/school/:schoolId/major/:majorId"
+						component={ClassRouter}
+					/>
+					<Route
+						path="/school/:schoolId/class/:classId"
+						render={(props) => <ClassRouter {...props} uid={user ? user.uid : null} />}
+					/>
+					<Route
+						path="/school/:schoolId/club/:clubId"
+						component={ClassRouter}
+					/>
+					<Route
+						path="/school/:schoolId/chat/:chatId"
+						component={ClassRouter}
+					/>
+					<Route path="/school/:schoolId" component={SchoolRouter} />
+
+					<Route path="/post/:id" component={Post} />
+				</Switch>
+			</Router>
+		</UserContext.Provider>
 	);
 }

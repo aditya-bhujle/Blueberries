@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../../firebase/config";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Header from "../../header/Header";
 import PageNav from "../../header/PageNav";
 import Section from "../../Section";
 
@@ -12,8 +11,9 @@ import Notes from "./notes/notes";
 import Calendar from "./calendar/calendar";
 import Thoughts from "./thoughts/thoughts";
 import Reviews from "./reviews/reviews";
+import ClassHeader from "../../header/ClassHeader";
 
-export default function ClassRouter({ match, school }) {
+export default function ClassRouter({ match, uid }) {
 	let { schoolId, classId } = match.params;
 	const classRef = db
 		.collection("schools")
@@ -40,15 +40,16 @@ export default function ClassRouter({ match, school }) {
 		};
 
 		fetchData();
-	}, []);
+	}, [match.url]);
 
 	return (
 		<Router>
 			<Section>
-				<Header
+				<ClassHeader
+					uid={uid}
+					classId={classId}
 					name={classInfo.name}
-					short={school.short}
-					loading={loading || school === "loading"}
+					loading={loading}
 					subShort={
 						classInfo.short +
 							(classInfo.professor_last

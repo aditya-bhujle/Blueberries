@@ -32,8 +32,8 @@ export default function SchoolPostContent({ posts }) {
 				createPlaceholder="Post Title"
 				handleSubmit={createPost}
 			/>
-			{post2.map((post) => (
-				<CardPost {...post} />
+			{post2.map((post, index) => (
+				<CardPost {...post} key={index} />
 			))}
 			<CardPost
 				title="Taking this class with Logic and Algorithms"

@@ -2,12 +2,11 @@ import React from "react";
 import { CardPreviewList } from "../../cards/PreviewCards";
 import PreviewHub from "../../cards/PreviewHub";
 
-export default function DashboardContent() {
-	const loading = false;
+export default function DashboardSidebar({ userInfo }) {
 	return (
 		<div className="hub_column_right">
 			<PreviewHub
-				title="University of North Carolina at Charlotte"
+				title={userInfo ? userInfo.school.name : ""}
 				subtitle="Your Classes"
 				elements={[
 					{
@@ -18,6 +17,9 @@ export default function DashboardContent() {
 								Professor Long
 							</span>,
 						],
+						link: userInfo
+							? `/school/${userInfo.school.id}/class/${userInfo.classes[0].id}`
+							: "",
 					},
 					{
 						header: "Logic and Algorithms",
@@ -32,7 +34,7 @@ export default function DashboardContent() {
 				button={{
 					content: "Add More Classes",
 				}}
-				loading={loading}
+				loading={!userInfo}
 			/>
 			<CardPreviewList
 				title="Upcoming UNCC Events"

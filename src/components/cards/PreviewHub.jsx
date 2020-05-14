@@ -1,5 +1,6 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
+import { Link } from "react-router-dom";
 
 export default function PreviewHub({
 	title,
@@ -28,7 +29,11 @@ export default function PreviewHub({
 				</>
 			) : (
 				elements.map((element, index) => (
-					<div className="list_div" key={index}>
+					<Link
+						className="list_div"
+						key={index}
+						to={element.link || "/notfound"}
+					>
 						{element.image && (
 							<img
 								{...element.image}
@@ -40,11 +45,11 @@ export default function PreviewHub({
 						<p className="list_date">{element.right}</p>
 						<strong>{element.header}</strong>
 						<p className="list_subtitle">{element.content}</p>
-					</div>
+					</Link>
 				))
 			)}
 			{loading ? (
-				<Skeleton height={37} width={125}/>
+				<Skeleton height={37} width={125} />
 			) : (
 				<button className="button no_margin w-button" onClick={button.onClick}>
 					{button.content}
