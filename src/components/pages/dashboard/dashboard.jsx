@@ -6,13 +6,13 @@ import Content from "./Content";
 import Sidebar from "./Sidebar";
 import { UserContext } from "../../../App";
 
-export default function DashboardHub(props) {
+export default function DashboardHub() {
 	const userInfo = useContext(UserContext);
 	return (
 		<Section>
 			<ContentTitle header="Your Feed" sortList={["Hot", "Top", "New"]} />
 			<div className="hub_column_layout">
-				<Content {...props} />
+				<Content userInfo={userInfo} />
 				<Sidebar userInfo={userInfo} />
 			</div>
 		</Section>

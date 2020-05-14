@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { CardSearch, CardPost } from "../../cards/CenterCards";
+import {
+	CardSearch,
+	CardPost,
+	CardPostSkeleton,
+} from "../../cards/CenterCards";
 import { db } from "../../../firebase/config";
 
-export default function DashboardContent() {
+export default function DashboardContent({userInfo}) {
 	const [posts, setPosts] = useState([]);
 	const [loading, setLoading] = useState(true);
 
@@ -29,38 +33,15 @@ export default function DashboardContent() {
 		fetchData();
 	}, []);
 
-	/*useEffect(() => {
-		//db.collection("schools")
-			// .doc("bjqzPlSzvQZUivxCAFIY")
-			// .collection("classes")
-			// .doc("tMDQlZ37elhZdqWK7HTq")
-			props.dbPath
-			.collection("posts")
-			.get()
-			.then(function (doc) {
-				if (doc.exists) {
-					console.log("Document data:", doc.data());
-					let { date_posted, ...restOfPost } = doc.data();
-					setPost(restOfPost);
-				} else {
-					// doc.data() will be undefined in this case
-					console.log("No such document!");
-				}
-			})
-			.catch(function (error) {
-				console.log("Error getting document:", error);
-			});
-	}, [props.dbPath]);*/
-
 	return (
 		<div className="hub_content">
 			<CardSearch placeholder="Search Popular Posts" />
 			{loading ? (
 				<>
-					<CardPost loading />
-					<CardPost loading />
-					<CardPost loading />
-					<CardPost loading />
+					<CardPostSkeleton />
+					<CardPostSkeleton />
+					<CardPostSkeleton />
+					<CardPostSkeleton />
 				</>
 			) : (
 				posts.map((post) => {
@@ -68,6 +49,7 @@ export default function DashboardContent() {
 					return (
 						<CardPost
 							{...restOfPost}
+							uid={userInfo ? userInfo.id : null}
 							date_posted={date_posted.toDate().toString()}
 							key={post.id}
 							postRef={postsCollectionRef.doc(post.id)}

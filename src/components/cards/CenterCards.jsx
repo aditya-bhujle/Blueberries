@@ -108,7 +108,6 @@ function CardPost({ uid, ...props }) {
 					await props.postRef.update({
 						likes: firebase.firestore.FieldValue.arrayUnion(uid),
 					});
-					console.log("Post Liked!");
 				} else {
 					setLiked(false);
 					setLikes(likes - 1);
@@ -116,7 +115,6 @@ function CardPost({ uid, ...props }) {
 					await props.postRef.update({
 						likes: firebase.firestore.FieldValue.arrayRemove(uid),
 					});
-					console.log("Post Unliked!");
 				}
 			} catch (error) {
 				console.error(error);

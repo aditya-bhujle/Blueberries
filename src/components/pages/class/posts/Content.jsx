@@ -36,7 +36,7 @@ export default function SchoolPostContent({ classRef }) {
 			await classRef.add({
 				title,
 				content: description,
-				likes: 0,
+				likes: [],
 				comments: 0,
 				author: userInfo.username,
 				date_posted: firebase.firestore.Timestamp.now(),
