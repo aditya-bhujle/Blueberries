@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import firebase from "firebase/app";
 
@@ -75,38 +75,38 @@ function CardSearch({ placeholder }) {
 	);
 }
 
-function CardPost({ loading, ...props }) {
-	const [likes, setLikes] = useState(props.likes);
+function CardPost({ uid, ...props }) {
+	const [likes, setLikes] = useState(props.likes.length);
 	const [liked, setLiked] = useState(false);
 
-	function actionLink(content, icon, clickFunction) {
+	useEffect(() => {
+		props.likes.forEach((user) => {
+			if (user === uid) setLiked(true);
+		});
+	}, [uid]);
+
+	function actionLink(content, icon) {
 		return (
-			<div className="action_div post" onClick={clickFunction}>
-				{loading ? (
-					<Skeleton width={icon ? 75 : 50} />
-				) : (
-					<>
-						{icon && (
-							<svg style={{ width: "18px", height: "18px" }}>
-								<use xlinkHref={`#${icon}`} />
-							</svg>
-						)}
-						<strong className="menu_link post">{content}</strong>
-					</>
+			<div className="action_div post">
+				{icon && (
+					<svg style={{ width: "18px", height: "18px" }}>
+						<use xlinkHref={`#${icon}`} />
+					</svg>
 				)}
+				<strong className="menu_link post">{content}</strong>
 			</div>
 		);
 	}
 
 	function likeLink() {
-		async function likePost() {
+		async function toggleLike() {
 			try {
 				if (!liked) {
 					setLiked(true);
 					setLikes(likes + 1);
 
 					await props.postRef.update({
-						likes: firebase.firestore.FieldValue.increment(1),
+						likes: firebase.firestore.FieldValue.arrayUnion(uid),
 					});
 					console.log("Post Liked!");
 				} else {
@@ -114,7 +114,7 @@ function CardPost({ loading, ...props }) {
 					setLikes(likes - 1);
 
 					await props.postRef.update({
-						likes: firebase.firestore.FieldValue.increment(-1),
+						likes: firebase.firestore.FieldValue.arrayRemove(uid),
 					});
 					console.log("Post Unliked!");
 				}
@@ -124,17 +124,11 @@ function CardPost({ loading, ...props }) {
 		}
 
 		return (
-			<div className="action_div post" onClick={likePost}>
-				{loading ? (
-					<Skeleton width={75} />
-				) : (
-					<>
-						<svg style={{ width: "18px", height: "18px" }}>
-							<use xlinkHref={"#" + (liked ? "heart-filled" : "heart")} />
-						</svg>
-						<strong className="menu_link post">{`Like ⋅ ${likes}`}</strong>
-					</>
-				)}
+			<div className="action_div post" onClick={toggleLike}>
+				<svg style={{ width: "18px", height: "18px" }}>
+					<use xlinkHref={"#" + (liked ? "heart-filled" : "heart")} />
+				</svg>
+				<strong className="menu_link post">{`Like ⋅ ${likes}`}</strong>
 			</div>
 		);
 	}
@@ -153,28 +147,19 @@ function CardPost({ loading, ...props }) {
 				/>
 			)}
 			<div className="hub_post_details">
-				{loading ? (
-					<>
-						<Skeleton width={200} />
-						<Skeleton width={75} />
-					</>
-				) : (
-					<>
-						<div>
-							{props.showSource && props.source && (
-								<>
-									<strong>{props.source}</strong> ⋅{" "}
-								</>
-							)}
-							{props.author} ⋅ {props.date_posted}
-						</div>
-						<strong className="main_color">
-							{props.followed
-								? "Followed!"
-								: "Follow" + (props.follows ? " ⋅ " + props.follows : "")}
-						</strong>
-					</>
-				)}
+				<div>
+					{props.showSource && props.source && (
+						<>
+							<strong>{props.source}</strong> ⋅{" "}
+						</>
+					)}
+					{props.author} ⋅ {props.date_posted}
+				</div>
+				<strong className="main_color">
+					{props.followed
+						? "Followed!"
+						: "Follow" + (props.follows ? " ⋅ " + props.follows : "")}
+				</strong>
 			</div>
 
 			{props.category && (
@@ -195,11 +180,9 @@ function CardPost({ loading, ...props }) {
 				</div>
 			)}
 
-			<h3 style={{ lineHeight: "24px" }}>
-				{loading ? <Skeleton height={24} /> : props.title}
-			</h3>
+			<h3 style={{ lineHeight: "24px" }}>{props.title}</h3>
 			<p className="alert">{props.alert}</p>
-			<p>{loading ? <Skeleton count={3} /> : props.content}</p>
+			<p>{props.content}</p>
 			<div className="hub_card_line"></div>
 			<div className="hub_card_links multiple post">
 				<div>
@@ -212,6 +195,46 @@ function CardPost({ loading, ...props }) {
 				</div>
 			</div>
 		</a>
+	);
+}
+
+function CardPostSkeleton() {
+	return (
+		<div className="hub_card">
+			<div className="hub_post_details">
+				<Skeleton width={200} />
+				<Skeleton width={75} />
+			</div>
+
+			<h3 style={{ lineHeight: "24px" }}>
+				<Skeleton height={24} />
+			</h3>
+
+			<p>
+				<Skeleton count={3} />
+			</p>
+
+			<div className="hub_card_line"></div>
+			
+			<div className="hub_card_links multiple post">
+				<div>
+					<div className="action_div post">
+						<Skeleton width={75} />
+					</div>
+					<div className="action_div post">
+						<Skeleton width={75} />
+					</div>
+				</div>
+				<div>
+					<div className="action_div post">
+						<Skeleton width={50} />
+					</div>
+					<div className="action_div post">
+						<Skeleton width={50} />
+					</div>
+				</div>
+			</div>
+		</div>
 	);
 }
 
@@ -228,4 +251,4 @@ function CardEvent({ title, content, event_date, category, type }) {
 	);
 }
 
-export { CardCreate, CardSearch, CardPost, CardEvent };
+export { CardCreate, CardSearch, CardPost, CardPostSkeleton, CardEvent };

@@ -5,7 +5,7 @@ import { db } from "../../firebase/config";
 import { UserContext } from "../../App";
 import Skeleton from "react-loading-skeleton";
 
-export default function ClassHeader({ uid, classId, loading, ...props }) {
+export default function ClassHeader({ classId, loading, ...props }) {
 	const userInfo = useContext(UserContext);
 	const [joined, setJoined] = useState(false);
 
@@ -15,7 +15,7 @@ export default function ClassHeader({ uid, classId, loading, ...props }) {
 				if (userClass.id === classObject.id) setJoined(true);
 			});
 		}
-	}, []);
+	}, [userInfo]);
 
 	if (!userInfo)
 		return (
@@ -34,11 +34,11 @@ export default function ClassHeader({ uid, classId, loading, ...props }) {
 
 	async function toggleJoin() {
 		const firestoreCommand = joined
-			? firebase.firestore.FieldValue.arrayUnion(classObject)
-			: firebase.firestore.FieldValue.arrayRemove(classObject);
+			? firebase.firestore.FieldValue.arrayRemove(classObject)
+			: firebase.firestore.FieldValue.arrayUnion(classObject);
 
 		setJoined(!joined);
-		const userRef = db.collection("users").doc(uid);
+		const userRef = db.collection("users").doc(userInfo.id);
 
 		try {
 			await userRef.update({

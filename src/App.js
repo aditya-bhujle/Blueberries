@@ -37,7 +37,10 @@ export default function App() {
 					.get();
 				console.log("UserInfo fetched!");
 
-				setUserInfo(fetchUserInfo.data());
+				let userInfoWithId = fetchUserInfo.data();
+				userInfoWithId.id = fetchUserInfo.id;
+
+				setUserInfo(userInfoWithId);
 			} catch (error) {
 				console.error(error);
 			}
@@ -67,7 +70,7 @@ export default function App() {
 					/>
 					<Route
 						path="/school/:schoolId/class/:classId"
-						render={(props) => <ClassRouter {...props} uid={user ? user.uid : null} />}
+						component={ClassRouter}
 					/>
 					<Route
 						path="/school/:schoolId/club/:clubId"

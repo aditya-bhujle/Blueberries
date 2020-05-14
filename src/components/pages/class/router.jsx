@@ -13,7 +13,7 @@ import Thoughts from "./thoughts/thoughts";
 import Reviews from "./reviews/reviews";
 import ClassHeader from "../../header/ClassHeader";
 
-export default function ClassRouter({ match, uid }) {
+export default function ClassRouter({ match }) {
 	let { schoolId, classId } = match.params;
 	const classRef = db
 		.collection("schools")
@@ -46,7 +46,6 @@ export default function ClassRouter({ match, uid }) {
 		<Router>
 			<Section>
 				<ClassHeader
-					uid={uid}
 					classId={classId}
 					name={classInfo.name}
 					loading={loading}

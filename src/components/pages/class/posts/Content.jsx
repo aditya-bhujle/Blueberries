@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import firebase from "firebase/app";
-import { CardSearch, CardCreate, CardPost } from "../../../cards/CenterCards";
+import {
+	CardSearch,
+	CardCreate,
+	CardPost,
+	CardPostSkeleton,
+} from "../../../cards/CenterCards";
+import { UserContext } from "../../../../App";
 
 export default function SchoolPostContent({ classRef }) {
 	const [posts, setPosts] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const userInfo = useContext(UserContext);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -31,7 +38,7 @@ export default function SchoolPostContent({ classRef }) {
 				content: description,
 				likes: 0,
 				comments: 0,
-				author: "TODO",
+				author: userInfo.username,
 				date_posted: firebase.firestore.Timestamp.now(),
 			});
 			console.log(`${title} successfully created!`);
@@ -52,10 +59,10 @@ export default function SchoolPostContent({ classRef }) {
 
 			{loading ? (
 				<>
-					<CardPost loading />
-					<CardPost loading />
-					<CardPost loading />
-					<CardPost loading />
+					<CardPostSkeleton />
+					<CardPostSkeleton />
+					<CardPostSkeleton />
+					<CardPostSkeleton />
 				</>
 			) : (
 				posts.map((post) => {
@@ -66,6 +73,7 @@ export default function SchoolPostContent({ classRef }) {
 							date_posted={date_posted.toDate().toString()}
 							key={post.id}
 							postRef={classRef.doc(post.id)}
+							uid={userInfo ? userInfo.id : null}
 						/>
 					);
 				})
