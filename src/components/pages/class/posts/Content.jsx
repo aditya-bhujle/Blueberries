@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import firebase from "firebase/app";
+import { UserContext } from "../../../../App";
 import {
 	CardSearch,
 	CardCreate,
 	CardPost,
 	CardPostSkeleton,
 } from "../../../cards/CenterCards";
-import { UserContext } from "../../../../App";
 
 export default function SchoolPostContent({ classRef }) {
 	const [posts, setPosts] = useState([]);

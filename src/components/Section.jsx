@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { UserContext } from "../UserProvider";
+import { UserContext } from "../App";
 
 export default function Section({ children }) {
 	const user = useContext(UserContext);
