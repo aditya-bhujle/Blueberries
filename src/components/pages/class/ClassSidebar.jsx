@@ -5,8 +5,19 @@ import {
 	CardPreviewList,
 	CardPreviewReview,
 } from "../../cards/PreviewCards";
+import { useLocation, useParams } from "react-router-dom";
 
-export default function ClassPreview({ current, classInfo, classLoading }) {
+export default function ClassSidebar({ classInfo, classLoading }) {
+	const currentPath = useLocation();
+	const currentParams = useParams();
+
+	const current = currentPath.pathname.replace(
+		"/school/" + currentParams.schoolId + "/class/" + currentParams.classId,
+		""
+	);
+
+	if (current === "/chat") return null;
+
 	return (
 		<div className="hub_column_right">
 			<CardPreviewInfo
@@ -16,7 +27,7 @@ export default function ClassPreview({ current, classInfo, classLoading }) {
 				loading={classLoading}
 			/>
 
-			{current !== "reviews" && (
+			{current !== "/reviews" && (
 				<CardPreviewReview
 					title="Professor Bruce Long"
 					{...classInfo.reviews}
@@ -25,25 +36,23 @@ export default function ClassPreview({ current, classInfo, classLoading }) {
 				/>
 			)}
 
-			{current !== "chat" && (
-				<CardPreviewList
-					title="Chat"
-					elements={[
-						{
-							header: "You Have 2 Unread Messages",
-							right: "Now",
-						},
-						{
-							header: "Someone Mentioned You",
-							right: "2 Days Ago",
-							content: "ITSC 2214 Group Chat",
-						},
-					]}
-					link="Open Group Chat"
-				/>
-			)}
+			<CardPreviewList
+				title="Chat"
+				elements={[
+					{
+						header: "You Have 2 Unread Messages",
+						right: "Now",
+					},
+					{
+						header: "Someone Mentioned You",
+						right: "2 Days Ago",
+						content: "ITSC 2214 Group Chat",
+					},
+				]}
+				link="Open Group Chat"
+			/>
 
-			{current !== "calendar" && (
+			{current !== "/calendar" && (
 				<CardPreviewList
 					title="Upcoming Activity"
 					elements={[
@@ -62,7 +71,7 @@ export default function ClassPreview({ current, classInfo, classLoading }) {
 				/>
 			)}
 
-			{current !== "posts" && (
+			{current !== "" && (
 				<CardPreviewList
 					title="Hot Posts"
 					elements={[

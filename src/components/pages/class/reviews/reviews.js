@@ -17,11 +17,7 @@ export default function SchoolPosts(props) {
 					reviewsLoading={props.reviewsLoading}
 					avgReviews={props.classInfo.reviews}
 				/>
-				<Sidebar
-					current="reviews"
-					classInfo={props.classInfo}
-					classLoading={props.reviewsLoading}
-				/>
+				{props.sidebar}
 			</div>
 		</>
 	);

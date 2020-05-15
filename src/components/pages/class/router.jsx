@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PageNav from "../../header/PageNav";
 import Section from "../../Section";
 
+import Sidebar from "./ClassSidebar";
+
 import Posts from "./posts/posts";
 import Chat from "./chat/chat";
 import Notes from "./notes/notes";
@@ -42,6 +44,8 @@ export default function ClassRouter({ match }) {
 		fetchData();
 	}, [match.url]);
 
+	const NewSidebar = <Sidebar classLoading={loading} classInfo={classInfo} />;
+
 	return (
 		<Section>
 			<ClassHeader
@@ -65,22 +69,39 @@ export default function ClassRouter({ match }) {
 					render={(props) => (
 						<Posts
 							{...props}
-							classInfo={classInfo}
-							classLoading={loading}
 							classRef={classRef.collection("posts")}
+							sidebar={NewSidebar}
 						/>
 					)}
 				/>
+
 				<Route exact path={`${match.path}/chat`} component={Chat} />
-				<Route exact path={`${match.path}/notes`} component={Notes} />
-				<Route exact path={`${match.path}/calendar`} component={Calendar} />
-				<Route exact path={`${match.path}/thoughts`} component={Thoughts} />
+
+				<Route
+					exact
+					path={`${match.path}/notes`}
+					render={(props) => <Notes {...props} sidebar={NewSidebar} />}
+				/>
+
+				<Route
+					exact
+					path={`${match.path}/calendar`}
+					render={(props) => <Calendar {...props} sidebar={NewSidebar} />}
+				/>
+
+				<Route
+					exact
+					path={`${match.path}/thoughts`}
+					render={(props) => <Thoughts {...props} sidebar={NewSidebar} />}
+				/>
+
 				<Route
 					exact
 					path={`${match.path}/reviews`}
 					render={(props) => (
 						<Reviews
 							{...props}
+							sidebar={NewSidebar}
 							classInfo={classInfo}
 							reviewsLoading={loading}
 							classRef={classRef.collection("reviews")}
