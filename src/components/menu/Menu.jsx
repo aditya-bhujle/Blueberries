@@ -47,10 +47,11 @@ export default function Menu({ data, loading }) {
 		<div className="nav_menu">
 			<MenuLink content="Your Feed" icon="home" link="/" />
 
-			<MenuLink
+			<SubMenuHead
 				content={school.short || "Pick Your School!"}
 				icon="school"
 				link={`/school/${school.id}`}
+				siblingLinks={["/join/majors", "/join/classes", "/join/clubs", "/events", "/join/chats"]}
 			>
 				<MenuLink
 					submenu
@@ -63,31 +64,33 @@ export default function Menu({ data, loading }) {
 					submenu
 					content="Join"
 					icon="school"
-					link={`/school/${school.id}`}
+					link={`/school/${school.id}/join`}
+					siblingLinks={["/majors", "/classes", "/clubs", "/chats"]}
 				>
 					<MenuLink
 						submenu
 						content="Majors"
 						icon="rocket"
-						link={`/school/${school.id}/majors`}
+						link={`/school/${school.id}/join/majors`}
+						siblingLinks={["/majors", "/classes", "/clubs"]}
 					/>
 					<MenuLink
 						submenu
 						content="Classes"
 						icon="flask"
-						link={`/school/${school.id}/classes`}
+						link={`/school/${school.id}/join/classes`}
 					/>
 					<MenuLink
 						submenu
 						content="Clubs"
 						icon="football"
-						link={`/school/${school.id}/clubs`}
+						link={`/school/${school.id}/join/clubs`}
 					/>
 					<MenuLink
 						submenu
 						content="Chats"
 						icon="chat"
-						link={`/school/${school.id}/chat`}
+						link={`/school/${school.id}/join/chats`}
 					/>
 				</SubMenuHead>
 
@@ -97,7 +100,7 @@ export default function Menu({ data, loading }) {
 					icon="calendar"
 					link={`/school/${school.id}/events`}
 				/>
-			</MenuLink>
+			</SubMenuHead>
 
 			<MenuLink content="Community" icon="community" link="/community" />
 			<div className="line even" />

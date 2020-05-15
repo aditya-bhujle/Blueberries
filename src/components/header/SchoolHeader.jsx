@@ -5,7 +5,7 @@ import { db } from "../../firebase/config";
 import { UserContext } from "../../App";
 import Skeleton from "react-loading-skeleton";
 
-export default function ClassHeader({ school, classId, loading, ...props }) {
+export default function ClassHeader({ classId, loading, ...props }) {
 	const userInfo = useContext(UserContext);
 	const [joined, setJoined] = useState(false);
 
@@ -50,12 +50,7 @@ export default function ClassHeader({ school, classId, loading, ...props }) {
 	}
 
 	return (
-		<Header
-			short={school.short}
-			shortLink={`/school/${school.id}`}
-			loading={loading}
-			{...props}
-		>
+		<Header short={userInfo.school.short} loading={loading} {...props}>
 			{joined ? (
 				<button onClick={toggleJoin} className="button select">
 					Joined Class

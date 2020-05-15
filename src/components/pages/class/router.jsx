@@ -43,52 +43,51 @@ export default function ClassRouter({ match }) {
 	}, [match.url]);
 
 	return (
-		<Router>
-			<Section>
-				<ClassHeader
-					classId={classId}
-					name={classInfo.name}
-					loading={loading}
-					subShort={
-						classInfo.short +
-							(classInfo.professor_last
-								? " Professor " + classInfo.professor_last
-								: "") || true
-					}
+		<Section>
+			<ClassHeader
+				school={{ id: schoolId, short: classInfo.school_short }}
+				classId={classId}
+				name={classInfo.name}
+				loading={loading}
+				subShort={
+					classInfo.short +
+						(classInfo.professor_last
+							? " Professor " + classInfo.professor_last
+							: "") || true
+				}
+			/>
+			<PageNav type="class" baseLink={match.url} />
+			<div className="line" />
+			<Switch>
+				<Route
+					exact
+					path={`${match.path}`}
+					render={(props) => (
+						<Posts
+							{...props}
+							classInfo={classInfo}
+							classLoading={loading}
+							classRef={classRef.collection("posts")}
+						/>
+					)}
 				/>
-				<PageNav type="class" baseLink={match.url} />
-				<div className="line" />
-				<Switch>
-					<Route
-						exact
-						path={`${match.path}`}
-						render={(props) => (
-							<Posts
-								{...props}
-								classInfo={classInfo}
-								classLoading={loading}
-								classRef={classRef.collection("posts")}
-							/>
-						)}
-					/>
-					<Route exact path={`${match.path}/chat`} component={Chat} />
-					<Route exact path={`${match.path}/notes`} component={Notes} />
-					<Route exact path={`${match.path}/calendar`} component={Calendar} />
-					<Route exact path={`${match.path}/thoughts`} component={Thoughts} />
-					<Route
-						exact
-						path={`${match.path}/reviews`}
-						render={(props) => (
-							<Reviews
-								{...props}
-								avgReviews={classInfo.reviews}
-								reviewsLoading={loading}
-								classRef={classRef.collection("reviews")}
-							/>
-						)}
-					/>
-				</Switch>
-			</Section>
-		</Router>
+				<Route exact path={`${match.path}/chat`} component={Chat} />
+				<Route exact path={`${match.path}/notes`} component={Notes} />
+				<Route exact path={`${match.path}/calendar`} component={Calendar} />
+				<Route exact path={`${match.path}/thoughts`} component={Thoughts} />
+				<Route
+					exact
+					path={`${match.path}/reviews`}
+					render={(props) => (
+						<Reviews
+							{...props}
+							avgReviews={classInfo.reviews}
+							reviewsLoading={loading}
+							classRef={classRef.collection("reviews")}
+						/>
+					)}
+				/>
+			</Switch>
+		</Section>
 	);
 }

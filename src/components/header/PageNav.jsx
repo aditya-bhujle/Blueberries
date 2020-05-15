@@ -8,11 +8,11 @@ export default function PageNav({ type, baseLink }) {
 		case "school":
 			links = [
 				{ content: "Posts", path: "", icon: "post" },
-				{ content: "Majors", path: "/majors", icon: "rocket" },
-				{ content: "Classes", path: "/classes", icon: "flask" },
-				{ content: "Clubs", path: "/clubs", icon: "football" },
+				{ content: "Majors", path: "/join/majors", icon: "rocket" },
+				{ content: "Classes", path: "/join/classes", icon: "flask" },
+				{ content: "Clubs", path: "/join/clubs", icon: "football" },
+				{ content: "Chats", path: "/join/chats", icon: "chat" },
 				{ content: "Events", path: "/events", icon: "calendar" },
-				{ content: "Chats", path: "/chats", icon: "chat" },
 			];
 			break;
 

@@ -1,24 +1,33 @@
 import React, { useState } from "react";
-import { NavLink, useRouteMatch } from "react-router-dom";
+import { NavLink, useRouteMatch, useLocation } from "react-router-dom";
 
 export default function SubMenuLink({
 	content,
 	icon,
 	link,
+	siblingLinks,
 	submenu,
 	children,
 }) {
 	const [dropped, setDropped] = useState(true);
-	let selected = useRouteMatch(link);
+
+	let location = useLocation().pathname;
+
+	let routeMatch = useRouteMatch(link);
+	let selected = routeMatch ? routeMatch.isExact : false;
 
 	function toggleDropdown() {
-		selected ? setDropped(!dropped) : setDropped(true);
+		selected ? setDropped(false) : setDropped(true);
 	}
+
+	siblingLinks &&
+		siblingLinks.forEach((siblingLink) => {
+			if (link + siblingLink === location) selected = true;
+		});
 
 	return (
 		<>
 			<NavLink
-				exact
 				className={`list_div category menu${submenu ? " sub head" : ""}`}
 				onClick={toggleDropdown}
 				to={link || "/"}
@@ -28,14 +37,13 @@ export default function SubMenuLink({
 					<use xlinkHref={`#${icon}`} />
 				</svg>
 				<strong className="menu_link">{content}</strong>
-				{/*selected && (
+				{selected && (
 					<svg className="menu_svg">
 						<use xlinkHref={dropped ? "#up" : "#down"} />
 					</svg>
-				)*/}
+				)}
 			</NavLink>
-			{//selected && dropped && <div className="submenu_div">{children}</div>
-			}
+			{selected && dropped && <div className="submenu_div">{children}</div>}
 		</>
 	);
 }

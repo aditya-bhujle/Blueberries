@@ -1,12 +1,13 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
+import { Link } from "react-router-dom";
 
-export default function Header({ name, short, subShort, loading, children }) {
+export default function Header({ name, short, shortLink, subShort, loading, children }) {
 	return (
 		<div className="hub_header">
 			<div>
 				<div className="hub_parent_title">
-					{loading ? <Skeleton width={40} /> : short}
+					{loading ? <Skeleton width={40} /> : <Link to={shortLink}>{short}</Link>}
 				</div>
 				{subShort && (
 					<>
