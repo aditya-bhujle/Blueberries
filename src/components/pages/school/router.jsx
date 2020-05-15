@@ -6,6 +6,8 @@ import Header from "../../header/Header";
 import PageNav from "../../header/PageNav";
 import Section from "../../Section";
 
+import Sidebar from "./SchoolSidebar";
+
 import Posts from "./posts/index";
 import Majors from "./majors/majors";
 import Classes from "./classes/classes";
@@ -38,6 +40,10 @@ export default function SchoolRouter({ match }) {
 		fetchData();
 	}, [match.url]);
 
+	const NewSidebar = (
+		<Sidebar schoolLoading={loading} schoolInfo={schoolInfo} />
+	);
+
 	return (
 		<Section>
 			<Header
@@ -51,13 +57,35 @@ export default function SchoolRouter({ match }) {
 				<Route
 					exact
 					path={`${match.path}`}
-					render={(props) => <Posts {...props} schoolId={schoolId} />}
+					render={(props) => (
+						<Posts {...props} schoolId={schoolId} sidebar={NewSidebar} />
+					)}
 				/>
-				<Route exact path={`${match.path}/majors`} component={Majors} />
-				<Route exact path={`${match.path}/classes`} component={Classes} />
-				<Route exact path={`${match.path}/clubs`} component={Clubs} />
-				<Route exact path={`${match.path}/chats`} component={Chats} />
-				<Route exact path={`${match.path}/events`} component={Events} />
+				<Route
+					exact
+					path={`${match.path}/majors`}
+					render={(props) => <Majors {...props} sidebar={NewSidebar} />}
+				/>
+				<Route
+					exact
+					path={`${match.path}/classes`}
+					render={(props) => <Classes {...props} sidebar={NewSidebar} />}
+				/>
+				<Route
+					exact
+					path={`${match.path}/clubs`}
+					render={(props) => <Clubs {...props} sidebar={NewSidebar} />}
+				/>
+				<Route
+					exact
+					path={`${match.path}/chats`}
+					render={(props) => <Chats {...props} sidebar={NewSidebar} />}
+				/>
+				<Route
+					exact
+					path={`${match.path}/events`}
+					render={(props) => <Events {...props} sidebar={NewSidebar} />}
+				/>
 			</Switch>
 		</Section>
 	);

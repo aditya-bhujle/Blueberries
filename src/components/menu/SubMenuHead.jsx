@@ -8,16 +8,20 @@ export default function SubMenuLink({
 	siblingLinks,
 	submenu,
 	children,
+	notExact,
 }) {
 	const [dropped, setDropped] = useState(true);
 
 	let location = useLocation().pathname;
 
 	let routeMatch = useRouteMatch(link);
-	let selected = routeMatch ? routeMatch.isExact : false;
+
+	let selected;
+	if (notExact) selected = routeMatch;
+	else selected = routeMatch ? routeMatch.isExact : false;
 
 	function toggleDropdown() {
-		selected ? setDropped(false) : setDropped(true);
+		selected ? setDropped(!dropped) : setDropped(true);
 	}
 
 	siblingLinks &&

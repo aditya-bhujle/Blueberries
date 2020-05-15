@@ -1,7 +1,7 @@
 import React from "react";
 
 import ContentTitle from "../../../header/ContentTitle";
-import Sidebar from "../Sidebar";
+import Sidebar from "../ClassSidebar";
 import Content from "./Content";
 import HubPost from "../../../systems/HubPosts";
 

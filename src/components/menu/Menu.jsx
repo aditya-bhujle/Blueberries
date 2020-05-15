@@ -51,13 +51,7 @@ export default function Menu({ data, loading }) {
 				content={school.short || "Pick Your School!"}
 				icon="school"
 				link={`/school/${school.id}`}
-				siblingLinks={[
-					"/majors",
-					"/classes",
-					"/clubs",
-					"/events",
-					"/chats",
-				]}
+				siblingLinks={["/majors", "/classes", "/clubs", "/events", "/chats"]}
 			>
 				<MenuLink
 					submenu
@@ -114,19 +108,19 @@ export default function Menu({ data, loading }) {
 			)}
 
 			{mapLinks(classes, "class", "flask", [
-				{ content: "Posts", icon: "post" },
-				{ content: "Chat", icon: "chat" },
-				{ content: "Notes", icon: "notes" },
-				{ content: "Calendar", icon: "calendar" },
-				{ content: "Thoughts", icon: "thoughts" },
-				{ content: "Reviews", icon: "reviews" },
+				{ content: "Posts", icon: "post", link: "" },
+				{ content: "Chat", icon: "chat", link: "chat" },
+				{ content: "Notes", icon: "notes", link: "notes" },
+				{ content: "Calendar", icon: "calendar", link: "calendar" },
+				{ content: "Thoughts", icon: "thoughts", link: "thoughts" },
+				{ content: "Reviews", icon: "reviews", link: "reviews" },
 			])}
 
 			{mapLinks(clubs, "club", "football", [
-				{ content: "Posts", icon: "post" },
-				{ content: "Chat", icon: "chat" },
-				{ content: "Announcement", icon: "announcement" },
-				{ content: "Calendar", icon: "calendar" },
+				{ content: "Posts", icon: "post", link: "" },
+				{ content: "Chat", icon: "chat", link: "chat" },
+				{ content: "Announcement", icon: "announcement", link: "announcement" },
+				{ content: "Calendar", icon: "calendar", link: "calendar" },
 			])}
 
 			{!!chats.length && (
@@ -160,21 +154,23 @@ export default function Menu({ data, loading }) {
 				<>
 					{list.map((item) => (
 						<div key={item.id}>
-							<MenuLink
+							<SubMenuHead
 								content={item.name}
 								icon={icon}
 								link={`/school/${school.id}/${hubType}/${item.id}`}
+								notExact
 							>
 								{submenu &&
-									submenu.map(({ content, icon }) => (
+									submenu.map(({ content, icon, link }) => (
 										<MenuLink
 											submenu
 											content={content}
 											icon={icon}
 											key={content}
+											link={`/school/${school.id}/${hubType}/${item.id}/${link}`}
 										/>
 									))}
-							</MenuLink>
+							</SubMenuHead>
 						</div>
 					))}
 					<div className="line even" />

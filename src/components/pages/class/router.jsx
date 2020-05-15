@@ -81,7 +81,7 @@ export default function ClassRouter({ match }) {
 					render={(props) => (
 						<Reviews
 							{...props}
-							avgReviews={classInfo.reviews}
+							classInfo={classInfo}
 							reviewsLoading={loading}
 							classRef={classRef.collection("reviews")}
 						/>

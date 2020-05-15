@@ -1,7 +1,7 @@
 import React from "react";
 
 import ContentTitle from "../../../header/ContentTitle";
-import Sidebar from "../Sidebar";
+import Sidebar from "../ClassSidebar";
 import Content from "./Content";
 
 export default function SchoolPosts(props) {
@@ -12,8 +12,16 @@ export default function SchoolPosts(props) {
 				subtitle="13 Reviews"
 			/>
 			<div className="hub_column_layout">
-				<Content {...props} />
-				<Sidebar current="reviews" />
+				<Content
+					classRef={props.classRef}
+					reviewsLoading={props.reviewsLoading}
+					avgReviews={props.classInfo.reviews}
+				/>
+				<Sidebar
+					current="reviews"
+					classInfo={props.classInfo}
+					classLoading={props.reviewsLoading}
+				/>
 			</div>
 		</>
 	);
