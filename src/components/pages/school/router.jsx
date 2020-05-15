@@ -53,11 +53,11 @@ export default function SchoolRouter({ match }) {
 					path={`${match.path}`}
 					render={(props) => <Posts {...props} schoolId={schoolId} />}
 				/>
-				<Route exact path={`${match.path}/join/majors`} component={Majors} />
-				<Route exact path={`${match.path}/join/classes`} component={Classes} />
-				<Route exact path={`${match.path}/join/clubs`} component={Clubs} />
-				<Route exact path={`${match.path}/join/chats`} component={Chats} />
-				<Route exact path={`${match.path}/join/events`} component={Events} />
+				<Route exact path={`${match.path}/majors`} component={Majors} />
+				<Route exact path={`${match.path}/classes`} component={Classes} />
+				<Route exact path={`${match.path}/clubs`} component={Clubs} />
+				<Route exact path={`${match.path}/chats`} component={Chats} />
+				<Route exact path={`${match.path}/events`} component={Events} />
 			</Switch>
 		</Section>
 	);

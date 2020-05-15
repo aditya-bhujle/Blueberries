@@ -51,7 +51,13 @@ export default function Menu({ data, loading }) {
 				content={school.short || "Pick Your School!"}
 				icon="school"
 				link={`/school/${school.id}`}
-				siblingLinks={["/join/majors", "/join/classes", "/join/clubs", "/events", "/join/chats"]}
+				siblingLinks={[
+					"/majors",
+					"/classes",
+					"/clubs",
+					"/events",
+					"/chats",
+				]}
 			>
 				<MenuLink
 					submenu
@@ -59,40 +65,31 @@ export default function Menu({ data, loading }) {
 					icon="post"
 					link={`/school/${school.id}`}
 				/>
-
-				<SubMenuHead
+				<MenuLink
 					submenu
-					content="Join"
-					icon="school"
-					link={`/school/${school.id}/join`}
-					siblingLinks={["/majors", "/classes", "/clubs", "/chats"]}
-				>
-					<MenuLink
-						submenu
-						content="Majors"
-						icon="rocket"
-						link={`/school/${school.id}/join/majors`}
-						siblingLinks={["/majors", "/classes", "/clubs"]}
-					/>
-					<MenuLink
-						submenu
-						content="Classes"
-						icon="flask"
-						link={`/school/${school.id}/join/classes`}
-					/>
-					<MenuLink
-						submenu
-						content="Clubs"
-						icon="football"
-						link={`/school/${school.id}/join/clubs`}
-					/>
-					<MenuLink
-						submenu
-						content="Chats"
-						icon="chat"
-						link={`/school/${school.id}/join/chats`}
-					/>
-				</SubMenuHead>
+					content="Majors"
+					icon="rocket"
+					link={`/school/${school.id}/majors`}
+					siblingLinks={["/majors", "/classes", "/clubs"]}
+				/>
+				<MenuLink
+					submenu
+					content="Classes"
+					icon="flask"
+					link={`/school/${school.id}/classes`}
+				/>
+				<MenuLink
+					submenu
+					content="Clubs"
+					icon="football"
+					link={`/school/${school.id}/clubs`}
+				/>
+				<MenuLink
+					submenu
+					content="Chats"
+					icon="chat"
+					link={`/school/${school.id}/chats`}
+				/>
 
 				<MenuLink
 					submenu
