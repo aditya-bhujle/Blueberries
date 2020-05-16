@@ -1,6 +1,13 @@
-import React from "react"
+import React, { useState } from "react";
 
-export default function ChatCard({ children }) {
+export default function ChatCard({ classRef, sendMessage, children }) {
+	const [content, setContent] = useState("");
+
+	function handleSubmit(e) {
+		setContent("");
+		sendMessage(e, content);
+	}
+
 	return (
 		<div className="hub_card chat">
 			<div className="hub_chat_title_div">
@@ -20,9 +27,11 @@ export default function ChatCard({ children }) {
 			<div className="hub_chat_content">{children}</div>
 			<div className="hub_card_line"></div>
 			<div className="hub_card_links">
-				<form className="form_block chat w-form">
+				<form className="form_block chat w-form" onSubmit={handleSubmit}>
 					<input
 						className="search_input chat w-input"
+						value={content}
+						onChange={(e) => setContent(e.target.value)}
 						maxLength="256"
 						placeholder="Type something here..."
 						required=""

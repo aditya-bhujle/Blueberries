@@ -79,7 +79,7 @@ export default function Message({ user, time, content, self, ...props }) {
 	return (
 		<div className={"hub_chat_message_div" + (self ? " self" : "")}>
 			<div className="flex_hor w-clearfix">
-				<strong>{user}</strong>
+				<strong>{self ? "You" : user}</strong>
 				<p className="list_date">{time}</p>
 			</div>
 
