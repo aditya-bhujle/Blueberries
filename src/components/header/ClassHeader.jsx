@@ -12,7 +12,7 @@ export default function ClassHeader({ school, classId, loading, ...props }) {
 	useEffect(() => {
 		if (userInfo) {
 			userInfo.classes.forEach((userClass) => {
-				if (userClass.id === classObject.id) setJoined(true);
+				if (userClass.id === classId) setJoined(true);
 			});
 		}
 	}, [userInfo]);

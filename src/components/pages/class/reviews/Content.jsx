@@ -9,7 +9,6 @@ export default function SchoolMajorsContent({
 	reviewsLoading,
 }) {
 	const [reviews, setReviews] = useState([]);
-	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -20,12 +19,11 @@ export default function SchoolMajorsContent({
 			} catch (error) {
 				console.error(error);
 			}
-
-			setLoading(false);
 		};
 
 		fetchData();
 	}, []);
+	
 	return (
 		<div className="hub_content">
 			<AvgReviews {...avgReviews} loading={reviewsLoading} />

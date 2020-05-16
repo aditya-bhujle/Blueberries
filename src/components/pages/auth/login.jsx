@@ -4,8 +4,11 @@ import {
 	signInWithFacebook,
 	signin,
 } from "../../../firebase/auth";
+import { Redirect } from "react-router-dom";
 
-export default function Login() {
+export default function Login({ location }) {
+	const [loggedIn, setLoggedIn] = useState(false);
+
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -18,6 +21,7 @@ export default function Login() {
 			await signin(email, password);
 			setEmail("");
 			setPassword("");
+			setLoggedIn(true);
 		} catch (error) {
 			if (
 				error.code === "auth/user-not-found" ||
@@ -36,11 +40,14 @@ export default function Login() {
 			await auth();
 			setEmail("");
 			setPassword("");
+			setLoggedIn(true);
 		} catch (error) {
 			console.error(error);
 			setLoginError("An unexpected error has occured, please try again later");
 		}
 	}
+
+	if (loggedIn) return <Redirect to={location.state} />;
 
 	return (
 		<div className="section content">

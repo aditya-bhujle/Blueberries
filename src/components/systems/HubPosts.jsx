@@ -17,6 +17,7 @@ export default function HubPost({ postRef }) {
 		const fetchData = async () => {
 			try {
 				let fetchPosts = await postRef.orderBy("date_posted").get();
+				console.log("Post data fetched!");
 				setPosts(fetchPosts.docs);
 			} catch (error) {
 				console.error(error);

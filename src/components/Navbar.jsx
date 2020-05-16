@@ -1,8 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { signOut } from "../firebase/auth";
 
 export default function Navbar({ user }) {
+	const location = useLocation();
+
 	const signedinLinks = user && (
 		<>
 			<button className="button select no_margin">Messages</button>
@@ -27,7 +29,10 @@ export default function Navbar({ user }) {
 			<Link to="/signup" className="button no_margin">
 				Creates an Account
 			</Link>
-			<Link to="/login" className="button select">
+			<Link
+				to={{ pathname: "/login", state: location.pathname }}
+				className="button select"
+			>
 				Log In
 			</Link>
 		</>
