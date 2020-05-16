@@ -8,29 +8,19 @@ export default function DashboardSidebar({ userInfo }) {
 			<PreviewHub
 				title={userInfo ? userInfo.school.name : ""}
 				subtitle="Your Classes"
-				elements={[
-					{
-						header: "Data Structures and Algorithms",
+				elements={
+					userInfo &&
+					userInfo.classes.map((userClass) => ({
+						header: userClass.name,
 						content: [
-							"ITSC 2214 ⋅ ",
+							`${userClass.short} ⋅ `,
 							<span className="main_color" key="professor">
-								Professor Long
+								{`Professor ${userClass.lastName}`}
 							</span>,
 						],
-						link: userInfo
-							? `/school/${userInfo.school.id}/class/${userInfo.classes[0].id}`
-							: "",
-					},
-					{
-						header: "Logic and Algorithms",
-						content: [
-							"ITSC 2175 ⋅ ",
-							<span className="main_color" key="professor">
-								Professor Aksut
-							</span>,
-						],
-					},
-				]}
+						link: `/school/${userInfo.school.id}/class/${userClass.id}`,
+					}))
+				}
 				button={{
 					content: "Add More Classes",
 				}}

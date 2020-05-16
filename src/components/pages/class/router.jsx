@@ -47,7 +47,7 @@ export default function ClassRouter({ match }) {
 	const NewSidebar = <Sidebar classLoading={loading} classInfo={classInfo} />;
 
 	return (
-		<Section>
+		<Section fullscreen>
 			<ClassHeader
 				school={{ id: schoolId, short: classInfo.school_short }}
 				classId={classId}

@@ -41,7 +41,7 @@ export default function SchoolRouter({ match }) {
 	}, [match.url]);
 
 	const NewSidebar = (
-		<Sidebar schoolLoading={loading} schoolInfo={schoolInfo} />
+		<Sidebar schoolLoading={loading} schoolInfo={schoolInfo} schoolRef={schoolRef} />
 	);
 
 	return (

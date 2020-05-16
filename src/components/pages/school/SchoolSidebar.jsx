@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { CardPreviewInfo, CardPreviewList } from "../../cards/PreviewCards";
+import {
+	CardPreviewInfo,
+	CardPreviewList,
+	CardPreviewListSkeleton,
+} from "../../cards/PreviewCards";
 import { useLocation, useParams } from "react-router-dom";
 
-export default function SchoolSidebar({ schoolInfo, schoolLoading }) {
+export default function SchoolSidebar({
+	schoolInfo,
+	schoolLoading,
+	schoolRef,
+}) {
+	const [previewInfo, setPreviewInfo] = useState({});
+
+	const [loading, setLoading] = useState(true);
+
 	const currentPath = useLocation();
 	const currentParams = useParams();
 
@@ -12,7 +24,55 @@ export default function SchoolSidebar({ schoolInfo, schoolLoading }) {
 		""
 	);
 
-	console.log(current);
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				let fetchClasses = await schoolRef
+					.collection("classes")
+					.orderBy("members", "desc")
+					.limit(3)
+					.get();
+
+				let fetchMajors = await schoolRef
+					.collection("majors")
+					.orderBy("members", "desc")
+					.limit(6)
+					.get();
+
+				let fetchClubs = await schoolRef
+					.collection("clubs")
+					.orderBy("members", "desc")
+					.limit(3)
+					.get();
+
+				let fetchEvents = await schoolRef
+					.collection("events")
+					.orderBy("members", "desc")
+					.limit(3)
+					.get();
+
+				let fetchChats = await schoolRef
+					.collection("events")
+					.orderBy("members", "desc")
+					.limit(3)
+					.get();
+
+				setPreviewInfo({
+					classes: fetchClasses.docs,
+					majors: fetchMajors.docs,
+					clubs: fetchClubs.docs,
+					events: fetchEvents.docs,
+					chats: fetchChats.docs,
+				});
+			} catch (error) {
+				console.error(error);
+			}
+
+			setLoading(false);
+		};
+
+		fetchData();
+	}, []);
 
 	return (
 		<div className="hub_column_right">
@@ -22,83 +82,91 @@ export default function SchoolSidebar({ schoolInfo, schoolLoading }) {
 				description={schoolInfo.description || true}
 				loading={schoolLoading}
 			/>
-			{current !== "/majors" && (
-				<CardPreviewList
-					title="Join Major"
-					elements={[
-						{ header: "Accounting", content: "240 Students" },
-						{ header: "Computer Science", content: "212 Students" },
-						{ header: "Pre-Med", content: "112 Students" },
-						{ header: "Computer Engineering", content: "54 Students" },
-						{ header: "Electrical Engineering", content: "45 Students" },
-						{ header: "Nursing", content: "31 Students" },
-					]}
-					link="See All Majors"
-					isDouble
-				/>
-			)}
 
-			{current !== "/classes" && (
-				<CardPreviewList
-					title="Join Classes"
-					elements={[
-						{ header: "Data Structures", content: "ITSC 2214 ⋅ 24 Students" },
-						{
-							header: "Logic and Algorithms",
-							content: "ITSC 2175 ⋅ 46 Students",
-						},
-						{
-							header: "Introduction to Computer Science II",
-							content: "ITSC 1213 ⋅ 24 Students",
-						},
-					]}
-					link="See All Classes"
-				/>
-			)}
+			{current !== "/majors" &&
+				(loading ? (
+					<CardPreviewListSkeleton
+						title="Join Major"
+						link="See All Majors"
+						isDouble
+					/>
+				) : (
+					<CardPreviewList
+						title="Join Majors"
+						elements={previewInfo.majors.map((major) => ({
+							header: major.data().name,
+							content: `${major.data().members} Students`,
+						}))}
+						link="See All Majors"
+						isDouble
+					/>
+				))}
 
-			{current !== "/clubs" && (
-				<CardPreviewList
-					title="Join Clubs"
-					elements={[
-						{
-							header: "Charlotte Hacks",
-							content: "Computer Science ⋅ 24 Students",
-						},
-						{
-							header: "Association for Computing Machinery",
-							content: "Computer Science ⋅ 46 Students",
-						},
-					]}
-					link="See All Clubs"
-				/>
-			)}
+			{current !== "/classes" &&
+				(loading ? (
+					<CardPreviewListSkeleton
+						title="Join Classes"
+						link="See All Classes"
+					/>
+				) : (
+					<CardPreviewList
+						title="Join Classes"
+						elements={previewInfo.classes.map((schoolClass) => ({
+							header: schoolClass.data().name,
+							content: `${schoolClass.data().short} ⋅ ${
+								schoolClass.data().members
+							} Students`,
+						}))}
+						link="See All Classes"
+					/>
+				))}
 
-			{current !== "/events" && (
-				<CardPreviewList
-					title="Upcoming Events"
-					elements={[
-						{
-							header: "Badminton Club Interest Meeting",
-							content: "Clubs ⋅ Athletics",
-							right: "In 2 Days",
-						},
-					]}
-					link="See All Events"
-				/>
-			)}
+			{current !== "/clubs" &&
+				(loading ? (
+					<CardPreviewListSkeleton title="Join Clubs" link="See All Clubs" />
+				) : (
+					<CardPreviewList
+						title="Join Clubs"
+						elements={previewInfo.clubs.map((club) => ({
+							header: club.data().name,
+							content: `${club.data().short} ⋅ ${club.data().members} Students`,
+						}))}
+						link="See All Clubs"
+					/>
+				))}
 
-			{current !== "/chats" && (
-				<CardPreviewList
-					title="Public Chats"
-					elements={[
-						{
-							header: "Witherspoon Residence Hall",
-							content: "49 Students",
-						},
-					]}
-					link="See All Chats"
-				/>
-			)}
+			{current !== "/events" &&
+				(loading ? (
+					<CardPreviewListSkeleton
+						title="Upcoming Events"
+						link="See All Events"
+					/>
+				) : (
+					<CardPreviewList
+						title="Upcoming Events"
+						elements={previewInfo.events.map((event) => ({
+							header: event.data().name,
+							content: `${event.data().short} ⋅ ${
+								event.data().members
+							} Students`,
+						}))}
+						link="See All Events"
+					/>
+				))}
+
+			{current !== "/chats" &&
+				(loading ? (
+					<CardPreviewListSkeleton title="Public Chats" link="See All Chats" />
+				) : (
+					<CardPreviewList
+						title="Public Chats"
+						elements={previewInfo.chats.map((chat) => ({
+							header: chat.data().name,
+							content: `${chat.data().short} ⋅ ${chat.data().members} Students`,
+						}))}
+						link="See All Chats"
+					/>
+				))}
 		</div>
 	);
 }

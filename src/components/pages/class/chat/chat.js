@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import ContentTitle from "../../../header/ContentTitle";
-import ChatPreview from "../../../chat/ChatPreview"
-import Content from "./Content"
+import ChatPreview from "../../../chat/ChatPreview";
+import Content from "./Content";
 
 export default function SchoolPosts() {
+	useEffect(() => {
+		const rootElement = document.getElementById("root");
+
+		rootElement.classList.add("content_container");
+
+		return () => rootElement.classList.remove("content_container");
+	}, []);
+
 	return (
 		<>
 			<ContentTitle header="Your Feed" sortList={["Hot", "Top", "New"]} />

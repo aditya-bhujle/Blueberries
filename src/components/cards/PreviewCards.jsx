@@ -84,6 +84,33 @@ function CardPreviewList({
 	);
 }
 
+function CardPreviewListSkeleton({ title, isDouble, link }) {
+	return (
+		<div className="hub_card">
+			<h3>{title}</h3>
+
+			<div className={isDouble ? "list_grid_div" : ""}>
+				{Array(isDouble ? 6 : 3)
+					.fill()
+					.map((i, index) => (
+						<div className="list_div w-clearfix" key={index}>
+							<strong>
+								<Skeleton width={isDouble ? 125 : 200} />
+							</strong>
+							<p className="list_subtitle">
+								<Skeleton width={isDouble ? 100 : 150} />
+							</p>
+						</div>
+					))}
+			</div>
+			<div className="hub_card_line" />
+			<div className="hub_card_links">
+				<div className="link">{link}</div>
+			</div>
+		</div>
+	);
+}
+
 function CardPreviewPictures({ title, subtitle, pictures, link }) {
 	return (
 		<div className="hub_card">
@@ -171,6 +198,7 @@ function CardPreviewReview(props) {
 export {
 	CardPreviewInfo,
 	CardPreviewList,
+	CardPreviewListSkeleton,
 	CardPreviewPictures,
 	CardPreviewReview,
 };
