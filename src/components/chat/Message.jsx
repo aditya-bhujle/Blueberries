@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-export default function Message({ user, time, messages, self, ...props }) {
-    const [selected, setSelected] = useState(-1);
-    
+export default function Message({ user, time, content, self, ...props }) {
+	const [selected, setSelected] = useState(-1);
+
 	function chatEvent({ title, date, day, time_span }) {
 		return (
 			<div className="hub_card bot_padding send">
@@ -12,8 +12,12 @@ export default function Message({ user, time, messages, self, ...props }) {
 					<strong>{date}</strong>
 					<p className="list_subtitle">{time_span}</p>
 				</div>
-				<a href="www.google.com" className="button no_margin w-button">Attend</a>
-				<a href="www.google.com" className="button select w-button">Not Attend</a>
+				<a href="www.google.com" className="button no_margin w-button">
+					Attend
+				</a>
+				<a href="www.google.com" className="button select w-button">
+					Not Attend
+				</a>
 			</div>
 		);
 	}
@@ -27,7 +31,9 @@ export default function Message({ user, time, messages, self, ...props }) {
 				</p>
 				{choices.map((choice, index) => (
 					<div
-						className={"list_div poll" + (index === selected ? " selected" : "")}
+						className={
+							"list_div poll" + (index === selected ? " selected" : "")
+						}
 						onClick={() => setSelected(index)}
 						key={index}
 					>
@@ -77,15 +83,11 @@ export default function Message({ user, time, messages, self, ...props }) {
 				<p className="list_date">{time}</p>
 			</div>
 
-			{messages &&
-				messages.map((message, index) => (
-					<div
-						className={"hub_chat_message" + (self ? " self" : "")}
-						key={index}
-					>
-						{message}
-					</div>
-				))}
+			{content && (
+				<div className={"hub_chat_message" + (self ? " self" : "")}>
+					{content}
+				</div>
+			)}
 
 			{props.event && chatEvent(props.event)}
 			{props.poll && chatPoll(props.poll)}

@@ -4,7 +4,7 @@ import ContentTitle from "../../../header/ContentTitle";
 import ChatPreview from "../../../chat/ChatPreview";
 import Content from "./Content";
 
-export default function SchoolPosts() {
+export default function ClassChat({ classRef }) {
 	useEffect(() => {
 		const rootElement = document.getElementById("root");
 
@@ -17,7 +17,7 @@ export default function SchoolPosts() {
 		<>
 			<ContentTitle header="Your Feed" sortList={["Hot", "Top", "New"]} />
 			<div className="hub_column_layout">
-				<Content />
+				<Content classRef={classRef} />
 				<ChatPreview />
 			</div>
 		</>

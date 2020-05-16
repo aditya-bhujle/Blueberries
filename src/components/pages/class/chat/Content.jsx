@@ -1,16 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ChatCard from "../../../chat/ChatCard";
 import Message from "../../../chat/Message";
 
-export default function ClassMessageContent() {
+export default function ClassMessageContent({ classRef }) {
+	const [messages, setMessages] = useState([]);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				let fetchMessages = await classRef.orderBy("date_posted").get();
+				console.log("Messages fetched!");
+				setMessages(fetchMessages.docs);
+			} catch (error) {
+				console.error(error);
+			}
+
+			setLoading(false);
+		};
+
+		fetchData();
+	}, []);
+
 	return (
 		<div className="hub_content">
 			<ChatCard>
-				<Message
-					user="TestName1"
-					time="11:30 AM"
-					messages={["Lorem ipsum", "Lorem ipsum", "Lorem ipsum"]}
-				/>
+				{messages &&
+					messages.map((message) => {
+						let { date_posted, ...restOfMessage } = message.data();
+						return (
+							<Message
+								time={date_posted.toDate().toString()}
+								{...restOfMessage}
+								key={message.id}
+							/>
+						);
+					})}
+				<div style={{display: "none"}}>
+				<Message user="TestName1" time="11:30 AM" content={"Lorem ipsum"} />
 				<Message
 					user="TestName2"
 					time="12:31 AM"
@@ -50,6 +77,7 @@ export default function ClassMessageContent() {
 							"I'm in Long's class and he pushed it back to Monday. Was wondering about other teachers.",
 					}}
 				/>
+				</div>
 			</ChatCard>
 		</div>
 	);

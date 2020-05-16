@@ -75,7 +75,13 @@ export default function ClassRouter({ match }) {
 					)}
 				/>
 
-				<Route exact path={`${match.path}/chat`} component={Chat} />
+				<Route
+					exact
+					path={`${match.path}/chat`}
+					render={(props) => (
+						<Chat {...props} classRef={classRef.collection("messages")} />
+					)}
+				/>
 
 				<Route
 					exact
