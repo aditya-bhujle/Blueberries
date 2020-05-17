@@ -78,16 +78,22 @@ export default function Message({ user, time, content, self, ...props }) {
 
 	return (
 		<div className={"hub_chat_message_div" + (self ? " self" : "")}>
-			<div className="flex_hor w-clearfix">
-				<strong>{self ? "You" : user}</strong>
-				<p className="list_date">{time}</p>
-			</div>
-
-			{content && (
-				<div className={"hub_chat_message" + (self ? " self" : "")}>
-					{content}
+			{!props.noTitle && (
+				<div className="flex_hor w-clearfix">
+					<strong>{self ? "You" : user}</strong>
+					<p className="list_date">{time}</p>
 				</div>
 			)}
+
+			{content &&
+				content.map((message, index) => (
+					<div
+						className={"hub_chat_message" + (self ? " self" : "")}
+						key={index}
+					>
+						{message}
+					</div>
+				))}
 
 			{props.event && chatEvent(props.event)}
 			{props.poll && chatPoll(props.poll)}

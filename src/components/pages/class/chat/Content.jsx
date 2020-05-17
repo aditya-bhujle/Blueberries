@@ -9,14 +9,14 @@ export default function ClassMessageContent({ classRef }) {
 	const [loading, setLoading] = useState(true);
 
 	const userInfo = useContext(UserContext);
-	console.log(userInfo);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				let fetchMessages = await classRef.orderBy("date_posted").get();
-				console.log("Messages fetched!");
-				setMessages(fetchMessages.docs);
+				await classRef.orderBy("date_posted").onSnapshot((querySnapshot) => {
+					setMessages(querySnapshot.docs);
+					console.log("Messages fetched!");
+				});
 			} catch (error) {
 				console.error(error);
 			}
@@ -43,23 +43,44 @@ export default function ClassMessageContent({ classRef }) {
 		}
 	}
 
+	function groupMessages() {
+		if (!messages.length || !userInfo) return null;
+
+		let components = [];
+		let groupContent = [];
+		for (let index = 0; index < messages.length; index++) {
+			const { date_posted, user_id, content, ...restOfMessage } = messages[
+				index
+			].data();
+
+			content && groupContent.push(content);
+
+			if (
+				content &&
+				index !== messages.length - 1 &&
+				user_id === messages[index + 1].data().user_id
+			)
+				continue;
+
+			components.push(
+				<Message
+					content={groupContent}
+					time={date_posted.toDate().toString()}
+					{...restOfMessage}
+					self={user_id === userInfo.id}
+				/>
+			);
+			groupContent = [];
+		}
+
+		return components;
+	}
+
 	return (
 		<div className="hub_content">
 			<ChatCard classRef={classRef} sendMessage={sendMessage}>
-				{messages &&
-					userInfo &&
-					messages.map((message) => {
-						let { date_posted, user_id, ...restOfMessage } = message.data();
-						return (
-							<Message
-								time={date_posted.toDate().toString()}
-								{...restOfMessage}
-								key={message.id}
-								self={user_id === userInfo.id}
-							/>
-						);
-					})}
-				<div style={{ display: "none" }}>
+				{groupMessages()}
+				{/*<div style={{ display: "none" }}>
 					<Message user="TestName1" time="11:30 AM" content={"Lorem ipsum"} />
 					<Message
 						user="TestName2"
@@ -100,7 +121,7 @@ export default function ClassMessageContent({ classRef }) {
 								"I'm in Long's class and he pushed it back to Monday. Was wondering about other teachers.",
 						}}
 					/>
-				</div>
+				</div>*/}
 			</ChatCard>
 		</div>
 	);

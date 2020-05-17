@@ -924,11 +924,11 @@ strong {
 	display: -webkit-flex;
 	display: -ms-flexbox;
 	display: flex;
-
+	/*
 	-webkit-box-pack: end;
 	-ms-flex-pack: end;
 	justify-content: flex-end;
-
+	*/
 	overflow: auto;
 	padding-right: 5px;
 	-webkit-box-orient: vertical;
