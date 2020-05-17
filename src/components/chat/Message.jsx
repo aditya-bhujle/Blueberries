@@ -1,7 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { firestore } from "firebase";
+import { UserContext } from "../../App";
 
 export default function Message({ user, time, content, self, ...props }) {
-	const [selected, setSelected] = useState(-1);
+	const [pollSelected, setPollSelected] = useState(-1);
+	const [pollAllowVote, setPollAllowVote] = useState(true);
+	const [pollVoted, setPollVoted] = useState(-1);
+	const userInfo = useContext(UserContext);
+
+	useEffect(() => {
+		const { poll } = props;
+		if (poll) {
+			Object.entries(poll.choices).forEach(([index, choice]) => {
+				choice.votes.forEach((user) => {
+					if (user === userInfo.id) {
+						setPollAllowVote(false);
+						setPollVoted(parseInt(index));
+					}
+				});
+			});
+		}
+	}, [userInfo, props.poll]);
 
 	function chatEvent({ title, date, day, time_span }) {
 		return (
@@ -23,26 +42,75 @@ export default function Message({ user, time, content, self, ...props }) {
 	}
 
 	function chatPoll({ title, votes, choices, multiple }) {
+		async function vote() {
+			if (pollSelected === -1) return null;
+
+			try {
+				const voteObject = {};
+				voteObject[
+					`poll.choices.${pollSelected}.votes`
+				] = firestore.FieldValue.arrayUnion(userInfo.id);
+
+				if (pollVoted !== -1) {
+					const pastVote = {};
+					pastVote[
+						`poll.choices.${pollVoted}.votes`
+					] = firestore.FieldValue.arrayRemove(userInfo.id);
+
+					await props.messageRef.update(pastVote);
+				}
+
+				await props.messageRef.update(voteObject);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+
 		return (
 			<div className="hub_chat_poll">
 				<strong>Poll - {title}</strong>
 				<p className="list_subtitle poll">
 					{votes} Votes{multiple ? " ⋅ Select Multiple" : ""}
 				</p>
-				{choices.map((choice, index) => (
-					<div
-						className={
-							"list_div poll" + (index === selected ? " selected" : "")
-						}
-						onClick={() => setSelected(index)}
-						key={index}
+				{Object.values(choices).map((choice, index) => {
+					if (!pollAllowVote) {
+						return (
+							<div
+								className={
+									"list_div poll_nohover" +
+									(index === pollVoted ? " voted" : "")
+								}
+								key={index}
+							>
+								<strong>{`${choice.name} - ${choice.votes.length} Votes`}</strong>
+							</div>
+						);
+					}
+
+					return (
+						<div
+							className={
+								"list_div poll" + (index === pollSelected ? " selected" : "")
+							}
+							onClick={() => setPollSelected(index)}
+							key={index}
+						>
+							<strong>{`${choice.name} - ${choice.votes.length} Votes`}</strong>
+						</div>
+					);
+				})}
+				{pollAllowVote ? (
+					<button onClick={vote} className="button poll w-button">
+						Vote
+					</button>
+				) : (
+					<button
+						onClick={() => setPollAllowVote(true)}
+						className="button poll w-button"
 					>
-						<strong>{`${choice.name} - ${choice.votes} Votes`}</strong>
-					</div>
-				))}
-				<a href="www.google.com" className="button poll w-button">
-					Vote
-				</a>
+						Change Vote
+					</button>
+				)}
 			</div>
 		);
 	}

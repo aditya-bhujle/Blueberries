@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function ChatCard({ classRef, sendMessage, children }) {
+export default function ChatCard({ sendMessage, children }) {
 	const [content, setContent] = useState("");
 
 	function handleSubmit(e) {

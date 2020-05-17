@@ -68,6 +68,8 @@ export default function ClassMessageContent({ classRef }) {
 					time={date_posted.toDate().toString()}
 					{...restOfMessage}
 					self={user_id === userInfo.id}
+					//Poll props below
+					messageRef={classRef.doc(messages[index].id)}
 				/>
 			);
 			groupContent = [];
@@ -78,7 +80,7 @@ export default function ClassMessageContent({ classRef }) {
 
 	return (
 		<div className="hub_content">
-			<ChatCard classRef={classRef} sendMessage={sendMessage}>
+			<ChatCard sendMessage={sendMessage}>
 				{groupMessages()}
 				{/*<div style={{ display: "none" }}>
 					<Message user="TestName1" time="11:30 AM" content={"Lorem ipsum"} />

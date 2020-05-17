@@ -789,11 +789,12 @@ strong {
 
 .list_div.poll {
 	margin-right: 0px;
-	padding: 8px 15px;
+	padding: 10px 15px 8px;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #e3e3e3;
 	border-radius: 3px;
+	cursor: pointer;
 }
 
 .list_div.poll:hover {
@@ -801,10 +802,29 @@ strong {
 	background-color: #f0f7ff;
 }
 
+.list_div.poll_nohover {
+	margin-right: 0px;
+	padding: 10px 15px 8px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #e3e3e3;
+	border-radius: 3px;
+}
+
+.list_div.poll_nohover:hover {
+	color: #333;
+}
+
 .list_div.poll.selected {
 	border-color: #1a73e8;
 	background-color: #f0f7ff;
 	color: #1a73e8;
+}
+
+.list_div.poll_nohover.voted {
+	border-color: #1a73e8;
+	background-color: #1a73e8;
+	color: white;
 }
 
 .list_div.message {
