@@ -86,7 +86,13 @@ export default function ClassRouter({ match }) {
 				<Route
 					exact
 					path={`${match.path}/notes`}
-					render={(props) => <Notes {...props} sidebar={NewSidebar} />}
+					render={(props) => (
+						<Notes
+							{...props}
+							classRef={classRef.collection("posts")}
+							sidebar={NewSidebar}
+						/>
+					)}
 				/>
 
 				<Route

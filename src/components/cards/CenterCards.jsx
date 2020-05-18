@@ -178,8 +178,17 @@ function CardPost({ uid, ...props }) {
 				</div>
 			)}
 
-			<h3 style={{ lineHeight: "24px" }}>{props.title}</h3>
+			<h3 style={{ lineHeight: "24px" }}>
+				{props.unit
+					? props.unit_name
+						? `Unit ${props.unit} - ${props.unit_name}`
+						: `Unit ${props.unit}`
+					: props.title}
+			</h3>
+
 			<p className="alert">{props.alert}</p>
+			<p className="main_color">{props.info}</p>
+
 			<p>{props.content}</p>
 			<div className="hub_card_line"></div>
 			<div className="hub_card_links multiple post">
@@ -213,7 +222,7 @@ function CardPostSkeleton() {
 			</p>
 
 			<div className="hub_card_line"></div>
-			
+
 			<div className="hub_card_links multiple post">
 				<div>
 					<div className="action_div post">

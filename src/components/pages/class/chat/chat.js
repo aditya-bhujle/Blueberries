@@ -14,12 +14,9 @@ export default function ClassChat({ classRef }) {
 	}, []);
 
 	return (
-		<>
-			<ContentTitle header="Your Feed" sortList={["Hot", "Top", "New"]} />
-			<div className="hub_column_layout">
-				<Content classRef={classRef} />
-				<ChatPreview />
-			</div>
-		</>
+		<div className="hub_column_layout">
+			<Content classRef={classRef} />
+			<ChatPreview />
+		</div>
 	);
 }

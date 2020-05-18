@@ -4,8 +4,8 @@ import ContentTitle from "../../header/ContentTitle";
 import Section from "../../Section";
 import Sidebar from "./Sidebar";
 import { UserContext } from "../../../App";
-import HubPost from "../../systems/HubPosts";
 import { db } from "../../../firebase/config";
+import DashboardContent from "./Content";
 
 export default function DashboardHub() {
 	const userInfo = useContext(UserContext);
@@ -13,8 +13,8 @@ export default function DashboardHub() {
 		<Section>
 			<ContentTitle header="Your Feed" sortList={["Hot", "Top", "New"]} />
 			<div className="hub_column_layout">
-				<HubPost
-					postRef={db
+				<DashboardContent
+					dashboardRef={db
 						.collection("schools")
 						.doc("bjqzPlSzvQZUivxCAFIY")
 						.collection("classes")

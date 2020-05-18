@@ -1,7 +1,7 @@
 import React from "react";
 import { CardPreviewList, CardPreviewInfo } from "../../cards/PreviewCards";
 
-export default function DashboardContent() {
+export default function PostSidebar() {
 	return (
 		<div className="hub_column_right">
 			<CardPreviewInfo
