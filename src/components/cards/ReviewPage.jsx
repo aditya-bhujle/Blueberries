@@ -108,7 +108,7 @@ function ReviewCard({
 	return (
 		<div className="hub_card">
 			<div className="hub_post_details">
-				{author} ⋅ {date_posted}
+				{author} ⋅ {date_posted.toDate().toString()}
 			</div>
 
 			<h3>{title}</h3>

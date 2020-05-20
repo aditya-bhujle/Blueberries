@@ -2,6 +2,7 @@ import React, { useEffect, useState, createContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { db, auth } from "./firebase/config";
 
+import "./styles/antd.css";
 import "./styles/normalize.css";
 import "./styles/webflow.css";
 import "./styles/global.css";

@@ -41,7 +41,11 @@ export default function SchoolRouter({ match }) {
 	}, [match.url]);
 
 	const NewSidebar = (
-		<Sidebar schoolLoading={loading} schoolInfo={schoolInfo} schoolRef={schoolRef} />
+		<Sidebar
+			schoolLoading={loading}
+			schoolInfo={schoolInfo}
+			schoolRef={schoolRef}
+		/>
 	);
 
 	return (
@@ -58,7 +62,7 @@ export default function SchoolRouter({ match }) {
 					exact
 					path={`${match.path}`}
 					render={(props) => (
-						<Posts {...props} schoolId={schoolId} sidebar={NewSidebar} />
+						<Posts {...props} schoolRef={schoolRef} sidebar={NewSidebar} />
 					)}
 				/>
 				<Route

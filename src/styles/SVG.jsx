@@ -74,7 +74,10 @@ export default function MenuSVGs() {
 			</symbol>
 			<symbol id="heart-filled" viewBox="0 0 24 24">
 				<path fill="none" d="M0 0h24v24H0z" />
-				<path d="M21.179 12.794l.013.014L12 22l-9.192-9.192.013-.014A6.5 6.5 0 0 1 12 3.64a6.5 6.5 0 0 1 9.179 9.154z" fill="#1a73e8"/>
+				<path
+					d="M21.179 12.794l.013.014L12 22l-9.192-9.192.013-.014A6.5 6.5 0 0 1 12 3.64a6.5 6.5 0 0 1 9.179 9.154z"
+					fill="#1a73e8"
+				/>
 			</symbol>
 			<symbol id="close" viewBox="0 0 24 24">
 				<path fill="none" d="M0 0h24v24H0z" />
@@ -83,6 +86,14 @@ export default function MenuSVGs() {
 			<symbol id="left" viewBox="0 0 24 24">
 				<path fill="none" d="M0 0h24v24H0z" />
 				<path d="M7.828 11H20v2H7.828l5.364 5.364-1.414 1.414L4 12l7.778-7.778 1.414 1.414z" />
+			</symbol>
+			<symbol id="link" viewBox="0 0 24 24">
+				<path fill="none" d="M0 0h24v24H0z" />
+				<path d="M18.364 15.536L16.95 14.12l1.414-1.414a5 5 0 1 0-7.071-7.071L9.879 7.05 8.464 5.636 9.88 4.222a7 7 0 0 1 9.9 9.9l-1.415 1.414zm-2.828 2.828l-1.415 1.414a7 7 0 0 1-9.9-9.9l1.415-1.414L7.05 9.88l-1.414 1.414a5 5 0 1 0 7.071 7.071l1.414-1.414 1.415 1.414zm-.708-10.607l1.415 1.415-7.071 7.07-1.415-1.414 7.071-7.07z" />
+			</symbol>
+			<symbol id="upload" viewBox="0 0 24 24">
+				<path fill="none" d="M0 0h24v24H0z" />
+				<path d="M3 19h18v2H3v-2zM13 5.828V17h-2V5.828L4.929 11.9l-1.414-1.414L12 2l8.485 8.485-1.414 1.414L13 5.83z" />
 			</symbol>
 		</svg>
 	);

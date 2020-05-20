@@ -35,12 +35,10 @@ export default function HubPost({ postRef, query }) {
 		</>
 	) : (
 		posts.map((post) => {
-			let { date_posted, ...restOfPost } = post.data();
 			return (
 				<CardPost
-					{...restOfPost}
+					{...post.data()}
 					uid={userInfo ? userInfo.id : null}
-					date_posted={date_posted.toDate().toString()}
 					key={post.id}
 					postRef={postRef.doc(post.id)}
 				/>

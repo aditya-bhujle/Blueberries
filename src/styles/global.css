@@ -646,8 +646,15 @@ strong {
 	background-color: #1567d3;
 }
 
+.button.small {
+	padding-top: 7px;
+	padding-bottom: 4px;
+	border-style: solid;
+	box-shadow: none;
+	font-size: 14px;
+}
+
 .button.select {
-	border-style: none;
 	border-color: #d1d1d1;
 	background-color: #fff;
 	color: #333;

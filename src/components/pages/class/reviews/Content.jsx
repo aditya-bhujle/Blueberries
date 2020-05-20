@@ -63,11 +63,9 @@ export default function SchoolMajorsContent({
 			/>
 
 			{reviews.map((review) => {
-				let { date_posted, ...restOfReview } = review.data();
 				return (
 					<ReviewCard
-						{...restOfReview}
-						date_posted={date_posted.toDate().toString()}
+						{...review.data()}
 						key={review.id}
 					/>
 				);
