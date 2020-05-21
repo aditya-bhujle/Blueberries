@@ -4,17 +4,15 @@ import firebase from "firebase/app";
 import { db } from "../../firebase/config";
 import { UserContext } from "../../App";
 import Skeleton from "react-loading-skeleton";
+import { useToasts } from "react-toast-notifications";
 
-export default function ClassHeader({ classId, loading, ...props }) {
+export default function SchoolHeader({ schoolId, loading, ...props }) {
 	const userInfo = useContext(UserContext);
+	const { addToast } = useToasts();
 	const [joined, setJoined] = useState(false);
 
 	useEffect(() => {
-		if (userInfo) {
-			userInfo.classes.forEach((userClass) => {
-				if (userClass.id === classObject.id) setJoined(true);
-			});
-		}
+		if (userInfo && userInfo.school.id === schoolId) setJoined(true);
 	}, [userInfo]);
 
 	if (!userInfo)
@@ -27,37 +25,43 @@ export default function ClassHeader({ classId, loading, ...props }) {
 			</Header>
 		);
 
-	const classObject = {
-		id: classId,
+	const schoolObject = {
+		id: schoolId,
 		name: props.name,
+		short: props.short,
 	};
 
 	async function toggleJoin() {
-		const firestoreCommand = joined
-			? firebase.firestore.FieldValue.arrayRemove(classObject)
-			: firebase.firestore.FieldValue.arrayUnion(classObject);
-
 		setJoined(!joined);
 		const userRef = db.collection("users").doc(userInfo.id);
 
 		try {
 			await userRef.update({
-				classes: firestoreCommand,
+				school: joined ? {} : schoolObject,
 			});
+			addToast(
+				`Successfully ${joined ? "Removed From" : "Added to"} ${props.name}!`,
+				{ appearance: "success", autoDismiss: true }
+			);
 		} catch (error) {
 			console.error(error);
 		}
 	}
 
 	return (
-		<Header short={userInfo.school.short} loading={loading} {...props}>
+		<Header
+			short={props.short}
+			shortLink={`/school/${schoolId}`}
+			loading={loading}
+			{...props}
+		>
 			{joined ? (
 				<button onClick={toggleJoin} className="button select">
-					Joined Class
+					{`Joined ${props.short}!`}
 				</button>
 			) : (
 				<button onClick={toggleJoin} className="button">
-					Join Class
+					{`Join ${props.short}!`}
 				</button>
 			)}
 		</Header>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { db } from "../../../firebase/config";
 
-import Header from "../../header/Header";
+import SchoolHeader from "../../header/SchoolHeader";
 import PageNav from "../../header/PageNav";
 import Section from "../../Section";
 
@@ -50,9 +50,10 @@ export default function SchoolRouter({ match }) {
 
 	return (
 		<Section>
-			<Header
+			<SchoolHeader
 				name={schoolInfo.name}
 				short={schoolInfo.short}
+				schoolId={schoolId}
 				loading={loading}
 			/>
 			<PageNav type="school" baseLink={match.url} />
@@ -62,7 +63,11 @@ export default function SchoolRouter({ match }) {
 					exact
 					path={`${match.path}`}
 					render={(props) => (
-						<Posts {...props} schoolRef={schoolRef} sidebar={NewSidebar} />
+						<Posts
+							{...props}
+							schoolRef={schoolRef.collection("posts")}
+							sidebar={NewSidebar}
+						/>
 					)}
 				/>
 				<Route

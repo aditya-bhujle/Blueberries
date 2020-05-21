@@ -32,16 +32,16 @@ export default function App() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				let fetchUserInfo = await db
-					.collection("users")
+				db.collection("users")
 					.doc("i24nevgPdghkfXgSAmx8")
-					.get();
-				console.log("UserInfo fetched!");
+					.onSnapshot((querySnapshot) => {
+						console.log("UserInfo fetched!");
 
-				let userInfoWithId = fetchUserInfo.data();
-				userInfoWithId.id = fetchUserInfo.id;
+						let userInfoWithId = querySnapshot.data();
+						userInfoWithId.id = querySnapshot.id;
 
-				setUserInfo(userInfoWithId);
+						setUserInfo(userInfoWithId);
+					});
 			} catch (error) {
 				console.error(error);
 			}
