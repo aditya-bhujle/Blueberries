@@ -234,13 +234,17 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 		try {
 			const { files: postFiles, ...postInfoWithoutFiles } = postInfo;
 
-			const { id: docId } = await postRef.add({
+			let firestoreAdd = {
 				...postInfoWithoutFiles,
 				likes: [],
 				comments: 0,
 				author: anon ? "Anonymous" : userInfo.username,
 				date_posted: firestore.Timestamp.now(),
-			});
+			};
+
+			if (postFiles) firestoreAdd.files = postFiles.map(({ name }) => name);
+
+			const { id: docId } = await postRef.add(firestoreAdd);
 
 			if (postFiles)
 				for (let index = 0; index < postFiles.length; index++) {
@@ -317,6 +321,27 @@ function CardPost({ uid, ...props }) {
 	const [likes, setLikes] = useState(props.likes.length);
 	const [liked, setLiked] = useState(false);
 
+	const [files, setFiles] = useState([]);
+	const [showImage, setShowImage] = useState(true);
+
+	useEffect(() => {
+		async function getFiles() {
+			let fileCounter = [];
+			for (let index = 0; index < props.files.length; index++) {
+				const file = props.files[index];
+				const fileURL = await storage()
+					.ref()
+					.child(props.postRef.path)
+					.child(file)
+					.getDownloadURL();
+				fileCounter.push(fileURL);
+			}
+			setFiles(files.concat(fileCounter));
+		}
+
+		if (props.files) getFiles();
+	}, []);
+
 	useEffect(() => {
 		props.likes.forEach((user) => {
 			if (user === uid) setLiked(true);
@@ -375,11 +400,12 @@ function CardPost({ uid, ...props }) {
 			href={props.link}
 			style={{ display: "block" }}
 		>
-			{props.image && (
+			{files.length > 0 && showImage && (
 				<img
-					src={"images/" + props.image}
-					alt="post_image"
-					className="hub_notes_image _32"
+					src={files[0]}
+					onError={() => setShowImage(false)}
+					alt="user_image"
+					className="hub_notes_image"
 				/>
 			)}
 			<div className="hub_post_details">

@@ -13,7 +13,10 @@ export default function HubPost({ postRef, query }) {
 				let fetchPosts;
 				query
 					? (fetchPosts = await query.get())
-					: (fetchPosts = await postRef.orderBy("date_posted").get());
+					: (fetchPosts = await postRef
+							.orderBy("date_posted", "desc")
+							.limit(3)
+							.get());
 				console.log("Post data fetched!");
 				setPosts(fetchPosts.docs);
 			} catch (error) {
