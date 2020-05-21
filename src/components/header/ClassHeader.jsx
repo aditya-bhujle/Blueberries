@@ -4,9 +4,11 @@ import firebase from "firebase/app";
 import { db } from "../../firebase/config";
 import { UserContext } from "../../App";
 import Skeleton from "react-loading-skeleton";
+import { useToasts } from "react-toast-notifications";
 
 export default function ClassHeader({ school, classId, loading, ...props }) {
 	const userInfo = useContext(UserContext);
+	const { addToast } = useToasts();
 	const [joined, setJoined] = useState(false);
 
 	useEffect(() => {
@@ -44,6 +46,10 @@ export default function ClassHeader({ school, classId, loading, ...props }) {
 			await userRef.update({
 				classes: firestoreCommand,
 			});
+			addToast(
+				`Successfully ${joined ? "Removed From" : "Added to"} ${props.name}!`,
+				{ appearance: "success", autoDismiss: true }
+			);
 		} catch (error) {
 			console.error(error);
 		}

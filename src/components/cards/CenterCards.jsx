@@ -2,15 +2,18 @@ import React, { useState, useEffect, useContext } from "react";
 import Skeleton from "react-loading-skeleton";
 import firebase from "firebase/app";
 import { Checkbox } from "antd";
+import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../../App";
 
 function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 	const userInfo = useContext(UserContext);
+	const { addToast } = useToasts();
 
 	const [showCreate, setShowCreate] = useState(false);
 	const [showLink, setShowLink] = useState(false);
+	const [userImages, setUserImages] = useState(new Set());
 
-	const [postInfo, setPostInfo] = useState({}); //Title, content, linkUrl, linkName, fileUrls, fileNames
+	const [postInfo, setPostInfo] = useState({}); //Title, content, linkUrl, linkName, files
 	const [anon, setAnon] = useState(false);
 
 	const iconStyles = {
@@ -51,6 +54,51 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 		</div>
 	);
 
+	function onChangeFile(e) {
+		e.preventDefault();
+
+		setPostInfo({ ...postInfo, files: [...e.target.files] });
+
+		showImages([...e.target.files]);
+	}
+
+	async function showImages(files) {
+		function fileReader(file) {
+			return new Promise((resolve, reject) => {
+				const reader = new FileReader();
+
+				reader.onload = () => {
+					resolve(reader.result);
+				};
+				reader.onerror = reject;
+
+				reader.readAsDataURL(file);
+			});
+		}
+
+		const promises = files.map(async (file) => {
+			if (file.type.startsWith("image/")) {
+				let contentBuffer = await fileReader(file);
+				return contentBuffer;
+			}
+		});
+
+		const resolvedFiles = await Promise.all(promises);
+		console.log(resolvedFiles.length);
+
+		const newSet = new Set([...userImages, ...resolvedFiles]);
+
+		if (newSet.size !== [...userImages, ...resolvedFiles].length)
+			addToast("We detected and removed a duplicate image", {
+				appearance: "info",
+				autoDismiss: true,
+			});
+
+		setUserImages(newSet);
+	}
+
+	let inputRef;
+
 	const formContent = (
 		<>
 			<textarea
@@ -68,12 +116,24 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 					display: "inline-block",
 				}}
 			>
-				<button type="button" className="button select small no_margin">
+				<button
+					type="button"
+					className="button select small no_margin"
+					onClick={() => inputRef.click()}
+				>
 					<svg className="menu_svg" style={iconStyles}>
 						<use xlinkHref={"#upload"} />
 					</svg>
 					Upload Files
 				</button>
+				<input
+					id="fileInput"
+					type="file"
+					ref={(ref) => (inputRef = ref)}
+					onChange={onChangeFile}
+					multiple
+					style={{ display: "none" }}
+				/>
 				<button
 					type="button"
 					className={"button small" + (showLink ? "" : " select")}
@@ -90,6 +150,26 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 			</div>
 
 			{showLink && linkDiv}
+
+			{postInfo.files && (
+				<div>
+					{userImages && (
+						<div className="hub_chat_photos_div">
+							{[...userImages].map((url, index) => (
+								<img
+									src={url}
+									className="hub_chat_photo"
+									key={index}
+									alt="User Uploaded"
+								/>
+							))}
+						</div>
+					)}
+					{postInfo.files.map((file, index) => (
+						<p key={index}>{file.name}</p>
+					))}
+				</div>
+			)}
 
 			<div className="hub_create_details">
 				<label className="checkbox_div">
@@ -129,6 +209,10 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 				comments: 0,
 				author: anon ? "Anonymous" : userInfo.username,
 				date_posted: firebase.firestore.Timestamp.now(),
+			});
+			addToast(`${postInfo.title} Successfully Created!`, {
+				appearance: "success",
+				autoDismiss: true,
 			});
 			console.log(`${postInfo.title} successfully created!`);
 

@@ -3,10 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import App from "./App";
+import { ToastProvider } from "react-toast-notifications";
 
 ReactDOM.render(
 	<React.StrictMode>
-		<App />
+		<ToastProvider placement="bottom-center">
+			<App />
+		</ToastProvider>
 	</React.StrictMode>,
 	document.getElementById("root")
 );
