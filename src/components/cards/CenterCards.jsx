@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Skeleton from "react-loading-skeleton";
-import firebase from "firebase/app";
+import { firestore, storage } from "firebase/app";
 import { Checkbox } from "antd";
 import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../../App";
@@ -13,8 +13,10 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 	const [showLink, setShowLink] = useState(false);
 	const [userImages, setUserImages] = useState(new Set());
 
-	const [postInfo, setPostInfo] = useState({}); //Title, content, linkUrl, linkName, files
+	const [postInfo, setPostInfo] = useState({ files: [] }); //Title, content, linkUrl, linkName, files
 	const [anon, setAnon] = useState(false);
+
+	const [uploading, setUploading] = useState(false);
 
 	const iconStyles = {
 		width: "16px",
@@ -54,47 +56,41 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 		</div>
 	);
 
+	useEffect(() => {
+		const showImage = async () => {
+			function fileReader(file) {
+				return new Promise((resolve, reject) => {
+					const reader = new FileReader();
+
+					reader.onload = () => {
+						resolve(reader.result);
+					};
+					reader.onerror = reject;
+
+					reader.readAsDataURL(file);
+				});
+			}
+
+			const newImages = [];
+			for (let index = 0; index < postInfo.files.length; index++) {
+				const file = postInfo.files[index];
+				if (file.type.startsWith("image/"))
+					newImages.push(await fileReader(file));
+			}
+
+			setUserImages([...newImages]);
+		};
+
+		showImage();
+	}, [postInfo]);
+
 	function onChangeFile(e) {
 		e.preventDefault();
 
-		setPostInfo({ ...postInfo, files: [...e.target.files] });
-
-		showImages([...e.target.files]);
-	}
-
-	async function showImages(files) {
-		function fileReader(file) {
-			return new Promise((resolve, reject) => {
-				const reader = new FileReader();
-
-				reader.onload = () => {
-					resolve(reader.result);
-				};
-				reader.onerror = reject;
-
-				reader.readAsDataURL(file);
-			});
-		}
-
-		const promises = files.map(async (file) => {
-			if (file.type.startsWith("image/")) {
-				let contentBuffer = await fileReader(file);
-				return contentBuffer;
-			}
+		setPostInfo({
+			...postInfo,
+			files: postInfo.files.concat([...e.target.files]),
 		});
-
-		const resolvedFiles = await Promise.all(promises);
-		console.log(resolvedFiles.length);
-
-		const newSet = new Set([...userImages, ...resolvedFiles]);
-
-		if (newSet.size !== [...userImages, ...resolvedFiles].length)
-			addToast("We detected and removed a duplicate image", {
-				appearance: "info",
-				autoDismiss: true,
-			});
-
-		setUserImages(newSet);
 	}
 
 	let inputRef;
@@ -153,7 +149,7 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 
 			{postInfo.files && (
 				<div>
-					{userImages && (
+					{userImages.length > 0 && (
 						<div className="hub_chat_photos_div">
 							{[...userImages].map((url, index) => (
 								<img
@@ -166,7 +162,23 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 						</div>
 					)}
 					{postInfo.files.map((file, index) => (
-						<p key={index}>{file.name}</p>
+						<div className="file_div" key={index}>
+							<svg
+								className="close_file"
+								onClick={() => {
+									let newFiles = postInfo.files;
+									newFiles.splice(index, 1);
+
+									setPostInfo({
+										...postInfo,
+										files: newFiles,
+									});
+								}}
+							>
+								<use xlinkHref={"#close"} />
+							</svg>
+							<p style={{ margin: "0px" }}>{file.name}</p>
+						</div>
 					))}
 				</div>
 			)}
@@ -188,8 +200,7 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 					</button>
 					<input
 						type="submit"
-						value="Submit"
-						data-wait="Please wait..."
+						value={uploading ? "Uploading..." : "Submit"}
 						className="button w-button border"
 					/>
 				</div>
@@ -200,16 +211,49 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 	async function createPost(e) {
 		e.preventDefault();
 
-		console.log(postInfo);
+		if (!postInfo.title) {
+			addToast("You must add a title to your post", {
+				appearance: "warning",
+				autoDismiss: true,
+			});
+			return;
+		}
+
+		let fileSize = 0;
+		postInfo.files.forEach((file) => (fileSize += file.size));
+		if (fileSize > 2000000) {
+			addToast("Your files cannot be greater than 2 MB!", {
+				appearance: "warning",
+				autoDismiss: true,
+			});
+			return;
+		}
+
+		setUploading(true);
 
 		try {
-			await postRef.add({
-				...postInfo,
+			const { files: postFiles, ...postInfoWithoutFiles } = postInfo;
+
+			const { id: docId } = await postRef.add({
+				...postInfoWithoutFiles,
 				likes: [],
 				comments: 0,
 				author: anon ? "Anonymous" : userInfo.username,
-				date_posted: firebase.firestore.Timestamp.now(),
+				date_posted: firestore.Timestamp.now(),
 			});
+
+			if (postFiles)
+				for (let index = 0; index < postFiles.length; index++) {
+					const file = postFiles[index];
+					await storage()
+						.ref()
+						.child(postRef.path)
+						.child(docId)
+						.child(file.name)
+						.put(file);
+				}
+
+			setUploading(false);
 			addToast(`${postInfo.title} Successfully Created!`, {
 				appearance: "success",
 				autoDismiss: true,
@@ -217,7 +261,7 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 			console.log(`${postInfo.title} successfully created!`);
 
 			setShowCreate(false);
-			setPostInfo({});
+			setPostInfo({ files: [] });
 		} catch (error) {
 			console.error(error);
 		}
@@ -247,9 +291,7 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 					className="search_input w-input"
 					maxLength="256"
 					placeholder={showCreate ? createPlaceholder : placeholder}
-					onChange={(e) =>
-						setPostInfo({ ...setPostInfo, title: e.target.value })
-					}
+					onChange={(e) => setPostInfo({ ...postInfo, title: e.target.value })}
 				/>
 				{showCreate && formContent}
 			</form>
@@ -302,14 +344,14 @@ function CardPost({ uid, ...props }) {
 					setLikes(likes + 1);
 
 					await props.postRef.update({
-						likes: firebase.firestore.FieldValue.arrayUnion(uid),
+						likes: firestore.FieldValue.arrayUnion(uid),
 					});
 				} else {
 					setLiked(false);
 					setLikes(likes - 1);
 
 					await props.postRef.update({
-						likes: firebase.firestore.FieldValue.arrayRemove(uid),
+						likes: firestore.FieldValue.arrayRemove(uid),
 					});
 				}
 			} catch (error) {

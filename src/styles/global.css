@@ -1,3 +1,22 @@
+.file_div {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+.close_file {
+	width: 18px;
+	height: 18px;
+	margin-right: 5px;
+	fill: #788699;
+}
+
+.close_file:hover {
+	fill: #000000;
+	cursor: pointer;
+}
+
 .back_link_svg {
 	width: 16px;
 	height: 16px;
