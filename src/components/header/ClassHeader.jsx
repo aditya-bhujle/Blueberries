@@ -32,6 +32,8 @@ export default function ClassHeader({ school, classId, loading, ...props }) {
 	const classObject = {
 		id: classId,
 		name: props.name,
+		short: props.short,
+		last_name: props.last_name,
 	};
 
 	async function toggleJoin() {
@@ -60,6 +62,10 @@ export default function ClassHeader({ school, classId, loading, ...props }) {
 			short={school.short}
 			shortLink={`/school/${school.id}`}
 			loading={loading}
+			subShort={
+				props.short +
+					(props.last_name ? " Professor " + props.last_name : "") || true
+			}
 			{...props}
 		>
 			{joined ? (

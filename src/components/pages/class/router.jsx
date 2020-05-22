@@ -52,13 +52,9 @@ export default function ClassRouter({ match }) {
 				school={{ id: schoolId, short: classInfo.school_short }}
 				classId={classId}
 				name={classInfo.name}
+				short={classInfo.short}
+				last_name={classInfo.professor_last}
 				loading={loading}
-				subShort={
-					classInfo.short +
-						(classInfo.professor_last
-							? " Professor " + classInfo.professor_last
-							: "") || true
-				}
 			/>
 			<PageNav type="class" baseLink={match.url} />
 			<div className="line" />

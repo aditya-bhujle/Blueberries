@@ -294,6 +294,7 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 					value={postInfo.title || ""}
 					className="search_input w-input"
 					maxLength="256"
+					style={showCreate ? { fontSize: "16px" } : {}}
 					placeholder={showCreate ? createPlaceholder : placeholder}
 					onChange={(e) => setPostInfo({ ...postInfo, title: e.target.value })}
 				/>

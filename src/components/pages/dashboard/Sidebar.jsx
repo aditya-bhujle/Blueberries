@@ -15,7 +15,7 @@ export default function DashboardSidebar({ userInfo }) {
 						content: [
 							`${userClass.short} ⋅ `,
 							<span className="main_color" key="professor">
-								{`Professor ${userClass.lastName}`}
+								{`Professor ${userClass.last_name}`}
 							</span>,
 						],
 						link: `/school/${userInfo.school.id}/class/${userClass.id}`,
