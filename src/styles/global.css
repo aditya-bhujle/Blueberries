@@ -1,3 +1,10 @@
+.flex {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+
 .file_div {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -328,9 +335,12 @@ strong {
 }
 
 .hub_card.reply {
-	margin-top: 10px;
-	margin-bottom: 0px;
+	margin: 10px 0px 15px 45px;
+	padding-top: 5px;
 	padding-bottom: 10px;
+	border-radius: 8px;
+	background-color: #f8f8f8;
+	box-shadow: none;
 }
 
 .hub_card.modal {
@@ -368,6 +378,14 @@ strong {
 
 .hub_card.input::placeholder {
 	color: #788699;
+}
+
+.hub_card.inside {
+	padding-top: 5px;
+	padding-bottom: 10px;
+	border-radius: 8px;
+	background-color: #f8f8f8;
+	box-shadow: none;
 }
 
 .hub_post_details {
@@ -1178,6 +1196,17 @@ strong {
 	margin-left: 15px;
 }
 
+.post_comment_2 {
+	margin-bottom: 15px;
+	padding: 10px 15px 0px;
+	border-radius: 8px;
+	background-color: #f8f8f8;
+}
+
+.post_comment_2.top {
+	border: 1px solid #3ea763;
+}
+
 .post_comment_div {
 	margin-bottom: 15px;
 }
@@ -1195,19 +1224,14 @@ strong {
 }
 
 .post_comment_details {
-	opacity: 0.7;
-	color: #202124;
-	font-size: 12px;
-	line-height: 14px;
-}
-
-.post_comment_username {
-	opacity: 0.7;
-	font-weight: 700;
+	color: #6e7381;
+	font-size: 13px;
+	line-height: 18px;
 }
 
 .post_comment_paragraph {
 	margin-bottom: 5px;
+	color: #333;
 }
 
 .post_modal {
@@ -1548,14 +1572,22 @@ strong {
 	background-color: #e8f2fd;
 }
 
+.action_div.comment {
+	display: -webkit-inline-box;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+
 .action_div.clicked {
 	background-color: #e8f2fd;
 }
 
 .action_div.category {
-	cursor: default;
 	margin-top: 5px;
-	margin-bottom: 0px;
+	margin-bottom: 3px;
 	padding-top: 3px;
 	background-color: #3ea763;
 	color: #fff;
@@ -1595,7 +1627,14 @@ strong {
 }
 
 .post_comment_action_div {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
 	margin-left: -10px;
+	color: #788699;
+	font-size: 13px;
+	line-height: 18px;
 }
 
 .account_div {

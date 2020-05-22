@@ -2,6 +2,8 @@ import React from "react";
 import { CardPost } from "../../cards/CenterCards";
 import SortList from "../../SortList";
 import PostComment from "./Comment";
+import PostComment2 from "./Comment2";
+import { firestore } from "firebase";
 
 export default function PostContent() {
 	return (
@@ -9,8 +11,8 @@ export default function PostContent() {
 			<CardPost
 				title="Taking this class with Logic and Algorithms"
 				author="Anonymous"
-				date_posted="Yesterday"
-				likes={3}
+				date_posted={firestore.Timestamp.now()}
+				likes={[0, 0, 0]}
 				comments={4}
 				follows={5}
 				category="Questions"
@@ -31,12 +33,38 @@ export default function PostContent() {
 					maxLength="5000"
 					className="search_input w-input"
 				/>
-				<button href="www.google.com" className="button comment w-button">
-					Comment
-				</button>
+				<button className="button comment w-button">Comment</button>
 			</form>
 
 			<div className="hub_card bot_padding">
+				<PostComment2
+					user="Anonymous"
+					date_posted="Yesterday"
+					content="Ttest input"
+					likes={4}
+					top_answer
+				/>
+
+				<PostComment2
+					user="Anonymous"
+					date_posted="Yesterday"
+					content="Ttest input"
+					likes={4}
+				>
+					<PostComment2
+						user="Anonymous"
+						date_posted="Yesterday"
+						content="Ttest input"
+						likes={4}
+					>
+						<PostComment2
+							user="Anonymous"
+							date_posted="Yesterday"
+							content="Ttest input"
+							likes={4}
+						/>
+					</PostComment2>
+				</PostComment2>
 				<PostComment
 					top_answer
 					author="Anonymous"

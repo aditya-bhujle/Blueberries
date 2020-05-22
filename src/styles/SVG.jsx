@@ -95,6 +95,10 @@ export default function MenuSVGs() {
 				<path fill="none" d="M0 0h24v24H0z" />
 				<path d="M3 19h18v2H3v-2zM13 5.828V17h-2V5.828L4.929 11.9l-1.414-1.414L12 2l8.485 8.485-1.414 1.414L13 5.83z" />
 			</symbol>
+			<symbol id="answer" viewBox="0 0 24 24">
+				<path fill="none" d="M0 0h24v24H0z" />
+				<path d="M6.455 19L2 22.5V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H6.455zm-.692-2H20V5H4v13.385L5.763 17zm5.53-4.879l4.243-4.242 1.414 1.414-5.657 5.657-3.89-3.89 1.415-1.414 2.475 2.475z" />
+			</symbol>
 		</svg>
 	);
 }
