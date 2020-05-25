@@ -48,9 +48,11 @@ export default function HubPost({ postRef, query }) {
 	return (
 		<>
 			{posts.map((post) => {
+				const { category, ...restOfData } = post.data();
+				const data = query ? restOfData : post.data();
 				return (
 					<CardPost
-						{...post.data()}
+						{...data}
 						uid={userInfo ? userInfo.id : null}
 						key={post.id}
 						postRef={postRef.doc(post.id)}

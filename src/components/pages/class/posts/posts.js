@@ -16,6 +16,7 @@ export default function SchoolPosts({ sidebar, classRef }) {
 						placeholder="Ask questions, share information, or start a discussion!"
 						createPlaceholder="Post Title"
 						postRef={classRef}
+						category={["Question", "Resource", "Other"]}
 					/>
 					<HubPost postRef={classRef} />
 				</div>

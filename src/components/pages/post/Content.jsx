@@ -67,7 +67,7 @@ export default function PostContent({ postProps, postRef }) {
 
 	return (
 		<div className="hub_content">
-			<CardPost {...postProps} />
+			<CardPost {...postProps} modal />
 			<div className="hub_card_links multiple">
 				<strong>{postProps.comments} Comments</strong>
 				<SortList list={["Hot", "New", "Top"]} />

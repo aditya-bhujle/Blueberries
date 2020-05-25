@@ -5,7 +5,13 @@ import { Checkbox } from "antd";
 import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../../App";
 
-function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
+function CardCreate({
+	title,
+	placeholder,
+	createPlaceholder,
+	postRef,
+	category,
+}) {
 	const userInfo = useContext(UserContext);
 	const { addToast } = useToasts();
 
@@ -13,7 +19,7 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 	const [showLink, setShowLink] = useState(false);
 	const [userImages, setUserImages] = useState(new Set());
 
-	const [postInfo, setPostInfo] = useState({ files: [] }); //Title, content, linkUrl, linkName, files
+	const [postInfo, setPostInfo] = useState({ files: [] }); //Title, content, linkUrl, linkName, files, category
 	const [anon, setAnon] = useState(false);
 
 	const [uploading, setUploading] = useState(false);
@@ -93,6 +99,19 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 		});
 	}
 
+	const categoryButton = (text) => (
+		<button
+			type="button"
+			className={
+				"action_div category post" +
+				(postInfo.category === text ? " select" : "")
+			}
+			style={{ float: "none" }}
+			onClick={() => setPostInfo({ ...postInfo, category: text })}
+		>
+			{text}
+		</button>
+	);
 	let inputRef;
 
 	const formContent = (
@@ -104,6 +123,12 @@ function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 				className="search_input description w-input"
 				onChange={(e) => setPostInfo({ ...postInfo, content: e.target.value })}
 			/>
+
+			{category && (
+				<div style={{ marginBottom: "5px" }}>
+					{category.map((tag) => categoryButton(tag))}
+				</div>
+			)}
 
 			<div
 				style={{
@@ -415,14 +440,6 @@ function CardPost({ uid, showModal, ...props }) {
 			onClick={(e) => callShowModal(e)}
 			style={{ display: "block" }}
 		>
-			{files.length > 0 && showImage && (
-				<img
-					src={files[0]}
-					onError={() => setShowImage(false)}
-					alt="user_image"
-					className="hub_notes_image"
-				/>
-			)}
 			<div className="hub_post_details">
 				<div>
 					{props.showSource && props.source && (
@@ -439,36 +456,57 @@ function CardPost({ uid, showModal, ...props }) {
 				</strong>
 			</div>
 
-			{props.category && (
-				<div
-					className="action_div category post"
-					style={props.reward ? null : { marginRight: "10px" }}
-				>
-					<strong>{props.category}</strong>
-				</div>
+			{!props.modal && files.length > 0 && showImage && (
+				<img
+					src={files[0]}
+					onError={() => setShowImage(false)}
+					alt="user_image"
+					className="hub_notes_image"
+				/>
 			)}
 
-			{props.reward && (
-				<div
-					className="action_div category bounty"
-					style={{ marginRight: "10px" }}
-				>
-					<strong>{props.reward}</strong>
-				</div>
+			<div className="post_header_div">
+				{props.category && (
+					<div
+						className="action_div category post"
+						style={props.reward ? null : { marginRight: "10px" }}
+					>
+						<strong>{props.category}</strong>
+					</div>
+				)}
+
+				{props.reward && (
+					<div
+						className="action_div category bounty"
+						style={{ marginRight: "10px" }}
+					>
+						<strong>{props.reward}</strong>
+					</div>
+				)}
+
+				<h3 style={{ lineHeight: "24px", margin: "0px" }}>
+					{props.unit
+						? props.unit_name
+							? `Unit ${props.unit} - ${props.unit_name}`
+							: `Unit ${props.unit}`
+						: props.title}
+				</h3>
+			</div>
+
+			{props.alert && <p className="alert">{props.alert}</p>}
+			{props.info && <p className="main_color">{props.info}</p>}
+
+			{props.content && <p>{props.content}</p>}
+
+			{props.modal && files.length > 0 && showImage && (
+				<img
+					src={files[0]}
+					onError={() => setShowImage(false)}
+					alt="user_image"
+					className="hub_notes_modal"
+				/>
 			)}
 
-			<h3 style={{ lineHeight: "24px" }}>
-				{props.unit
-					? props.unit_name
-						? `Unit ${props.unit} - ${props.unit_name}`
-						: `Unit ${props.unit}`
-					: props.title}
-			</h3>
-
-			<p className="alert">{props.alert}</p>
-			<p className="main_color">{props.info}</p>
-
-			<p>{props.content}</p>
 			<div className="hub_card_line"></div>
 			<div className="hub_card_links multiple post">
 				<div>
