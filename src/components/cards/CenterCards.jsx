@@ -4,6 +4,7 @@ import { firestore, storage } from "firebase/app";
 import { Checkbox } from "antd";
 import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../../App";
+import PostModal from "../pages/post/PostModal";
 
 function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 	const userInfo = useContext(UserContext);
@@ -325,6 +326,8 @@ function CardPost({ uid, ...props }) {
 	const [files, setFiles] = useState([]);
 	const [showImage, setShowImage] = useState(true);
 
+	const [showModal, setShowModal] = useState(false);
+
 	useEffect(() => {
 		async function getFiles() {
 			let fileCounter = [];
@@ -396,11 +399,18 @@ function CardPost({ uid, ...props }) {
 	}
 
 	return (
-		<a
+		<div
 			className={"hub_card" + (props.followed ? " followed" : "")}
-			href={props.link}
+			onClick={() => setShowModal(true)}
 			style={{ display: "block" }}
 		>
+			{showModal && (
+				<PostModal
+					id={props.postRef.id}
+					postProps={{ uid, ...props }}
+					close={() => setShowModal(false)}
+				/>
+			)}
 			{files.length > 0 && showImage && (
 				<img
 					src={files[0]}
@@ -466,7 +476,7 @@ function CardPost({ uid, ...props }) {
 					{actionLink("Report")}
 				</div>
 			</div>
-		</a>
+		</div>
 	);
 }
 

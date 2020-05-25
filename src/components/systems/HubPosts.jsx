@@ -29,23 +29,24 @@ export default function HubPost({ postRef, query }) {
 		fetchData();
 	}, []);
 
-	return loading ? (
-		<>
-			<CardPostSkeleton />
-			<CardPostSkeleton />
-			<CardPostSkeleton />
-			<CardPostSkeleton />
-		</>
-	) : (
-		posts.map((post) => {
-			return (
-				<CardPost
-					{...post.data()}
-					uid={userInfo ? userInfo.id : null}
-					key={post.id}
-					postRef={postRef.doc(post.id)}
-				/>
-			);
-		})
-	);
+	if (loading)
+		return (
+			<>
+				<CardPostSkeleton />
+				<CardPostSkeleton />
+				<CardPostSkeleton />
+				<CardPostSkeleton />
+			</>
+		);
+
+	return posts.map((post) => {
+		return (
+			<CardPost
+				{...post.data()}
+				uid={userInfo ? userInfo.id : null}
+				key={post.id}
+				postRef={postRef.doc(post.id)}
+			/>
+		);
+	});
 }

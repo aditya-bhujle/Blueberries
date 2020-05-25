@@ -513,6 +513,7 @@ strong {
 
 .section {
 	overflow: hidden;
+	position: relative;
 	margin-left: 250px;
 	padding: 15px;
 	-webkit-box-flex: 1;
@@ -531,6 +532,17 @@ strong {
 
 .section.message {
 	margin-left: 375px;
+}
+
+.section.modal {
+	z-index: 9;
+	position: absolute;
+	left: 0%;
+	top: 0%;
+	right: 0%;
+	bottom: 0%;
+	margin-left: 0px;
+	background-color: #effcff;
 }
 
 .line {

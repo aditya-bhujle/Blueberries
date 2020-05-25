@@ -5,22 +5,10 @@ import PostComment from "./Comment";
 import PostComment2 from "./Comment2";
 import { firestore } from "firebase";
 
-export default function PostContent() {
+export default function PostContent({ postProps }) {
 	return (
 		<div className="hub_content">
-			<CardPost
-				title="Taking this class with Logic and Algorithms"
-				author="Anonymous"
-				date_posted={firestore.Timestamp.now()}
-				likes={[0, 0, 0]}
-				comments={4}
-				follows={5}
-				category="Questions"
-				reward="150 Reward"
-				alert="This poster is not in this class"
-				content="Hi All! I've been signing up for my classes and was wondering if anyone had taken this class and logic at the same time. How hard are they to take together?"
-				source="ITSC 2175 Hub"
-			/>
+			<CardPost {...postProps} />
 
 			<div className="hub_card_links multiple">
 				<strong>4 Comments</strong>
