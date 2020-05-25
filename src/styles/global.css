@@ -535,6 +535,7 @@ strong {
 }
 
 .section.modal {
+	overflow: auto;
 	z-index: 9;
 	position: absolute;
 	left: 0%;
@@ -1208,31 +1209,19 @@ strong {
 	margin-left: 15px;
 }
 
-.post_comment_2 {
+.post_comment {
 	margin-bottom: 15px;
 	padding: 10px 15px 0px;
 	border-radius: 8px;
 	background-color: #f8f8f8;
 }
 
-.post_comment_2.top {
+.post_comment.top {
 	border: 1px solid #3ea763;
 }
 
-.post_comment_div {
-	margin-bottom: 15px;
-}
-
-.post_comment {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: -ms-flexbox;
-	display: flex;
-	padding-top: 15px;
-}
-
-.post_comment_left {
-	padding-right: 15px;
+.post_comment.self {
+	background-color: #effcff;
 }
 
 .post_comment_details {

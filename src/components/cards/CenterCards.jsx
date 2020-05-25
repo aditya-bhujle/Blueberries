@@ -4,7 +4,6 @@ import { firestore, storage } from "firebase/app";
 import { Checkbox } from "antd";
 import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../../App";
-import PostModal from "../pages/post/PostModal";
 
 function CardCreate({ title, placeholder, createPlaceholder, postRef }) {
 	const userInfo = useContext(UserContext);
@@ -396,20 +395,24 @@ function CardPost({ uid, showModal, ...props }) {
 		);
 	}
 
+	function callShowModal(event) {
+		if (!showModal) return null;
+
+		let targetClass = event.target.className;
+		if (
+			targetClass !== "menu_link post" &&
+			targetClass !== "main_color" &&
+			targetClass !== "action_div post" &&
+			event.target.tagName !== "svg" &&
+			event.target.tagName !== "use"
+		)
+			showModal(props.postRef, { uid, ...props });
+	}
+
 	return (
 		<div
 			className={"hub_card" + (props.followed ? " followed" : "")}
-			onClick={(event) => {
-				let targetClass = event.target.className;
-				if (
-					targetClass !== "menu_link post" &&
-					targetClass !== "main_color" &&
-					targetClass !== "action_div post" &&
-					event.target.tagName !== "svg" &&
-					event.target.tagName !== "use"
-				)
-					showModal(props.postRef.id, { uid, ...props })
-			}}
+			onClick={(e) => callShowModal(e)}
 			style={{ display: "block" }}
 		>
 			{files.length > 0 && showImage && (

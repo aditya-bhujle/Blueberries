@@ -10,7 +10,7 @@ export default function HubPost({ postRef, query }) {
 	const [loading, setLoading] = useState(true);
 
 	const [showModal, setShowModal] = useState(false);
-	const [modalId, setModalId] = useState();
+	const [modalRef, setModalRef] = useState();
 	const [modalProps, setModalProps] = useState();
 
 	useEffect(() => {
@@ -54,8 +54,8 @@ export default function HubPost({ postRef, query }) {
 						uid={userInfo ? userInfo.id : null}
 						key={post.id}
 						postRef={postRef.doc(post.id)}
-						showModal={(id, props) => {
-							setModalId(id);
+						showModal={(ref, props) => {
+							setModalRef(ref);
 							setModalProps(props);
 							setShowModal(true);
 						}}
@@ -64,7 +64,7 @@ export default function HubPost({ postRef, query }) {
 			})}
 			{showModal && (
 				<PostModal
-					id={modalId}
+					postRef={modalRef}
 					postProps={modalProps}
 					close={() => setShowModal(false)}
 				/>

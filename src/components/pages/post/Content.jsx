@@ -1,100 +1,108 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { CardPost } from "../../cards/CenterCards";
+import { firestore } from "firebase";
+import { UserContext } from "../../../App";
+import { useToasts } from "react-toast-notifications";
+
 import SortList from "../../SortList";
 import PostComment from "./Comment";
-import PostComment2 from "./Comment2";
-import { firestore } from "firebase";
 
-export default function PostContent({ postProps }) {
+export default function PostContent({ postProps, postRef }) {
+	const [loading, setLoading] = useState(true);
+
+	const [comments, setComments] = useState([]);
+	const [newComment, setNewComment] = useState("");
+	const [previewComments, setPreviewComments] = useState([]);
+
+	const userInfo = useContext(UserContext);
+	const { addToast } = useToasts();
+
+	const commentRef = postRef.collection("comments");
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				let fetchPosts = await commentRef.get();
+				console.log("Comment data fetched!");
+				setComments(fetchPosts.docs);
+			} catch (error) {
+				console.error(error);
+			}
+
+			setLoading(false);
+		};
+
+		fetchData();
+	}, []);
+
+	async function addComment(e) {
+		e.preventDefault();
+
+		const commentInfo = {
+			user: userInfo.username,
+			content: newComment,
+			likes: [],
+			date_posted: firestore.Timestamp.now(),
+			replies: 0,
+		};
+
+		try {
+			const tempRef = await commentRef.add(commentInfo);
+			await postRef.update({
+				comments: firestore.FieldValue.increment(1),
+			});
+
+			setNewComment("");
+			setPreviewComments(
+				previewComments.concat({ ...commentInfo, id: tempRef.id })
+			);
+			addToast(`Comment Successfully Added!`, {
+				appearance: "success",
+				autoDismiss: true,
+			});
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
 	return (
 		<div className="hub_content">
 			<CardPost {...postProps} />
-
 			<div className="hub_card_links multiple">
-				<strong>4 Comments</strong>
+				<strong>{postProps.comments} Comments</strong>
 				<SortList list={["Hot", "New", "Top"]} />
 			</div>
-
-			<form className="hub_card bot_padding">
+			<form className="hub_card bot_padding" onSubmit={(e) => addComment(e)}>
 				<textarea
 					placeholder="Write your comment here!"
 					maxLength="5000"
 					className="search_input w-input"
+					value={newComment}
+					onChange={(e) => setNewComment(e.target.value)}
 				/>
 				<button className="button comment w-button">Comment</button>
 			</form>
-
-			<div className="hub_card bot_padding">
-				<PostComment2
-					user="Anonymous"
-					date_posted="Yesterday"
-					content="Ttest input"
-					likes={4}
-					top_answer
-				/>
-
-				<PostComment2
-					user="Anonymous"
-					date_posted="Yesterday"
-					content="Ttest input"
-					likes={4}
-				>
-					<PostComment2
-						user="Anonymous"
-						date_posted="Yesterday"
-						content="Ttest input"
-						likes={4}
-					>
-						<PostComment2
-							user="Anonymous"
-							date_posted="Yesterday"
-							content="Ttest input"
-							likes={4}
+			{(comments.length > 0 || previewComments.length > 0) && (
+				<div className="hub_card">
+					{previewComments.map((comment) => (
+						<PostComment
+							{...comment}
+							commentDocRef={commentRef.doc(comment.id)}
+							postRef={postRef}
+							key={comment.id}
 						/>
-					</PostComment2>
-				</PostComment2>
-				<PostComment
-					top_answer
-					author="Anonymous"
-					content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere."
-					date_posted="Yesterday"
-					likes={4}
-				>
-					<PostComment
-						author="Anonymous"
-						content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere."
-						date_posted="Yesterday"
-						likes={4}
-					>
-						<PostComment
-							author="Anonymous"
-							content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere."
-							date_posted="Yesterday"
-							likes={4}
-						></PostComment>
-					</PostComment>
-				</PostComment>
-				<PostComment
-					author="Anonymous"
-					content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere."
-					date_posted="Yesterday"
-					likes={4}
-				>
-					<PostComment
-						author="Anonymous"
-						content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere."
-						date_posted="Yesterday"
-						likes={4}
-					>
-						<PostComment
-							author="Anonymous"
-							content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere."
-							date_posted="Yesterday"
-							likes={4}
-						></PostComment>
-					</PostComment>
-				</PostComment>
-			</div>
+					))}
+					{comments &&
+						comments.map((comment) => (
+							<PostComment
+								{...comment.data()}
+								commentDocRef={commentRef.doc(comment.id)}
+								postRef={postRef}
+								key={comment.id}
+							/>
+						))}
+				</div>
+			)}
 		</div>
 	);
 }
