@@ -319,14 +319,12 @@ function CardSearch({ placeholder }) {
 	);
 }
 
-function CardPost({ uid, ...props }) {
+function CardPost({ uid, showModal, ...props }) {
 	const [likes, setLikes] = useState(props.likes.length);
 	const [liked, setLiked] = useState(false);
 
 	const [files, setFiles] = useState([]);
 	const [showImage, setShowImage] = useState(true);
-
-	const [showModal, setShowModal] = useState(false);
 
 	useEffect(() => {
 		async function getFiles() {
@@ -401,16 +399,19 @@ function CardPost({ uid, ...props }) {
 	return (
 		<div
 			className={"hub_card" + (props.followed ? " followed" : "")}
-			onClick={() => setShowModal(true)}
+			onClick={(event) => {
+				let targetClass = event.target.className;
+				if (
+					targetClass !== "menu_link post" &&
+					targetClass !== "main_color" &&
+					targetClass !== "action_div post" &&
+					event.target.tagName !== "svg" &&
+					event.target.tagName !== "use"
+				)
+					showModal(props.postRef.id, { uid, ...props })
+			}}
 			style={{ display: "block" }}
 		>
-			{showModal && (
-				<PostModal
-					id={props.postRef.id}
-					postProps={{ uid, ...props }}
-					close={() => setShowModal(false)}
-				/>
-			)}
 			{files.length > 0 && showImage && (
 				<img
 					src={files[0]}

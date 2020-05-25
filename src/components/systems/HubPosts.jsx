@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import { CardPost, CardPostSkeleton } from "../cards/CenterCards";
 import { UserContext } from "../../App";
+import PostModal from "../pages/post/PostModal";
 
 export default function HubPost({ postRef, query }) {
+	const userInfo = useContext(UserContext);
+
 	const [posts, setPosts] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const userInfo = useContext(UserContext);
+
+	const [showModal, setShowModal] = useState(false);
+	const [modalId, setModalId] = useState();
+	const [modalProps, setModalProps] = useState();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -39,14 +45,30 @@ export default function HubPost({ postRef, query }) {
 			</>
 		);
 
-	return posts.map((post) => {
-		return (
-			<CardPost
-				{...post.data()}
-				uid={userInfo ? userInfo.id : null}
-				key={post.id}
-				postRef={postRef.doc(post.id)}
-			/>
-		);
-	});
+	return (
+		<>
+			{posts.map((post) => {
+				return (
+					<CardPost
+						{...post.data()}
+						uid={userInfo ? userInfo.id : null}
+						key={post.id}
+						postRef={postRef.doc(post.id)}
+						showModal={(id, props) => {
+							setModalId(id);
+							setModalProps(props);
+							setShowModal(true);
+						}}
+					/>
+				);
+			})}
+			{showModal && (
+				<PostModal
+					id={modalId}
+					postProps={modalProps}
+					close={() => setShowModal(false)}
+				/>
+			)}
+		</>
+	);
 }

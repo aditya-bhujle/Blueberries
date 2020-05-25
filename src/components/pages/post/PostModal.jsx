@@ -7,7 +7,7 @@ export default function PostModal({ id, postProps, close }) {
 	return (
 		<div className="section modal">
 			<div className="w-container" style={{ width: "100%" }}>
-				<div className="back_link">
+				<div className="back_link" onClick={close}>
 					<svg className="back_link_svg">
 						<use xlinkHref="#left" />
 					</svg>
