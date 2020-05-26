@@ -11,6 +11,7 @@ function CardCreate({
 	createPlaceholder,
 	postRef,
 	category,
+	...props //notes
 }) {
 	const userInfo = useContext(UserContext);
 	const { addToast } = useToasts();
@@ -267,6 +268,8 @@ function CardCreate({
 				date_posted: firestore.Timestamp.now(),
 			};
 
+			if (props.notes) firestoreAdd.category = "Notes";
+
 			if (postFiles) firestoreAdd.files = postFiles.map(({ name }) => name);
 
 			const { id: docId } = await postRef.add(firestoreAdd);
@@ -433,8 +436,8 @@ function CardPost({ uid, showModal, ...props }) {
 		let targetClass = event.target.className;
 		if (
 			targetClass !== "menu_link post" &&
-			targetClass !== "main_color" &&
 			targetClass !== "action_div post" &&
+			event.target.textContent !== "follow" &&
 			event.target.tagName !== "svg" &&
 			event.target.tagName !== "use"
 		)
@@ -496,7 +499,11 @@ function CardPost({ uid, showModal, ...props }) {
 			</div>
 
 			{props.alert && <p className="alert">{props.alert}</p>}
-			{props.info && <p className="main_color">{props.info}</p>}
+			{showImages && (
+				<p className="main_color">
+					{showImages.length > 1 ? `${showImages.length} Images` : "1 Image"}
+				</p>
+			)}
 
 			{props.content && <p>{props.content}</p>}
 

@@ -11,6 +11,7 @@ export default function ClassNotesContent({ classRef }) {
 				placeholder="Share your notes with the class!"
 				createPlaceholder="Unit Name"
 				postRef={classRef}
+				notes
 			/>
 			<HubPost
 				postRef={classRef}
