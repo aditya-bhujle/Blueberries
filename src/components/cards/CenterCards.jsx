@@ -348,21 +348,28 @@ function CardPost({ uid, showModal, ...props }) {
 	const [liked, setLiked] = useState(false);
 
 	const [files, setFiles] = useState([]);
-	const [showImage, setShowImage] = useState(true);
+	const [showImages, setShowImages] = useState([]);
 
 	useEffect(() => {
 		async function getFiles() {
 			let fileCounter = [];
+			let imageCounter = [];
 			for (let index = 0; index < props.files.length; index++) {
-				const file = props.files[index];
-				const fileURL = await storage()
+				const fileRef = storage()
 					.ref()
 					.child(props.postRef.path)
-					.child(file)
-					.getDownloadURL();
-				fileCounter.push(fileURL);
+					.child(props.files[index]);
+
+				const fileURL = await fileRef.getDownloadURL();
+				const fileType = await fileRef.getMetadata();
+
+				fileCounter.push({ url: fileURL, type: fileType.contentType });
+
+				if (fileType.contentType.startsWith("image/"))
+					imageCounter.push(fileURL);
 			}
 			setFiles(files.concat(fileCounter));
+			setShowImages(imageCounter);
 		}
 
 		if (props.files) getFiles();
@@ -456,13 +463,8 @@ function CardPost({ uid, showModal, ...props }) {
 				</strong>
 			</div>
 
-			{!props.modal && files.length > 0 && showImage && (
-				<img
-					src={files[0]}
-					onError={() => setShowImage(false)}
-					alt="user_image"
-					className="hub_notes_image"
-				/>
+			{!props.modal && showImages.length > 0 && (
+				<img src={showImages[0]} alt="user_image" className="hub_notes_image" />
 			)}
 
 			<div className="post_header_div">
@@ -498,14 +500,15 @@ function CardPost({ uid, showModal, ...props }) {
 
 			{props.content && <p>{props.content}</p>}
 
-			{props.modal && files.length > 0 && showImage && (
-				<img
-					src={files[0]}
-					onError={() => setShowImage(false)}
-					alt="user_image"
-					className="hub_notes_modal"
-				/>
-			)}
+			{props.modal &&
+				showImages.map((url) => (
+					<img
+						src={url}
+						alt="user_image"
+						className="hub_notes_modal"
+						key={url}
+					/>
+				))}
 
 			<div className="hub_card_line"></div>
 			<div className="hub_card_links multiple post">
