@@ -110,7 +110,7 @@ function CardCreate({
 			style={{ float: "none" }}
 			onClick={() => setPostInfo({ ...postInfo, category: text })}
 		>
-			{text}
+			<strong>{text}</strong>
 		</button>
 	);
 	let inputRef;

@@ -1174,6 +1174,12 @@ strong {
 	margin-bottom: 0px;
 }
 
+.tag.selected {
+	border-color: #1a73e8;
+	color: #1a73e8;
+	background-color: #effcff;
+}
+
 .hub_tag_div {
 	margin-bottom: 5px;
 }

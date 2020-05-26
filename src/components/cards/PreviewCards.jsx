@@ -141,17 +141,25 @@ function CardPreviewPictures({ title, subtitle, pictures, link }) {
 function CardPreviewReview(props) {
 	const { loading, title } = props;
 
+	const calculate = (num) => (num / props.counter).toFixed(2);
+
+	const overall = calculate(props.overall);
+	const difficulty = calculate(props.difficulty);
+	const take_again_perc = calculate(props.take_again) * 100;
+	const textbook_perc = calculate(props.textbook) * 100;
+	const attendance_perc = calculate(props.attendance) * 100;
+
 	return (
 		<CardPreviewList
 			title={title}
 			elements={[
-				{ header: "Overall Rating", content: props.overall + " / 5" },
-				{ header: "Average Difficulty", content: props.difficulty + " / 5" },
+				{ header: "Overall Rating", content: overall + " / 5" },
+				{ header: "Average Difficulty", content: difficulty + " / 5" },
 				{
 					header: "Attendance Mandatory",
-					content: props.attendance_perc + "%",
+					content: attendance_perc + "%",
 				},
-				{ header: "Textbook Use", content: props.textbook_perc + "%" },
+				{ header: "Textbook Use", content: textbook_perc + "%" },
 			]}
 			isDouble
 			link={["Add Review", "See All Reviews"]}
@@ -161,7 +169,7 @@ function CardPreviewReview(props) {
 			<div className="list_div w-clearfix">
 				<strong>Would Take Professor Again</strong>
 				<p className="list_subtitle">
-					{loading ? <Skeleton width={50} /> : props.take_again_perc + "%"}
+					{loading ? <Skeleton width={50} /> : take_again_perc + "%"}
 				</p>
 			</div>
 			<div className="list_div w-clearfix">
