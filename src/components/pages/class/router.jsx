@@ -88,6 +88,7 @@ export default function ClassRouter({ match }) {
 							{...props}
 							classRef={classRef.collection("posts")}
 							sidebar={NewSidebar}
+							classInfo={classInfo}
 						/>
 					)}
 				/>
@@ -106,6 +107,7 @@ export default function ClassRouter({ match }) {
 							{...props}
 							classRef={classRef.collection("posts")}
 							sidebar={NewSidebar}
+							classInfo={classInfo}
 						/>
 					)}
 				/>

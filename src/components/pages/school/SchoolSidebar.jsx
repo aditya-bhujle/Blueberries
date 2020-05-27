@@ -10,12 +10,9 @@ import { useLocation, useParams } from "react-router-dom";
 export default function SchoolSidebar({
 	schoolInfo,
 	schoolLoading,
-	schoolRef,
+	previewInfo,
+	previewLoading
 }) {
-	const [previewInfo, setPreviewInfo] = useState({});
-
-	const [loading, setLoading] = useState(true);
-
 	const currentPath = useLocation();
 	const currentParams = useParams();
 
@@ -23,56 +20,6 @@ export default function SchoolSidebar({
 		"/school/" + currentParams.schoolId,
 		""
 	);
-
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				let fetchClasses = await schoolRef
-					.collection("classes")
-					.orderBy("members", "desc")
-					.limit(3)
-					.get();
-
-				let fetchMajors = await schoolRef
-					.collection("majors")
-					.orderBy("members", "desc")
-					.limit(6)
-					.get();
-
-				let fetchClubs = await schoolRef
-					.collection("clubs")
-					.orderBy("members", "desc")
-					.limit(3)
-					.get();
-
-				let fetchEvents = await schoolRef
-					.collection("events")
-					.orderBy("members", "desc")
-					.limit(3)
-					.get();
-
-				let fetchChats = await schoolRef
-					.collection("events")
-					.orderBy("members", "desc")
-					.limit(3)
-					.get();
-
-				setPreviewInfo({
-					classes: fetchClasses.docs,
-					majors: fetchMajors.docs,
-					clubs: fetchClubs.docs,
-					events: fetchEvents.docs,
-					chats: fetchChats.docs,
-				});
-			} catch (error) {
-				console.error(error);
-			}
-
-			setLoading(false);
-		};
-
-		fetchData();
-	}, []);
 
 	return (
 		<div className="hub_column_right">
@@ -84,7 +31,7 @@ export default function SchoolSidebar({
 			/>
 
 			{current !== "/majors" &&
-				(loading ? (
+				(previewLoading ? (
 					<CardPreviewListSkeleton
 						title="Join Major"
 						link="See All Majors"
@@ -103,7 +50,7 @@ export default function SchoolSidebar({
 				))}
 
 			{current !== "/classes" &&
-				(loading ? (
+				(previewLoading ? (
 					<CardPreviewListSkeleton
 						title="Join Classes"
 						link="See All Classes"
@@ -122,7 +69,7 @@ export default function SchoolSidebar({
 				))}
 
 			{current !== "/clubs" &&
-				(loading ? (
+				(previewLoading ? (
 					<CardPreviewListSkeleton title="Join Clubs" link="See All Clubs" />
 				) : (
 					<CardPreviewList
@@ -136,7 +83,7 @@ export default function SchoolSidebar({
 				))}
 
 			{current !== "/events" &&
-				(loading ? (
+				(previewLoading ? (
 					<CardPreviewListSkeleton
 						title="Upcoming Events"
 						link="See All Events"
@@ -155,7 +102,7 @@ export default function SchoolSidebar({
 				))}
 
 			{current !== "/chats" &&
-				(loading ? (
+				(previewLoading ? (
 					<CardPreviewListSkeleton title="Public Chats" link="See All Chats" />
 				) : (
 					<CardPreviewList

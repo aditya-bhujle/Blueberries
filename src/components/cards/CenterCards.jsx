@@ -581,7 +581,7 @@ function CardPost({ uid, showModal, ...props }) {
 			<div className="hub_card_links multiple post">
 				<div>
 					{likeLink()}
-					{dislikeLink()}
+					{props.dislikes && dislikeLink()}
 					{actionLink(`Comment ⋅ ${props.comments}`, "chat")}
 				</div>
 				<div>

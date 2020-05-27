@@ -20,8 +20,61 @@ export default function SchoolRouter({ match }) {
 	const schoolRef = db.collection("schools").doc(schoolId);
 
 	const [schoolInfo, setSchoolInfo] = useState({});
+	const [schoolInfoLoading, setSchoolInfoLoading] = useState(true);
 
-	const [loading, setLoading] = useState(true);
+	const [previewInfo, setPreviewInfo] = useState({});
+	const [previewLoading, setPreviewLoading] = useState(true);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				let fetchClasses = await schoolRef
+					.collection("classes")
+					.orderBy("members", "desc")
+					.limit(3)
+					.get();
+
+				let fetchMajors = await schoolRef
+					.collection("majors")
+					.orderBy("members", "desc")
+					.limit(6)
+					.get();
+
+				let fetchClubs = await schoolRef
+					.collection("clubs")
+					.orderBy("members", "desc")
+					.limit(3)
+					.get();
+
+				let fetchEvents = await schoolRef
+					.collection("events")
+					.orderBy("members", "desc")
+					.limit(3)
+					.get();
+
+				let fetchChats = await schoolRef
+					.collection("events")
+					.orderBy("members", "desc")
+					.limit(3)
+					.get();
+
+				setPreviewInfo({
+					classes: fetchClasses.docs,
+					majors: fetchMajors.docs,
+					clubs: fetchClubs.docs,
+					events: fetchEvents.docs,
+					chats: fetchChats.docs,
+				});
+				console.log("Performed some reads!");
+			} catch (error) {
+				console.error(error);
+			}
+
+			setPreviewLoading(false);
+		};
+
+		fetchData();
+	}, []);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -34,7 +87,7 @@ export default function SchoolRouter({ match }) {
 				console.error(error);
 			}
 
-			setLoading(false);
+			setSchoolInfoLoading(false);
 		};
 
 		fetchData();
@@ -42,9 +95,10 @@ export default function SchoolRouter({ match }) {
 
 	const NewSidebar = (
 		<Sidebar
-			schoolLoading={loading}
+			schoolLoading={schoolInfoLoading}
 			schoolInfo={schoolInfo}
-			schoolRef={schoolRef}
+			previewInfo={previewInfo}
+			previewLoading={previewLoading}
 		/>
 	);
 
@@ -54,7 +108,7 @@ export default function SchoolRouter({ match }) {
 				name={schoolInfo.name}
 				short={schoolInfo.short}
 				schoolId={schoolId}
-				loading={loading}
+				loading={schoolInfoLoading}
 			/>
 			<PageNav type="school" baseLink={match.url} />
 			<div className="line" />
