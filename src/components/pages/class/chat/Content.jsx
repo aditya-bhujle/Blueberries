@@ -70,6 +70,7 @@ export default function ClassMessageContent({ classRef }) {
 					self={user_id === userInfo.id}
 					//Poll props below
 					messageRef={classRef.doc(messages[index].id)}
+					key={messages[index].id}
 				/>
 			);
 			groupContent = [];

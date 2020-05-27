@@ -68,10 +68,12 @@ export default function PostContent({ postProps, postRef }) {
 	return (
 		<div className="hub_content">
 			<CardPost {...postProps} modal />
+
 			<div className="hub_card_links multiple">
 				<strong>{postProps.comments} Comments</strong>
 				<SortList list={["Hot", "New", "Top"]} />
 			</div>
+
 			<form className="hub_card bot_padding" onSubmit={(e) => addComment(e)}>
 				<textarea
 					placeholder="Write your comment here!"
@@ -82,6 +84,7 @@ export default function PostContent({ postProps, postRef }) {
 				/>
 				<button className="button comment w-button">Comment</button>
 			</form>
+			
 			{(comments.length > 0 || previewComments.length > 0) && (
 				<div className="hub_card">
 					{previewComments.map((comment) => (

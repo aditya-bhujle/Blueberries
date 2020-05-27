@@ -4,6 +4,7 @@ import { firestore, storage } from "firebase/app";
 import { Checkbox } from "antd";
 import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../../App";
+import { useLocation } from "react-router-dom";
 
 function CardCreate({
 	title,
@@ -100,19 +101,6 @@ function CardCreate({
 		});
 	}
 
-	const categoryButton = (text) => (
-		<button
-			type="button"
-			className={
-				"action_div category post" +
-				(postInfo.category === text ? " select" : "")
-			}
-			style={{ float: "none" }}
-			onClick={() => setPostInfo({ ...postInfo, category: text })}
-		>
-			<strong>{text}</strong>
-		</button>
-	);
 	let inputRef;
 
 	const formContent = (
@@ -127,7 +115,20 @@ function CardCreate({
 
 			{category && (
 				<div style={{ marginBottom: "5px" }}>
-					{category.map((tag) => categoryButton(tag))}
+					{category.map((text) => (
+						<button
+							type="button"
+							className={
+								"action_div category post" +
+								(postInfo.category === text ? " select" : "")
+							}
+							style={{ float: "none" }}
+							onClick={() => setPostInfo({ ...postInfo, category: text })}
+							key={text}
+						>
+							<strong>{text}</strong>
+						</button>
+					))}
 				</div>
 			)}
 
@@ -347,13 +348,15 @@ function CardSearch({ placeholder }) {
 }
 
 function CardPost({ uid, showModal, ...props }) {
-	const [likes, setLikes] = useState(props.likes.length);
-	const [liked, setLiked] = useState(false);
+	const loc = useLocation();
+
+	const [likes, setLikes] = useState(props.passLikes || props.likes.length);
+	const [liked, setLiked] = useState(props.liked || false);
 
 	const [dislikes, setDislikes] = useState(
-		props.dislikes ? props.dislikes.length : null
+		props.passDislikes || (props.dislikes ? props.dislikes.length : null)
 	);
-	const [disliked, setDisliked] = useState(false);
+	const [disliked, setDisliked] = useState(props.disliked || false);
 
 	const [files, setFiles] = useState([]);
 	const [showImages, setShowImages] = useState([]);
@@ -384,10 +387,13 @@ function CardPost({ uid, showModal, ...props }) {
 	}, []);
 
 	useEffect(() => {
-		props.likes.forEach((user) => {
-			if (user === uid) setLiked(true);
-		});
-		if (props.dislikes) {
+		if (!props.liked) {
+			props.likes.forEach((user) => {
+				if (user === uid) setLiked(true);
+			});
+		}
+
+		if (props.dislikes && !props.disliked) {
 			props.dislikes.forEach((user) => {
 				if (user === uid) setDisliked(true);
 			});
@@ -498,15 +504,32 @@ function CardPost({ uid, showModal, ...props }) {
 			event.target.textContent !== "follow" &&
 			event.target.tagName !== "svg" &&
 			event.target.tagName !== "use"
-		)
-			showModal(props.postRef, { uid, ...props });
+		) {
+			window.history.replaceState(
+				null,
+				"New Post",
+				`${loc.pathname}/${props.postRef.id}`
+			);
+			showModal(
+				props.postRef,
+				{ uid, ...props },
+				liked,
+				likes,
+				disliked,
+				dislikes
+			);
+		}
 	}
 
 	return (
 		<div
 			className={"hub_card" + (props.followed ? " followed" : "")}
 			onClick={(e) => callShowModal(e)}
-			style={{ display: "block" }}
+			style={
+				props.modal
+					? { display: "block" }
+					: { display: "block", cursor: "pointer" }
+			}
 		>
 			<div className="hub_post_details">
 				<div>

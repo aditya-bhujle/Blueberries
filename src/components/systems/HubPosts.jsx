@@ -55,9 +55,15 @@ export default function HubPost({ postRef, query, classInfo }) {
 						key={post.id}
 						postRef={postRef.doc(post.id)}
 						hideCategory={!!query}
-						showModal={(ref, props) => {
+						showModal={(ref, props, liked, likes, disliked, dislikes) => {
 							setModalRef(ref);
-							setModalProps(props);
+							setModalProps({
+								...props,
+								liked: liked,
+								passLikes: likes,
+								disliked: disliked,
+								passDislikes: dislikes,
+							});
 							setShowModal(true);
 						}}
 					/>
@@ -67,7 +73,10 @@ export default function HubPost({ postRef, query, classInfo }) {
 				<PostModal
 					postRef={modalRef}
 					postProps={modalProps}
-					close={() => setShowModal(false)}
+					close={() => {
+						window.history.replaceState(null, "New Post", ".");
+						setShowModal(false);
+					}}
 					classInfo={classInfo}
 				/>
 			)}
