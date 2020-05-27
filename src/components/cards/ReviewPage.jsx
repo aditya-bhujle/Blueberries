@@ -23,7 +23,7 @@ function AvgReviewCard({ title, id, children, h3, loading }) {
 }
 
 function AvgReviews({ counter, tags, quote, loading, ...props }) {
-	const calculate = (num) => (num / counter).toFixed(2);
+	const calculate = (num) => Math.round((num / counter) * 100) / 100;
 
 	const overall = calculate(props.overall);
 	const difficulty = calculate(props.difficulty);

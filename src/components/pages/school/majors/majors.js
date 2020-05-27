@@ -1,15 +1,14 @@
 import React from "react";
 
 import ContentTitle from "../../../header/ContentTitle";
-import Sidebar from "../SchoolSidebar";
 import Content from "./Content";
 
-export default function SchoolPosts({ sidebar }) {
+export default function SchoolPosts({ sidebar, schoolRef }) {
 	return (
 		<>
 			<ContentTitle header="Your Feed" sortList={["Hot", "Top", "New"]} />
 			<div className="hub_column_layout">
-				<Content />
+				<Content schoolRef={schoolRef} />
 				{sidebar}
 			</div>
 		</>

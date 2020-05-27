@@ -141,7 +141,7 @@ function CardPreviewPictures({ title, subtitle, pictures, link }) {
 function CardPreviewReview(props) {
 	const { loading, title } = props;
 
-	const calculate = (num) => (num / props.counter).toFixed(2);
+	const calculate = (num) => Math.round((num / props.counter) * 100) / 100;
 
 	const overall = calculate(props.overall);
 	const difficulty = calculate(props.difficulty);

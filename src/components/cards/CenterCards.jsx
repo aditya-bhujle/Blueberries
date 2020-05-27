@@ -350,6 +350,11 @@ function CardPost({ uid, showModal, ...props }) {
 	const [likes, setLikes] = useState(props.likes.length);
 	const [liked, setLiked] = useState(false);
 
+	const [dislikes, setDislikes] = useState(
+		props.dislikes ? props.dislikes.length : null
+	);
+	const [disliked, setDisliked] = useState(false);
+
 	const [files, setFiles] = useState([]);
 	const [showImages, setShowImages] = useState([]);
 
@@ -382,6 +387,11 @@ function CardPost({ uid, showModal, ...props }) {
 		props.likes.forEach((user) => {
 			if (user === uid) setLiked(true);
 		});
+		if (props.dislikes) {
+			props.dislikes.forEach((user) => {
+				if (user === uid) setDisliked(true);
+			});
+		}
 	}, [uid]);
 
 	function actionLink(content, icon) {
@@ -404,6 +414,13 @@ function CardPost({ uid, showModal, ...props }) {
 					setLiked(true);
 					setLikes(likes + 1);
 
+					if (disliked) {
+						setDisliked(false);
+						setDislikes(dislikes - 1);
+						await props.postRef.update({
+							dislikes: firestore.FieldValue.arrayRemove(uid),
+						});
+					}
 					await props.postRef.update({
 						likes: firestore.FieldValue.arrayUnion(uid),
 					});
@@ -426,6 +443,47 @@ function CardPost({ uid, showModal, ...props }) {
 					<use xlinkHref={"#" + (liked ? "heart-filled" : "heart")} />
 				</svg>
 				<strong className="menu_link post">{`Like ⋅ ${likes}`}</strong>
+			</div>
+		);
+	}
+
+	function dislikeLink() {
+		async function toggleDislike() {
+			try {
+				if (!disliked) {
+					setDisliked(true);
+					setDislikes(dislikes + 1);
+
+					if (liked) {
+						setLiked(false);
+						setLikes(likes - 1);
+						await props.postRef.update({
+							likes: firestore.FieldValue.arrayRemove(uid),
+						});
+					}
+
+					await props.postRef.update({
+						dislikes: firestore.FieldValue.arrayUnion(uid),
+					});
+				} else {
+					setDisliked(false);
+					setDislikes(dislikes - 1);
+
+					await props.postRef.update({
+						dislikes: firestore.FieldValue.arrayRemove(uid),
+					});
+				}
+			} catch (error) {
+				console.error(error);
+			}
+		}
+
+		return (
+			<div className="action_div post" onClick={toggleDislike}>
+				<svg style={{ width: "18px", height: "18px" }}>
+					<use xlinkHref={"#" + (disliked ? "dislike-filled" : "dislike")} />
+				</svg>
+				<strong className="menu_link post">Dislike ⋅ {dislikes}</strong>
 			</div>
 		);
 	}
@@ -459,11 +517,13 @@ function CardPost({ uid, showModal, ...props }) {
 					)}
 					{props.author} ⋅ {props.date_posted.toDate().toString()}
 				</div>
-				<strong className="main_color">
-					{props.followed
-						? "Followed!"
-						: "Follow" + (props.follows ? " ⋅ " + props.follows : "")}
-				</strong>
+				{props.category !== "Thoughts" && (
+					<strong className="main_color">
+						{props.followed
+							? "Followed!"
+							: "Follow" + (props.follows ? " ⋅ " + props.follows : "")}
+					</strong>
+				)}
 			</div>
 
 			{!props.modal && showImages.length > 0 && (
@@ -471,7 +531,7 @@ function CardPost({ uid, showModal, ...props }) {
 			)}
 
 			<div className="post_header_div">
-				{props.category && (
+				{!props.hideCategory && props.category && (
 					<div
 						className="action_div category post"
 						style={props.reward ? null : { marginRight: "10px" }}
@@ -499,7 +559,7 @@ function CardPost({ uid, showModal, ...props }) {
 			</div>
 
 			{props.alert && <p className="alert">{props.alert}</p>}
-			{showImages && (
+			{showImages.length > 0 && (
 				<p className="main_color">
 					{showImages.length > 1 ? `${showImages.length} Images` : "1 Image"}
 				</p>
@@ -521,6 +581,7 @@ function CardPost({ uid, showModal, ...props }) {
 			<div className="hub_card_links multiple post">
 				<div>
 					{likeLink()}
+					{dislikeLink()}
 					{actionLink(`Comment ⋅ ${props.comments}`, "chat")}
 				</div>
 				<div>

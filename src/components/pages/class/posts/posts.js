@@ -4,7 +4,7 @@ import ContentTitle from "../../../header/ContentTitle";
 import { CardSearch, CardCreate } from "../../../cards/CenterCards";
 import HubPost from "../../../systems/HubPosts";
 
-export default function SchoolPosts({ sidebar, classRef }) {
+export default function SchoolPosts({ sidebar, classRef, classInfo }) {
 	return (
 		<>
 			<ContentTitle header="Popular Posts" sortList={["Hot", "Top", "New"]} />
@@ -18,7 +18,7 @@ export default function SchoolPosts({ sidebar, classRef }) {
 						postRef={classRef}
 						category={["Question", "Resource", "Other"]}
 					/>
-					<HubPost postRef={classRef} />
+					<HubPost postRef={classRef} classInfo={classInfo} />
 				</div>
 				{sidebar}
 			</div>

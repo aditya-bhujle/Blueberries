@@ -295,6 +295,11 @@ strong {
 	box-shadow: 4px 4px 5px 3px rgba(26, 115, 232, 0.05);
 }
 
+.hub_card.hoverable:hover {
+	color: #1a73e8;
+	border-color: #1a73e8;
+}
+
 .hub_card.search {
 	padding-top: 5px;
 	padding-bottom: 5px;
@@ -1289,6 +1294,10 @@ strong {
 	grid-template-columns: 1fr 1fr;
 	-ms-grid-rows: auto auto;
 	grid-template-rows: auto auto;
+}
+
+.list_grid_div.space_between {
+	grid-column-gap: 15px;
 }
 
 .button_div {

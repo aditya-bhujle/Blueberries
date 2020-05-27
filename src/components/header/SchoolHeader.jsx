@@ -50,7 +50,6 @@ export default function SchoolHeader({ schoolId, loading, ...props }) {
 
 	return (
 		<Header
-			short={props.short}
 			shortLink={`/school/${schoolId}`}
 			loading={loading}
 			{...props}

@@ -3,7 +3,7 @@ import { CardPost, CardPostSkeleton } from "../cards/CenterCards";
 import { UserContext } from "../../App";
 import PostModal from "../pages/post/PostModal";
 
-export default function HubPost({ postRef, query }) {
+export default function HubPost({ postRef, query, classInfo }) {
 	const userInfo = useContext(UserContext);
 
 	const [posts, setPosts] = useState([]);
@@ -48,14 +48,13 @@ export default function HubPost({ postRef, query }) {
 	return (
 		<>
 			{posts.map((post) => {
-				const { category, ...restOfData } = post.data();
-				const data = query ? restOfData : post.data();
 				return (
 					<CardPost
-						{...data}
+						{...post.data()}
 						uid={userInfo ? userInfo.id : null}
 						key={post.id}
 						postRef={postRef.doc(post.id)}
+						hideCategory={!!query}
 						showModal={(ref, props) => {
 							setModalRef(ref);
 							setModalProps(props);
@@ -69,6 +68,7 @@ export default function HubPost({ postRef, query }) {
 					postRef={modalRef}
 					postProps={modalProps}
 					close={() => setShowModal(false)}
+					classInfo={classInfo}
 				/>
 			)}
 		</>

@@ -1,7 +1,8 @@
 import React from "react";
-import { CardCreate } from "../../../cards/CenterCards";
+import CreateThought from "./CreateThought";
+import HubPost from "../../../systems/HubPosts";
 
-export default function SchoolMajorsContent() {
+export default function SchoolThoughtsContent({ classRef }) {
 	function ActionLinks(links) {
 		return links.map((text) => (
 			<div href="www.google.com" className="action_div post" key={text}>
@@ -21,10 +22,15 @@ export default function SchoolMajorsContent() {
 					After 24 hours they are permanently deleted.
 				</p>
 			</div>
-			<CardCreate
+			<CreateThought
 				title="Create a Thought!"
 				placeholder="Type your thought"
 				createPlaceholder="Thought"
+				postRef={classRef}
+			/>
+			<HubPost
+				postRef={classRef}
+				query={classRef.where("category", "==", "Thoughts")}
 			/>
 			<div className="hub_card">
 				<div className="hub_post_details">

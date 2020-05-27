@@ -67,6 +67,7 @@ export default function ClassRouter({ match }) {
 							{...props}
 							classRef={classRef.collection("posts")}
 							sidebar={NewSidebar}
+							classInfo={classInfo}
 						/>
 					)}
 				/>
@@ -100,7 +101,13 @@ export default function ClassRouter({ match }) {
 				<Route
 					exact
 					path={`${match.path}/thoughts`}
-					render={(props) => <Thoughts {...props} sidebar={NewSidebar} />}
+					render={(props) => (
+						<Thoughts
+							{...props}
+							classRef={classRef.collection("posts")}
+							sidebar={NewSidebar}
+						/>
+					)}
 				/>
 
 				<Route

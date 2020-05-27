@@ -73,12 +73,24 @@ export default function SchoolRouter({ match }) {
 				<Route
 					exact
 					path={`${match.path}/majors`}
-					render={(props) => <Majors {...props} sidebar={NewSidebar} />}
+					render={(props) => (
+						<Majors
+							{...props}
+							sidebar={NewSidebar}
+							schoolRef={schoolRef.collection("majors")}
+						/>
+					)}
 				/>
 				<Route
 					exact
 					path={`${match.path}/classes`}
-					render={(props) => <Classes {...props} sidebar={NewSidebar} />}
+					render={(props) => (
+						<Classes
+							{...props}
+							sidebar={NewSidebar}
+							schoolRef={schoolRef.collection("classes")}
+						/>
+					)}
 				/>
 				<Route
 					exact

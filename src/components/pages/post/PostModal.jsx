@@ -3,7 +3,7 @@ import React from "react";
 import Content from "./Content";
 import Sidebar from "./Sidebar";
 
-export default function PostModal({ postRef, postProps, close }) {
+export default function PostModal({ postRef, postProps, close, classInfo }) {
 	return (
 		<div className="section modal">
 			<div className="w-container" style={{ width: "100%" }}>
@@ -15,7 +15,7 @@ export default function PostModal({ postRef, postProps, close }) {
 				</div>
 				<div className="hub_column_layout">
 					<Content postProps={postProps} postRef={postRef} />
-					<Sidebar />
+					<Sidebar classInfo={classInfo} />
 				</div>
 			</div>
 		</div>

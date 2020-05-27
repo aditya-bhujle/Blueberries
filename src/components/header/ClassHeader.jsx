@@ -66,7 +66,7 @@ export default function ClassHeader({ school, classId, loading, ...props }) {
 				props.short +
 					(props.last_name ? " Professor " + props.last_name : "") || true
 			}
-			{...props}
+			name={props.name}
 		>
 			{joined ? (
 				<button onClick={toggleJoin} className="button select">
