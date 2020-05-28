@@ -3,7 +3,7 @@ import { CardPost, CardPostSkeleton } from "../cards/CenterCards";
 import { UserContext } from "../../App";
 import PostModal from "../pages/post/PostModal";
 
-export default function HubPost({ postRef, query, classInfo }) {
+export default function HubPost({ postRef, query, info }) {
 	const userInfo = useContext(UserContext);
 
 	const [posts, setPosts] = useState([]);
@@ -77,7 +77,7 @@ export default function HubPost({ postRef, query, classInfo }) {
 						window.history.replaceState(null, "New Post", ".");
 						setShowModal(false);
 					}}
-					classInfo={classInfo}
+					info={info}
 				/>
 			)}
 		</>

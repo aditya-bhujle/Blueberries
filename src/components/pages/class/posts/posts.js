@@ -18,7 +18,7 @@ export default function SchoolPosts({ sidebar, classRef, classInfo }) {
 						postRef={classRef}
 						category={["Question", "Resource", "Other"]}
 					/>
-					<HubPost postRef={classRef} classInfo={classInfo} />
+					<HubPost postRef={classRef} info={classInfo} />
 				</div>
 				{sidebar}
 			</div>

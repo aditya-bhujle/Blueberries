@@ -18,7 +18,7 @@ export default function DashboardSidebar({ userInfo }) {
 								{`Professor ${userClass.last_name}`}
 							</span>,
 						],
-						link: `/school/${userInfo.school.id}/class/${userClass.id}`,
+						link: `/schools/${userInfo.school.id}/classes/${userClass.id}`,
 					}))
 				}
 				button={{

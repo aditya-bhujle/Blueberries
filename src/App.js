@@ -12,7 +12,6 @@ import Navbar from "./components/Navbar";
 import Menu from "./components/menu/Menu";
 
 import DashboardHub from "./components/pages/dashboard/dashboard";
-import Post from "./components/pages/post/post";
 import Login from "./components/pages/auth/login";
 import Signup from "./components/pages/auth/signup";
 import SchoolRouter from "./components/pages/school/router";
@@ -66,24 +65,22 @@ export default function App() {
 					<Route exact path="/" component={DashboardHub} />
 
 					<Route
-						path="/school/:schoolId/major/:majorId"
+						path="/schools/:schoolId/major/:majorId"
 						component={ClassRouter}
 					/>
 					<Route
-						path="/school/:schoolId/class/:classId"
+						path="/schools/:schoolId/classes/:classId"
 						component={ClassRouter}
 					/>
 					<Route
-						path="/school/:schoolId/club/:clubId"
+						path="/schools/:schoolId/club/:clubId"
 						component={ClassRouter}
 					/>
 					<Route
-						path="/school/:schoolId/chat/:chatId"
+						path="/schools/:schoolId/chat/:chatId"
 						component={ClassRouter}
 					/>
-					<Route path="/school/:schoolId" component={SchoolRouter} />
-
-					<Route path="/post/:id" component={Post} />
+					<Route path="/schools/:schoolId" component={SchoolRouter} />
 				</Switch>
 			</Router>
 		</UserContext.Provider>

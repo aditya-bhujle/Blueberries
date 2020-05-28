@@ -50,46 +50,46 @@ export default function Menu({ data, loading }) {
 			<SubMenuHead
 				content={school.short || "Pick Your School!"}
 				icon="school"
-				link={`/school/${school.id}`}
+				link={`/schools/${school.id}`}
 				siblingLinks={["/majors", "/classes", "/clubs", "/events", "/chats"]}
 			>
 				<MenuLink
 					submenu
 					content="Posts"
 					icon="post"
-					link={`/school/${school.id}`}
+					link={`/schools/${school.id}`}
 				/>
 				<MenuLink
 					submenu
 					content="Majors"
 					icon="rocket"
-					link={`/school/${school.id}/majors`}
+					link={`/schools/${school.id}/majors`}
 					siblingLinks={["/majors", "/classes", "/clubs"]}
 				/>
 				<MenuLink
 					submenu
 					content="Classes"
 					icon="flask"
-					link={`/school/${school.id}/classes`}
+					link={`/schools/${school.id}/classes`}
 				/>
 				<MenuLink
 					submenu
 					content="Clubs"
 					icon="football"
-					link={`/school/${school.id}/clubs`}
+					link={`/schools/${school.id}/clubs`}
 				/>
 				<MenuLink
 					submenu
 					content="Chats"
 					icon="chat"
-					link={`/school/${school.id}/chats`}
+					link={`/schools/${school.id}/chats`}
 				/>
 
 				<MenuLink
 					submenu
 					content="Events"
 					icon="calendar"
-					link={`/school/${school.id}/events`}
+					link={`/schools/${school.id}/events`}
 				/>
 			</SubMenuHead>
 
@@ -101,13 +101,13 @@ export default function Menu({ data, loading }) {
 					<MenuLink
 						content={major.name ? `${major.name} Hub` : "Pick Your Major!"}
 						icon="hub"
-						link={`/school/${school.id}/major/${major.id}`}
+						link={`/schools/${school.id}/major/${major.id}`}
 					/>
 					<div className="line even" />
 				</>
 			)}
 
-			{mapLinks(classes, "class", "flask", [
+			{mapLinks(classes, "classes", "flask", [
 				{ content: "Posts", icon: "post", link: "" },
 				{ content: "Chat", icon: "chat", link: "chat" },
 				{ content: "Notes", icon: "notes", link: "notes" },
@@ -129,7 +129,7 @@ export default function Menu({ data, loading }) {
 						<MenuLink
 							content={chat.name}
 							icon={"chat"}
-							link={`/school/${school.id}/chat/${chat.id}`}
+							link={`/schools/${school.id}/chat/${chat.id}`}
 							key={chat.id}
 						/>
 					))}
@@ -157,7 +157,7 @@ export default function Menu({ data, loading }) {
 							<SubMenuHead
 								content={item.name}
 								icon={icon}
-								link={`/school/${school.id}/${hubType}/${item.id}`}
+								link={`/schools/${school.id}/${hubType}/${item.id}`}
 								notExact
 							>
 								{submenu &&
@@ -167,7 +167,7 @@ export default function Menu({ data, loading }) {
 											content={content}
 											icon={icon}
 											key={content}
-											link={`/school/${school.id}/${hubType}/${item.id}/${link}`}
+											link={`/schools/${school.id}/${hubType}/${item.id}/${link}`}
 										/>
 									))}
 							</SubMenuHead>

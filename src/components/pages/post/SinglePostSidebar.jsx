@@ -1,10 +1,12 @@
 import React from "react";
 import { CardPreviewList, CardPreviewInfo } from "../../cards/PreviewCards";
 
-export default function PostSidebar({ info, close }) {
+export default function SinglePostSidebar({ info, loading }) {
 	return (
 		<div className="hub_column_right">
-			{info && (
+			{loading ? (
+				<CardPreviewInfo loading />
+			) : (
 				<CardPreviewInfo
 					title={info.name}
 					subtitle={
@@ -13,7 +15,7 @@ export default function PostSidebar({ info, close }) {
 							: false
 					}
 					members={info.members}
-					onClick={close}
+					linkUrl
 				/>
 			)}
 			<div className="hub_card bot_padding">

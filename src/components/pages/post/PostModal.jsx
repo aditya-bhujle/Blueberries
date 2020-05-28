@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import Content from "./Content";
 import Sidebar from "./Sidebar";
+import { CardPost } from "../../cards/CenterCards";
+import PostComments from "./PostComments";
 
-export default function PostModal({ postRef, postProps, close, classInfo }) {
+export default function PostModal({ postRef, postProps, close, info }) {
+	window.history.replaceState(null, "New Post", "/" + postRef.path);
+
+	useEffect(() => {
+		const rootElement = document.getElementById("main_section");
+		rootElement.classList.add("section_full");
+
+		return () => rootElement.classList.remove("section_full");
+	}, []);
+
 	return (
 		<div className="section modal">
 			<div className="w-container" style={{ width: "100%" }}>
@@ -14,8 +24,11 @@ export default function PostModal({ postRef, postProps, close, classInfo }) {
 					<h5>Back to Home</h5>
 				</div>
 				<div className="hub_column_layout">
-					<Content postProps={postProps} postRef={postRef} />
-					<Sidebar classInfo={classInfo} />
+					<div className="hub_content">
+						<CardPost {...postProps} modal />
+						<PostComments postProps={postProps} postRef={postRef} />
+					</div>
+					<Sidebar info={info} close={close} />
 				</div>
 			</div>
 		</div>

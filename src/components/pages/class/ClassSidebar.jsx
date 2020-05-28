@@ -12,7 +12,7 @@ export default function ClassSidebar({ classInfo, classLoading }) {
 	const currentParams = useParams();
 
 	const current = currentPath.pathname.replace(
-		"/school/" + currentParams.schoolId + "/class/" + currentParams.classId,
+		"/schools/" + currentParams.schoolId + "/classes/" + currentParams.classId,
 		""
 	);
 

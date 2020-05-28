@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../../../firebase/config";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import PageNav from "../../header/PageNav";
 import Section from "../../Section";
@@ -14,6 +14,7 @@ import Calendar from "./calendar/calendar";
 import Thoughts from "./thoughts/thoughts";
 import Reviews from "./reviews/reviews";
 import ClassHeader from "../../header/ClassHeader";
+import SinglePostModal from "../post/SinglePostModal";
 
 export default function ClassRouter({ match }) {
 	let { schoolId, classId } = match.params;
@@ -70,6 +71,16 @@ export default function ClassRouter({ match }) {
 							classInfo={classInfo}
 						/>
 					)}
+				/>
+				<Route
+					exact
+					path={`${match.path}/posts`}
+					render={() => <Redirect to={match.url} />}
+				/>
+
+				<Route
+					path={`${match.path}/posts/:postId`}
+					component={SinglePostModal}
 				/>
 
 				<Route

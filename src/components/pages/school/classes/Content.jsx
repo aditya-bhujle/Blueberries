@@ -63,7 +63,7 @@ export default function SchoolClassesContent({ schoolRef }) {
 						</h4>
 						<div className="list_grid_div">
 							{field.content.map((element, index) => (
-								<Link to={`/school/${param.schoolId}/class/${element.id}`} className="list_div w-clearfix" key={index}>
+								<Link to={`/schools/${param.schoolId}/classes/${element.id}`} className="list_div w-clearfix" key={index}>
 									<strong>{element.header}</strong>
 									<p className="list_subtitle">{element.content}</p>
 								</Link>

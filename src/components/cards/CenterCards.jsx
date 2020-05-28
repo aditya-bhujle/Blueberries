@@ -348,8 +348,6 @@ function CardSearch({ placeholder }) {
 }
 
 function CardPost({ uid, showModal, ...props }) {
-	const loc = useLocation();
-
 	const [likes, setLikes] = useState(props.passLikes || props.likes.length);
 	const [liked, setLiked] = useState(props.liked || false);
 
@@ -505,11 +503,6 @@ function CardPost({ uid, showModal, ...props }) {
 			event.target.tagName !== "svg" &&
 			event.target.tagName !== "use"
 		) {
-			window.history.replaceState(
-				null,
-				"New Post",
-				`${loc.pathname}/${props.postRef.id}`
-			);
 			showModal(
 				props.postRef,
 				{ uid, ...props },

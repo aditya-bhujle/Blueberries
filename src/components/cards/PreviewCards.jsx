@@ -1,9 +1,18 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
+import { Link } from "react-router-dom";
 
-function CardPreviewInfo({ title, subtitle, members, description, loading }) {
-	return (
-		<div className="hub_card">
+function CardPreviewInfo({
+	title,
+	subtitle,
+	members,
+	description,
+	loading,
+	linkUrl,
+	onClick,
+}) {
+	const content = (
+		<>
 			<h3>{loading ? <Skeleton height={24} /> : title}</h3>
 			{subtitle && (
 				<h4 className="main_color">
@@ -14,6 +23,19 @@ function CardPreviewInfo({ title, subtitle, members, description, loading }) {
 				{loading ? <Skeleton width={50} /> : members + " Joined"}
 			</div>
 			<p>{description && (loading ? <Skeleton count={3} /> : description)}</p>
+		</>
+	);
+	return linkUrl ? (
+		<Link to={"."} className="hub_card">
+			{content}
+		</Link>
+	) : (
+		<div
+			className="hub_card"
+			style={onClick ? { cursor: "pointer" } : {}}
+			onClick={onClick}
+		>
+			{content}
 		</div>
 	);
 }

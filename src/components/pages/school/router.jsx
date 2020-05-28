@@ -121,6 +121,7 @@ export default function SchoolRouter({ match }) {
 							{...props}
 							schoolRef={schoolRef.collection("posts")}
 							sidebar={NewSidebar}
+							schoolInfo={schoolInfo}
 						/>
 					)}
 				/>

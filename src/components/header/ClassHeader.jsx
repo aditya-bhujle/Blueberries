@@ -60,7 +60,7 @@ export default function ClassHeader({ school, classId, loading, ...props }) {
 	return (
 		<Header
 			short={school.short}
-			shortLink={`/school/${school.id}`}
+			shortLink={`/schools/${school.id}`}
 			loading={loading}
 			subShort={
 				props.short +

@@ -17,7 +17,7 @@ export default function SchoolSidebar({
 	const currentParams = useParams();
 
 	const current = currentPath.pathname.replace(
-		"/school/" + currentParams.schoolId,
+		"/schools/" + currentParams.schoolId,
 		""
 	);
 

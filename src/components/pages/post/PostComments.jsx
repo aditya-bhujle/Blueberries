@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
-import { CardPost } from "../../cards/CenterCards";
 import { firestore } from "firebase";
 import { UserContext } from "../../../App";
 import { useToasts } from "react-toast-notifications";
 
 import SortList from "../../SortList";
 import PostComment from "./Comment";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
-export default function PostContent({ postProps, postRef }) {
-	const [loading, setLoading] = useState(true);
+export default function PostComments({ postProps, postRef }) {
+	const [commentLoading, setCommentLoading] = useState(true);
 
 	const [comments, setComments] = useState([]);
 	const [newComment, setNewComment] = useState("");
@@ -29,7 +30,7 @@ export default function PostContent({ postProps, postRef }) {
 				console.error(error);
 			}
 
-			setLoading(false);
+			setCommentLoading(false);
 		};
 
 		fetchData();
@@ -66,9 +67,7 @@ export default function PostContent({ postProps, postRef }) {
 	}
 
 	return (
-		<div className="hub_content">
-			<CardPost {...postProps} modal />
-
+		<>
 			<div className="hub_card_links multiple">
 				<strong>{postProps.comments} Comments</strong>
 				<SortList list={["Hot", "New", "Top"]} />
@@ -84,28 +83,34 @@ export default function PostContent({ postProps, postRef }) {
 				/>
 				<button className="button comment w-button">Comment</button>
 			</form>
-			
-			{(comments.length > 0 || previewComments.length > 0) && (
-				<div className="hub_card">
-					{previewComments.map((comment) => (
-						<PostComment
-							{...comment}
-							commentDocRef={commentRef.doc(comment.id)}
-							postRef={postRef}
-							key={comment.id}
-						/>
-					))}
-					{comments &&
-						comments.map((comment) => (
+
+			{!commentLoading ? (
+				(comments.length > 0 || previewComments.length > 0) && (
+					<div className="hub_card">
+						{previewComments.map((comment) => (
 							<PostComment
-								{...comment.data()}
+								{...comment}
 								commentDocRef={commentRef.doc(comment.id)}
 								postRef={postRef}
 								key={comment.id}
 							/>
 						))}
+						{comments &&
+							comments.map((comment) => (
+								<PostComment
+									{...comment.data()}
+									commentDocRef={commentRef.doc(comment.id)}
+									postRef={postRef}
+									key={comment.id}
+								/>
+							))}
+					</div>
+				)
+			) : (
+				<div style={{ textAlign: "center" }}>
+					<Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
 				</div>
 			)}
-		</div>
+		</>
 	);
 }
