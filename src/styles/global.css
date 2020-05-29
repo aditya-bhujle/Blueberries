@@ -1530,6 +1530,7 @@ strong {
 }
 
 .nav_menu {
+	padding-right: 10px;
 	position: fixed;
 	top: 75px;
 	bottom: 25px;
@@ -1542,8 +1543,7 @@ strong {
 }
 
 .nav_menu:hover {
-	overflow: auto;
-	padding-right: 0px;
+	overflow-y: overlay;
 }
 
 .nav_menu.message {

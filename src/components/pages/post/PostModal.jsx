@@ -1,13 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Sidebar from "./Sidebar";
 import { CardPost } from "../../cards/CenterCards";
 import PostComments from "./PostComments";
 
 export default function PostModal({ postRef, postProps, close, info }) {
+	const [newInfo, setNewInfo] = useState(info);
 	window.history.replaceState(null, "New Post", "/" + postRef.path);
 
 	useEffect(() => {
+		const fetchInfo = async () => {
+			try {
+				let hubInfo = await postRef.parent.parent.get();
+				console.log("Fetched HubInfo!");
+				setNewInfo(hubInfo.data());
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		if (!info) fetchInfo();
+
 		const rootElement = document.getElementById("main_section");
 		rootElement.classList.add("section_full");
 
@@ -28,7 +41,7 @@ export default function PostModal({ postRef, postProps, close, info }) {
 						<CardPost {...postProps} modal />
 						<PostComments postProps={postProps} postRef={postRef} />
 					</div>
-					<Sidebar info={info} close={close} />
+					<Sidebar info={newInfo} close={info ? close : false} />
 				</div>
 			</div>
 		</div>

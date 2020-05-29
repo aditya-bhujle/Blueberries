@@ -24,8 +24,8 @@ export default function SinglePostModal() {
 				let fetchPosts = await postRef.get();
 				setPost(fetchPosts.data());
 
-				let classInfo = await postRef.parent.parent.get();
-				setClassInfo(classInfo.data());
+				let hubInfo = await postRef.parent.parent.get();
+				setClassInfo(hubInfo.data());
 			} catch (error) {
 				console.error(error);
 			}

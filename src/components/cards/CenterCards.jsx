@@ -356,6 +356,7 @@ function CardPost({ uid, showModal, ...props }) {
 	);
 	const [disliked, setDisliked] = useState(props.disliked || false);
 
+	const [source, setSource] = useState();
 	const [files, setFiles] = useState([]);
 	const [showImages, setShowImages] = useState([]);
 
@@ -381,7 +382,15 @@ function CardPost({ uid, showModal, ...props }) {
 			setShowImages(imageCounter);
 		}
 
+		async function getSource() {
+			let fetchedSource = await props.postRef.parent.parent.get();
+			setSource(fetchedSource.data());
+			console.log("Fetched source!");
+		}
+
 		if (props.files) getFiles();
+
+		if (props.showSource) getSource();
 	}, []);
 
 	useEffect(() => {
@@ -526,9 +535,9 @@ function CardPost({ uid, showModal, ...props }) {
 		>
 			<div className="hub_post_details">
 				<div>
-					{props.showSource && props.source && (
+					{source && (
 						<>
-							<strong>{props.source}</strong> ⋅{" "}
+							<strong>{source.short}</strong> ⋅{" "}
 						</>
 					)}
 					{props.author} ⋅ {props.date_posted.toDate().toString()}

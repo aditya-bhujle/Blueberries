@@ -21,7 +21,7 @@ export default function SchoolPosts({ sidebar, classRef, classInfo }) {
 					<HubPost
 						postRef={classRef}
 						query={classRef.where("category", "==", "Notes")}
-						classInfo={classInfo}
+						info={classInfo}
 					/>
 				</div>
 				{sidebar}

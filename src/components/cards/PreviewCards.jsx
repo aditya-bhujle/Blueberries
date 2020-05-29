@@ -1,6 +1,6 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 
 function CardPreviewInfo({
 	title,
@@ -26,9 +26,9 @@ function CardPreviewInfo({
 		</>
 	);
 	return linkUrl ? (
-		<Link to={"."} className="hub_card">
+		<a href="." className="hub_card">
 			{content}
-		</Link>
+		</a>
 	) : (
 		<div
 			className="hub_card"

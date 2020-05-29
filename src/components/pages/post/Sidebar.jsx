@@ -4,7 +4,7 @@ import { CardPreviewList, CardPreviewInfo } from "../../cards/PreviewCards";
 export default function PostSidebar({ info, close }) {
 	return (
 		<div className="hub_column_right">
-			{info && (
+			{info ? (
 				<CardPreviewInfo
 					title={info.name}
 					subtitle={
@@ -14,7 +14,10 @@ export default function PostSidebar({ info, close }) {
 					}
 					members={info.members}
 					onClick={close}
+					linkUrl={!close}
 				/>
+			) : (
+				<CardPreviewInfo loading subtitle />
 			)}
 			<div className="hub_card bot_padding">
 				<h3>Read More</h3>
