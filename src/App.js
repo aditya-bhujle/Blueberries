@@ -8,7 +8,7 @@ import "./styles/webflow.css";
 import "./styles/global.css";
 import SVG from "./styles/SVG";
 
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import Menu from "./components/menu/Menu";
 
 import DashboardHub from "./components/pages/dashboard/dashboard";

@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { signOut } from "../firebase/auth";
+import { signOut } from "../../firebase/auth";
+
+import Search from "./Search";
 
 export default function Navbar({ user }) {
 	const location = useLocation();
@@ -43,12 +45,9 @@ export default function Navbar({ user }) {
 			<Link to="/">
 				<h3 className="logo">Blueberries</h3>
 			</Link>
-			<form className={"form_block w-form nav" + (user ? " user" : "")}>
-				<input
-					className="search_input nav w-input"
-					placeholder="Type something here..."
-				/>
-			</form>
+
+			<Search />
+
 			{signedinLinks || signedoutLinks}
 		</div>
 	);

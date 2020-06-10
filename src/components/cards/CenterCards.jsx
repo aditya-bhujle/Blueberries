@@ -4,7 +4,6 @@ import { firestore, storage } from "firebase/app";
 import { Checkbox } from "antd";
 import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../../App";
-import { useLocation } from "react-router-dom";
 
 function CardCreate({
 	title,
@@ -336,6 +335,9 @@ function CardCreate({
 function CardSearch({ placeholder }) {
 	return (
 		<div className="hub_card search">
+			<svg className="nav_search_icon">
+				<use xlinkHref="#search" />
+			</svg>
 			<form className="form_block w-form">
 				<input
 					className="search_input w-input"
