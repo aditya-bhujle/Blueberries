@@ -59,6 +59,7 @@ export default function CreateThought({
 				title: thoughtTitle,
 				likes: [],
 				dislikes: [],
+				likeCount: 0,
 				comments: 0,
 				author: anon ? "Anonymous" : userInfo.username,
 				date_posted: firestore.Timestamp.now(),

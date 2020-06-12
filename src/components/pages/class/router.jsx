@@ -7,9 +7,9 @@ import Section from "../../Section";
 
 import Sidebar from "./ClassSidebar";
 
-import Posts from "./posts/posts";
+import Posts from "./posts";
 import Chat from "./chat/chat";
-import Notes from "./notes/notes";
+import Notes from "./notes";
 import Calendar from "./calendar/calendar";
 import Thoughts from "./thoughts/thoughts";
 import Reviews from "./reviews/reviews";
@@ -66,9 +66,9 @@ export default function ClassRouter({ match }) {
 					render={(props) => (
 						<Posts
 							{...props}
-							classRef={classRef.collection("posts")}
+							hubRef={classRef.collection("posts")}
 							sidebar={NewSidebar}
-							classInfo={classInfo}
+							hubInfo={classInfo}
 						/>
 					)}
 				/>
@@ -97,9 +97,9 @@ export default function ClassRouter({ match }) {
 					render={(props) => (
 						<Notes
 							{...props}
-							classRef={classRef.collection("posts")}
+							hubRef={classRef.collection("posts")}
 							sidebar={NewSidebar}
-							classInfo={classInfo}
+							hubInfo={classInfo}
 						/>
 					)}
 				/>
@@ -116,9 +116,9 @@ export default function ClassRouter({ match }) {
 					render={(props) => (
 						<Thoughts
 							{...props}
-							classRef={classRef.collection("posts")}
+							hubRef={classRef.collection("posts")}
 							sidebar={NewSidebar}
-							classInfo={classInfo}
+							hubInfo={classInfo}
 						/>
 					)}
 				/>

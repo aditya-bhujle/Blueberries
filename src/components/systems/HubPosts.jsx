@@ -4,7 +4,7 @@ import { UserContext } from "../../App";
 import PostModal from "../pages/post/PostModal";
 import { useLocation } from "react-router-dom";
 
-export default function HubPost({ postRef, query, info }) {
+export default function HubPost({ postRef, info, ...props }) {
 	const userInfo = useContext(UserContext);
 	const loc = useLocation();
 
@@ -18,13 +18,10 @@ export default function HubPost({ postRef, query, info }) {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				let fetchPosts;
-				query
-					? (fetchPosts = await query.get())
-					: (fetchPosts = await postRef
-							.orderBy("date_posted", "desc")
-							.limit(3)
-							.get());
+				let fetchPosts = await postRef
+					.orderBy(props.sortQuery, props.sortQueryOrder)
+					.limit(3)
+					.get();
 				console.log("Post data fetched!");
 				setPosts(fetchPosts.docs);
 			} catch (error) {
@@ -35,7 +32,7 @@ export default function HubPost({ postRef, query, info }) {
 		};
 
 		fetchData();
-	}, []);
+	}, [props.sortQuery, props.sortQueryOrder]);
 
 	if (loading)
 		return (
@@ -55,8 +52,8 @@ export default function HubPost({ postRef, query, info }) {
 						{...post.data()}
 						uid={userInfo ? userInfo.id : null}
 						key={post.id}
-						postRef={postRef.doc(post.id)}
-						hideCategory={!!query}
+						postRef={post.ref}
+						hideCategory={props.hideCategory}
 						showSource={!info}
 						showModal={(ref, props, liked, likes, disliked, dislikes) => {
 							setModalRef(ref);

@@ -119,9 +119,9 @@ export default function SchoolRouter({ match }) {
 					render={(props) => (
 						<Posts
 							{...props}
-							schoolRef={schoolRef.collection("posts")}
+							hubRef={schoolRef.collection("posts")}
 							sidebar={NewSidebar}
-							schoolInfo={schoolInfo}
+							hubInfo={schoolInfo}
 						/>
 					)}
 				/>
