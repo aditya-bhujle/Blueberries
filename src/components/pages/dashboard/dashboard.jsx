@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 
-import ContentTitle from "../../header/ContentTitle";
 import Section from "../../Section";
 import Sidebar from "./Sidebar";
 import { UserContext } from "../../../App";

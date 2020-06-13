@@ -1,17 +1,46 @@
 import algoliasearch from "algoliasearch/lite";
-import React, { useContext, useState } from "react";
-import {
-	connectHits,
-	InstantSearch,
-	connectSearchBox,
-	Index,
-	connectStateResults,
-} from "react-instantsearch-dom";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import AutoComplete from "./AutoComplete";
 
 export default function Search() {
 	const userInfo = useContext(UserContext);
+
+	const [loading, setLoading] = useState(false);
+	const [searchResults, setSearchResults] = useState([]);
+	const [searchQuery, setSearchQuery] = useState("");
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const searchClient = algoliasearch(
+				"N0TPLXF71A",
+				"189999656c32b0f21e6c06df407b5f3c"
+			);
+
+			const queries = [
+				{
+					indexName: "schools",
+					query: searchQuery,
+				},
+				{
+					indexName: userInfo.school.id,
+					query: searchQuery,
+				},
+			];
+
+			try {
+				const fetchSearches = await searchClient.search(queries);
+				setSearchResults(fetchSearches.results);
+			} catch (error) {
+				console.error(error);
+			}
+
+			setLoading(true);
+		};
+
+		if (userInfo && searchQuery) fetchData();
+		if (!searchQuery) setLoading(false);
+	}, [searchQuery, userInfo]);
 
 	if (!userInfo)
 		return (
@@ -22,6 +51,8 @@ export default function Search() {
 					</svg>
 					<input
 						type="search"
+						value={searchQuery}
+						onChange={(e) => setSearchQuery(e.currentTarget.value)}
 						className="search_input w-input"
 						placeholder="Type something here..."
 						style={{ padding: "4px" }}
@@ -30,71 +61,7 @@ export default function Search() {
 			</form>
 		);
 
-	const searchClient = algoliasearch(
-		"N0TPLXF71A",
-		"189999656c32b0f21e6c06df407b5f3c"
-	);
-
-	const AllResults = connectStateResults(
-		({ allSearchResults, searchState, children }) => {
-			/* 
-				ALGOLIA ISSUE https://github.com/algolia/react-instantsearch/issues/2875
-				BUG #1 - Search results show empty with no p text because of this issue
-			if (
-				allSearchResults &&
-				allSearchResults.schools &&
-				allSearchResults[userInfo.school.id]
-			) {
-				console.log("School Query:");
-				console.log(allSearchResults.schools.query);
-
-				console.log("SCATS Query:");
-				console.log(allSearchResults[userInfo.school.id].query);
-			}*/
-
-			if (!searchState.query)
-				return (
-					<>
-						<Index indexName="schools" />
-						<Index indexName={userInfo.school.id} />
-					</>
-				);
-
-			const hasResults =
-				allSearchResults &&
-				Object.values(allSearchResults).some((results) => {
-					return results.nbHits > 0;
-				});
-
-			return !hasResults ? (
-				<div className="search_autocomplete">
-					<Index indexName="schools" />
-					<Index indexName={userInfo.school.id} />
-					<p style={{ marginBottom: "0px" }}>No results found</p>
-				</div>
-			) : (
-				children
-			);
-		}
-	);
-
-	const NewHits = ({ hits }) => {
-		//console.log("New Hits are ");
-		//console.log(hits);
-		if (!hits.length) return null;
-
-		const categories = sortHits(hits);
-
-		return Object.values(categories).map((category, index) => (
-			<AutoComplete category={category} key={index} />
-		));
-	};
-	const CustomHits = connectHits(NewHits);
-
-	const schoolHits = ({ hits }) => {
-		//console.log("New School Hits are ");
-		//console.log(hits);
-
+	const SchoolHits = ({ hits }) => {
 		if (!hits.length) return null;
 		return (
 			<AutoComplete
@@ -112,48 +79,48 @@ export default function Search() {
 			/>
 		);
 	};
-	const CustomSchoolHits = connectHits(schoolHits);
 
-	const SearchBox = ({ currentRefinement, refine }) => (
-		<div className={"hub_card search nav" + (currentRefinement ? " open" : "")}>
-			<svg className="nav_search_icon">
-				<use xlinkHref="#search" />
-			</svg>
-			<input
-				type="search"
-				value={currentRefinement}
-				onChange={(event) => refine(event.currentTarget.value)}
-				className="search_input w-input"
-				placeholder="Type something here..."
-				style={{ padding: "4px" }}
-			/>
-		</div>
-	);
+	const MainHits = ({ hits }) => {
+		if (!hits.length) return null;
 
-	const CustomSearchBox = connectSearchBox(SearchBox);
+		const categories = sortHits(hits);
+
+		return Object.values(categories).map((category, index) => (
+			<AutoComplete category={category} key={index} />
+		));
+	};
 
 	return (
-		<InstantSearch searchClient={searchClient} indexName="schools">
-			<form
-				noValidate
-				className="form_block w-form nav user"
-				style={{ position: "relative" }}
-				role="search"
-			>
-				<CustomSearchBox />
+		<form
+			noValidate
+			className="form_block w-form nav user"
+			style={{ position: "relative" }}
+			role="search"
+		>
+			<div className={"hub_card search nav" + (searchQuery ? " open" : "")}>
+				<svg className="nav_search_icon">
+					<use xlinkHref="#search" />
+				</svg>
+				<input
+					type="search"
+					value={searchQuery}
+					onChange={(e) => setSearchQuery(e.currentTarget.value)}
+					className="search_input w-input"
+					placeholder="Type something here..."
+					style={{ padding: "4px" }}
+				/>
+			</div>
 
-				<AllResults>
-					<div className="search_autocomplete">
-						<Index indexName="schools">
-							<CustomSchoolHits />
-						</Index>
-						<Index indexName={userInfo.school.id}>
-							<CustomHits />
-						</Index>
-					</div>
-				</AllResults>
-			</form>
-		</InstantSearch>
+			{searchQuery && loading && (
+				<div className="search_autocomplete">
+					<SchoolHits hits={searchResults[0].hits} />
+					<MainHits hits={searchResults[1].hits} />
+					{!searchResults[0].nbHits && !searchResults[1].nbHits && (
+						<p style={{ marginBottom: "0px" }}>No results found</p>
+					)}
+				</div>
+			)}
+		</form>
 	);
 
 	function sortHits(hits) {

@@ -7,7 +7,9 @@ export default function SortList({ list, ...props }) {
 				<strong>Sort By:</strong>
 			</div>
 			<div className="hub_dropdown_div">
-				<strong className="main_color">{props.sortQuery.title}</strong>
+				{props.sortQuery && ( //TEMP SOLUTION UNTIL WE ADD sortQuery TO COMMENTS!
+					<strong className="main_color">{props.sortQuery.title}</strong>
+				)}
 				<div className="dropdown_div">
 					{list.map((element) => (
 						<strong

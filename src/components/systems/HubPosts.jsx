@@ -2,11 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { CardPost, CardPostSkeleton } from "../cards/CenterCards";
 import { UserContext } from "../../App";
 import PostModal from "../pages/post/PostModal";
-import { useLocation } from "react-router-dom";
 
 export default function HubPost({ postRef, info, ...props }) {
 	const userInfo = useContext(UserContext);
-	const loc = useLocation();
 
 	const [posts, setPosts] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -74,7 +72,7 @@ export default function HubPost({ postRef, info, ...props }) {
 					postRef={modalRef}
 					postProps={modalProps}
 					close={() => {
-						window.history.replaceState(null, "New Post", loc.pathname);
+						window.history.replaceState(null, "New Post", props.loc.pathname);
 						setShowModal(false);
 					}}
 					info={info}
