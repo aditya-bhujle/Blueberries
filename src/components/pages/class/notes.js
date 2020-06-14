@@ -9,15 +9,15 @@ export default function SchoolPosts(props) {
 			contentTitle="Recent Notes"
 			hubPostQuery={props.hubRef.where("category", "==", "Notes")}
 			hideCategory
+			notes
 			{...props}
 		>
-			<CardSearch placeholder="Search Popular Posts" />
+			<CardSearch placeholder="Search Notes" />
 			<CardCreate
-				title="Create Post"
-				placeholder="Ask questions, share information, or start a discussion!"
-				createPlaceholder="Post Title"
+				title="Share Notes"
+				placeholder="Upload notes to share with this class!"
+				createPlaceholder="Unit Number - Unit Name"
 				postRef={props.hubRef}
-				category={["Question", "Resource", "Other"]}
 			/>
 		</HubPostSystem>
 	);

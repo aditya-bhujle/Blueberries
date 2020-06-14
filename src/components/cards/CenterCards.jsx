@@ -332,17 +332,34 @@ function CardCreate({
 	);
 }
 
-function CardSearch({ placeholder }) {
+function CardSearch({ placeholder, searchHub, defaultValue }) {
+	const [searchQuery, setSearchQuery] = useState("");
+
+	useEffect(() => {
+		if (defaultValue) setSearchQuery(defaultValue);
+	}, [defaultValue]);
+
+	function handleSubmit(e) {
+		e.preventDefault();
+		searchHub(searchQuery);
+	}
+
 	return (
 		<div className="hub_card search">
 			<svg className="nav_search_icon">
 				<use xlinkHref="#search" />
 			</svg>
-			<form className="form_block w-form">
+			<form
+				className="form_block w-form"
+				onSubmit={(e) => handleSubmit(e)}
+				style={{ flex: 1 }}
+			>
 				<input
 					className="search_input w-input"
 					maxLength="256"
 					placeholder={placeholder}
+					value={searchQuery}
+					onChange={(e) => setSearchQuery(e.target.value)}
 				/>
 			</form>
 		</div>

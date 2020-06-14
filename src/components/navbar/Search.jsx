@@ -52,7 +52,7 @@ export default function Search() {
 					<input
 						type="search"
 						value={searchQuery}
-						onChange={(e) => setSearchQuery(e.currentTarget.value)}
+						onChange={(e) => setSearchQuery(e.target.value)}
 						className="search_input w-input"
 						placeholder="Type something here..."
 						style={{ padding: "4px" }}
