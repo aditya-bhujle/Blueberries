@@ -35,11 +35,11 @@ export default function Search() {
 				console.error(error);
 			}
 
-			setLoading(true);
+			setLoading(false);
 		};
 
 		if (userInfo && searchQuery) fetchData();
-		if (!searchQuery) setLoading(false);
+		if (!searchQuery) setLoading(true);
 	}, [searchQuery, userInfo]);
 
 	if (!userInfo)
@@ -111,7 +111,7 @@ export default function Search() {
 				/>
 			</div>
 
-			{searchQuery && loading && (
+			{searchQuery && !loading && (
 				<div className="search_autocomplete">
 					<SchoolHits hits={searchResults[0].hits} />
 					<MainHits hits={searchResults[1].hits} />

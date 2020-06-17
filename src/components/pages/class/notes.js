@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CardSearch, CardCreate } from "../../cards/CenterCards";
+import { CardCreate } from "../../cards/CenterCards";
 import HubPostSystem from "../../systems/HubPostSystem";
 
 export default function SchoolPosts(props) {
@@ -8,11 +8,12 @@ export default function SchoolPosts(props) {
 		<HubPostSystem
 			contentTitle="Recent Notes"
 			hubPostQuery={props.hubRef.where("category", "==", "Notes")}
+			hubRef={props.hubRef}
 			hideCategory
 			notes
+			searchPlaceholder="Search Notes"
 			{...props}
 		>
-			<CardSearch placeholder="Search Notes" />
 			<CardCreate
 				title="Share Notes"
 				placeholder="Upload notes to share with this class!"

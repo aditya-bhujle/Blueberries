@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 import { UserContext } from "../../../App";
 import { db } from "../../../firebase/config";
 import HubPostSystem from "../../systems/HubPostSystem";
-import { CardSearch, CardCreate } from "../../cards/CenterCards";
+import { CardCreate } from "../../cards/CenterCards";
 
 export default function DashboardHub() {
 	const userInfo = useContext(UserContext);
@@ -23,7 +23,6 @@ export default function DashboardHub() {
 				hubRef={dashboardRef}
 				sidebar={<Sidebar userInfo={userInfo} />}
 			>
-				<CardSearch placeholder="Search Popular Posts" />
 				<CardCreate
 					title="Create Post"
 					placeholder="Ask questions, share information, or start a discussion!"

@@ -4,6 +4,7 @@ import { firestore, storage } from "firebase/app";
 import { Checkbox } from "antd";
 import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../../App";
+import TimeAgo from "react-timeago";
 
 function CardCreate({
 	title,
@@ -367,7 +368,7 @@ function CardSearch({ placeholder, searchHub, defaultValue }) {
 }
 
 function CardPost({ uid, showModal, ...props }) {
-	const [likes, setLikes] = useState(props.passLikes || props.likes.length);
+	const [likes, setLikes] = useState(props.likes.length);
 	const [liked, setLiked] = useState(props.liked || false);
 
 	const [dislikes, setDislikes] = useState(
@@ -397,20 +398,31 @@ function CardPost({ uid, showModal, ...props }) {
 				if (fileType.contentType.startsWith("image/"))
 					imageCounter.push(fileURL);
 			}
-			setFiles(files.concat(fileCounter));
+
+			setFiles(fileCounter);
 			setShowImages(imageCounter);
 		}
 
 		async function getSource() {
-			let fetchedSource = await props.postRef.parent.parent.get();
-			setSource(fetchedSource.data());
-			console.log("Fetched source!");
+			if (props.postRef) {
+				let fetchedSource = await props.postRef.parent.parent.get();
+				setSource(fetchedSource.data());
+				console.log("Fetched source!");
+			} else console.log("Can't fetch source because postRef is undefined!");
 		}
 
 		if (props.files) getFiles();
 
 		if (props.showSource) getSource();
-	}, []);
+	}, [props.files, props.showSource, props.postRef]);
+
+	useEffect(() => {
+		if (props.likes) setLikes(props.likes.length);
+	}, [props.likes]);
+
+	useEffect(() => {
+		if (props.dislikes) setDislikes(props.dislikes.length);
+	}, [props.dislikes]);
 
 	useEffect(() => {
 		if (!props.liked) {
@@ -424,7 +436,7 @@ function CardPost({ uid, showModal, ...props }) {
 				if (user === uid) setDisliked(true);
 			});
 		}
-	}, [uid]);
+	}, [uid, props.liked, props.likes, props.dislikes, props.disliked]);
 
 	function actionLink(content, icon) {
 		return (
@@ -559,7 +571,7 @@ function CardPost({ uid, showModal, ...props }) {
 							<strong>{source.short}</strong> ⋅{" "}
 						</>
 					)}
-					{props.author} ⋅ {props.date_posted.toDate().toString()}
+					{props.author} ⋅ <TimeAgo date={props.date_posted.toDate()} />
 				</div>
 				{props.category !== "Thoughts" && (
 					<strong className="main_color">

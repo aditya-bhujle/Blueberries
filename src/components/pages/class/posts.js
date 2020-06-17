@@ -1,12 +1,11 @@
 import React from "react";
 
-import { CardSearch, CardCreate } from "../../cards/CenterCards";
+import { CardCreate } from "../../cards/CenterCards";
 import HubPostSystem from "../../systems/HubPostSystem";
 
-export default function SchoolPosts(props) {
+export default function ClassPosts(props) {
 	return (
 		<HubPostSystem {...props}>
-			<CardSearch placeholder="Search Popular Posts" />
 			<CardCreate
 				title="Create Post"
 				placeholder="Ask questions, share information, or start a discussion!"
