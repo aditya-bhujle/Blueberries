@@ -64,7 +64,7 @@ export default function ClassHeader({ school, classId, loading, ...props }) {
 			loading={loading}
 			subShort={
 				props.short +
-					(props.last_name ? " Professor " + props.last_name : "") || true
+					(props.last_name ? " - Professor " + props.last_name : "") || true
 			}
 			name={props.name}
 		>

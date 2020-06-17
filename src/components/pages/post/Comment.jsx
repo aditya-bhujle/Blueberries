@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../../App";
 import { firestore } from "firebase/app";
 import { useToasts } from "react-toast-notifications";
+import TimeAgo from "react-timeago";
 
 export default function PostComment({
 	user,
@@ -53,6 +54,7 @@ export default function PostComment({
 
 				await props.commentDocRef.update({
 					likes: firestore.FieldValue.arrayUnion(userInfo.id),
+					likeCount: firestore.FieldValue.increment(1),
 				});
 			} else {
 				setLiked(false);
@@ -60,6 +62,7 @@ export default function PostComment({
 
 				await props.commentDocRef.update({
 					likes: firestore.FieldValue.arrayRemove(userInfo.id),
+					likeCount: firestore.FieldValue.increment(-1),
 				});
 			}
 		} catch (error) {
@@ -74,6 +77,7 @@ export default function PostComment({
 			user: userInfo.username,
 			content: replyText,
 			likes: [],
+			likeCount: 0,
 			date_posted: firestore.Timestamp.now(),
 			replies: 0,
 		};
@@ -85,6 +89,10 @@ export default function PostComment({
 
 			await props.postRef.update({
 				comments: firestore.FieldValue.increment(1),
+			});
+
+			await props.commentDocRef.update({
+				replies: firestore.FieldValue.increment(1),
 			});
 
 			setReplyText("");
@@ -110,7 +118,7 @@ export default function PostComment({
 				}
 			>
 				<div className="post_comment_details">
-					<strong>{user}</strong> ⋅ {date_posted.toDate().toString()}
+					<strong>{user}</strong> ⋅ <TimeAgo date={date_posted.toDate()} />
 				</div>
 
 				{top_answer && (

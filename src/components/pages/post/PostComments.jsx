@@ -9,6 +9,12 @@ import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 export default function PostComments({ postProps, postRef }) {
+	const [sortQuery, setSortQuery] = useState({
+		title: "New",
+		query: "date_posted",
+		desc: true,
+	});
+
 	const [commentLoading, setCommentLoading] = useState(true);
 
 	const [comments, setComments] = useState([]);
@@ -23,7 +29,11 @@ export default function PostComments({ postProps, postRef }) {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				let fetchPosts = await commentRef.get();
+				console.log(sortQuery.query);
+				console.log(sortQuery.desc);
+				let fetchPosts = await commentRef
+					.orderBy(sortQuery.query, sortQuery.desc ? "desc" : "asc")
+					.get();
 				console.log("Comment data fetched!");
 				setComments(fetchPosts.docs);
 			} catch (error) {
@@ -34,7 +44,7 @@ export default function PostComments({ postProps, postRef }) {
 		};
 
 		fetchData();
-	}, []);
+	}, [sortQuery]);
 
 	async function addComment(e) {
 		e.preventDefault();
@@ -43,6 +53,7 @@ export default function PostComments({ postProps, postRef }) {
 			user: userInfo.username,
 			content: newComment,
 			likes: [],
+			likeCount: 0,
 			date_posted: firestore.Timestamp.now(),
 			replies: 0,
 		};
@@ -70,7 +81,16 @@ export default function PostComments({ postProps, postRef }) {
 		<>
 			<div className="hub_card_links multiple">
 				<strong>{postProps.comments} Comments</strong>
-				<SortList list={["Hot", "New", "Top"]} />
+				<SortList
+					list={[
+						{ title: "Top", query: "likeCount", desc: true },
+						{ title: "Disputed", query: "likeCount" },
+						{ title: "New", query: "date_posted", desc: true },
+						{ title: "Old", query: "date_posted" },
+					]}
+					sortQuery={sortQuery}
+					setSortQuery={(query) => setSortQuery(query)}
+				/>
 			</div>
 
 			<form className="hub_card bot_padding" onSubmit={(e) => addComment(e)}>

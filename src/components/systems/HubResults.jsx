@@ -24,7 +24,6 @@ export default function HubResults({ searchQuery, hubRef, info, ...props }) {
 		const fetchData = async () => {
 			setAlgoliaLoading(true);
 			setFirebaseLoading(true);
-			console.log("Starting algolia search!");
 
 			const searchClient = algoliasearch(
 				"N0TPLXF71A",
@@ -42,10 +41,8 @@ export default function HubResults({ searchQuery, hubRef, info, ...props }) {
 			} catch (error) {
 				console.error(error);
 			}
-			console.log("Ending algolia search!");
-			setAlgoliaLoading(false);
 
-			console.log("Starting firebase search!");
+			setAlgoliaLoading(false);
 
 			let fbResults = [];
 			for (let index = 0; index < fetchSearches.hits.length; index++) {
@@ -56,7 +53,6 @@ export default function HubResults({ searchQuery, hubRef, info, ...props }) {
 			setFbPosts(fbResults);
 
 			setFirebaseLoading(false);
-			console.log("Ending firebase search!");
 		};
 
 		fetchData();

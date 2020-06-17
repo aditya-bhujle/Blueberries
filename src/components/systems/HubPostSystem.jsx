@@ -28,10 +28,6 @@ export default function HubPostSystem({
 		setLoading(false);
 	}, [loc.search]);
 
-	function searchHub(query) {
-		setSearchQuery(query);
-	}
-
 	return (
 		<>
 			{!loading && (
@@ -52,6 +48,7 @@ export default function HubPostSystem({
 						{ title: "Disputed", query: "likeCount" },
 						{ title: "New", query: "date_posted", desc: true },
 						{ title: "Old", query: "date_posted" },
+						{ title: "Comments", query: "comments", desc: true },
 					]
 				}
 				sortQuery={sortQuery}
@@ -62,7 +59,7 @@ export default function HubPostSystem({
 					{!props.hideSearch && (
 						<CardSearch
 							placeholder={props.searchPlaceholder || "Search Popular Posts"}
-							searchHub={searchHub}
+							searchHub={(query) => setSearchQuery(query)}
 							defaultValue={searchQuery}
 						/>
 					)}
