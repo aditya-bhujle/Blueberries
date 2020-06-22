@@ -17,12 +17,16 @@ import ClassHeader from "../../header/ClassHeader";
 import SinglePostModal from "../post/SinglePostModal";
 
 export default function ClassRouter({ match }) {
-	let { schoolId, classId } = match.params;
-	const classRef = db
+	let { schoolId, classId, teacherId } = match.params;
+
+	const classCollection = db
 		.collection("schools")
 		.doc(schoolId)
 		.collection("classes")
 		.doc(classId);
+	const classRef = teacherId
+		? classCollection.collection("teachers").doc(teacherId)
+		: classCollection;
 
 	const [classInfo, setClassInfo] = useState({});
 
@@ -51,10 +55,14 @@ export default function ClassRouter({ match }) {
 		<Section fullscreen>
 			<ClassHeader
 				school={{ id: schoolId, short: classInfo.school_short }}
-				classId={classId}
-				name={classInfo.name}
-				short={classInfo.short}
-				last_name={classInfo.professor_last}
+				schoolClass={{
+					id: classId,
+					name: classInfo.name,
+					short: classInfo.short,
+					...(classInfo.last_name && {
+						teacher: { name: classInfo.last_name, id: teacherId },
+					}),
+				}}
 				loading={loading}
 			/>
 			<PageNav type="class" baseLink={match.url} />

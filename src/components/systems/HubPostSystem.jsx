@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import HubPost from "./HubPosts";
 import ContentTitle from "../header/ContentTitle";
 import { useLocation, Redirect } from "react-router-dom";
-import { CardSearch } from "../cards/CenterCards";
+import { CardSearch, CardCreate } from "../cards/CenterCards";
 import HubResults from "./HubResults";
 
 export default function HubPostSystem({
@@ -21,6 +21,8 @@ export default function HubPostSystem({
 	const [searchQuery, setSearchQuery] = useState("");
 	const loc = useLocation();
 	const [loading, setLoading] = useState(true);
+
+	const [created, setCreated] = useState([]);
 
 	useEffect(() => {
 		let searchHash = new URLSearchParams(loc.search).get("search");
@@ -56,16 +58,25 @@ export default function HubPostSystem({
 			/>
 			<div className="hub_column_layout">
 				<div className="hub_content">
-					{!props.hideSearch && (
-						<CardSearch
-							placeholder={props.searchPlaceholder || "Search Popular Posts"}
-							searchHub={(query) => setSearchQuery(query)}
-							defaultValue={searchQuery}
-						/>
+					{props.thoughts ? (
+						props.children
+					) : (
+						<>
+							<CardSearch
+								placeholder={props.searchPlaceholder || "Search Popular Posts"}
+								searchHub={(query) => setSearchQuery(query)}
+								defaultValue={searchQuery}
+							/>
+							<CardCreate
+								{...props.create}
+								postRef={hubRef}
+								addCreated={(postInfo) => setCreated(created.concat(postInfo))}
+							/>
+						</>
 					)}
-					{props.children}
 					{!searchQuery && !loading && (
 						<HubPost
+							created={created}
 							postRef={props.hubPostQuery || hubRef}
 							info={hubInfo}
 							sortQuery={sortQuery.query}

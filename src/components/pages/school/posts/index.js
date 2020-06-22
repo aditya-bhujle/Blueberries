@@ -1,17 +1,12 @@
 import React from "react";
 
-import { CardCreate } from "../../../cards/CenterCards";
 import HubPostSystem from "../../../systems/HubPostSystem";
 
 export default function SchoolPosts(props) {
-	return (
-		<HubPostSystem {...props}>
-			<CardCreate
-				title="Create Post"
-				placeholder="Ask questions, share information, or start a discussion!"
-				createPlaceholder="Post Title"
-				postRef={props.hubRef}
-			/>
-		</HubPostSystem>
-	);
+	const createProps = {
+		title: "Create Post",
+		placeholder: "Ask questions, share information, or start a discussion!",
+		createPlaceholder: "Post Title",
+	};
+	return <HubPostSystem {...props} create={createProps} />;
 }

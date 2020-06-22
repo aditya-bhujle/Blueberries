@@ -8,9 +8,8 @@ export default function SchoolPosts(props) {
 		<HubPostSystem
 			contentTitle="All Thoughts"
 			hubPostQuery={props.hubRef.where("category", "==", "Thoughts")}
-			hubRef={props.hubRef}
 			hideCategory
-			hideSearch
+			thoughts
 			{...props}
 		>
 			<div className="hub_card">

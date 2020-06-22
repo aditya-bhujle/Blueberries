@@ -152,27 +152,37 @@ export default function Menu({ data, loading }) {
 		return (
 			!!list.length && (
 				<>
-					{list.map((item) => (
-						<div key={item.id}>
-							<SubMenuHead
-								content={item.name}
-								icon={icon}
-								link={`/schools/${school.id}/${hubType}/${item.id}`}
-								notExact
-							>
-								{submenu &&
-									submenu.map(({ content, icon, link }) => (
-										<MenuLink
-											submenu
-											content={content}
-											icon={icon}
-											key={content}
-											link={`/schools/${school.id}/${hubType}/${item.id}/${link}`}
-										/>
-									))}
-							</SubMenuHead>
-						</div>
-					))}
+					{list.map((item) => {
+						const teacherLink = item.teacher
+							? `/teachers/${item.teacher.id}`
+							: "";
+						const itemURL =
+							`/schools/${school.id}/${hubType}/${item.id}` + teacherLink;
+
+						return (
+							<div key={item.id}>
+								<SubMenuHead
+									content={
+										item.name + (item.teacher ? ` - ${item.teacher.name}` : " - Hub")
+									}
+									icon={icon}
+									link={itemURL}
+									notExact
+								>
+									{submenu &&
+										submenu.map(({ content, icon, link }) => (
+											<MenuLink
+												submenu
+												content={content}
+												icon={icon}
+												key={content}
+												link={`${itemURL}/${link}`}
+											/>
+										))}
+								</SubMenuHead>
+							</div>
+						);
+					})}
 					<div className="line even" />
 				</>
 			)

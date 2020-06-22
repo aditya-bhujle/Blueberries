@@ -15,8 +15,8 @@ export default function ClassMessageContent({ classRef }) {
 			try {
 				await classRef.orderBy("date_posted").onSnapshot((querySnapshot) => {
 					setMessages(querySnapshot.docs);
-					console.log("Messages fetched!");
 				});
+				console.log("Messages fetched!");
 			} catch (error) {
 				console.error(error);
 			}
@@ -25,7 +25,7 @@ export default function ClassMessageContent({ classRef }) {
 		};
 
 		fetchData();
-	}, []);
+	}, [classRef]);
 
 	async function sendMessage(e, content) {
 		e.preventDefault();

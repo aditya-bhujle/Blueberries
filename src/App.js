@@ -69,6 +69,10 @@ export default function App() {
 						component={ClassRouter}
 					/>
 					<Route
+						path="/schools/:schoolId/classes/:classId/teachers/:teacherId"
+						component={ClassRouter}
+					/>
+					<Route
 						path="/schools/:schoolId/classes/:classId"
 						component={ClassRouter}
 					/>

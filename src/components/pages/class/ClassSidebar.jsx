@@ -22,17 +22,38 @@ export default function ClassSidebar({ classInfo, classLoading }) {
 		<div className="hub_column_right">
 			<CardPreviewInfo
 				title={classInfo.name}
-				subtitle={`Professor ${classInfo.professor_first} ${classInfo.professor_last}`}
+				subtitle={
+					classInfo.last_name ? `Professor ${classInfo.last_name}` : false
+				}
 				members={classInfo.members}
 				loading={classLoading}
+				teacherLink={classInfo.last_name}
 			/>
 
-			{current !== "/reviews" && (
+			{current !== "/reviews" && classInfo.reviews && (
 				<CardPreviewReview
 					title="Professor Bruce Long"
 					{...classInfo.reviews}
 					loading={classLoading}
 					titleLoading
+				/>
+			)}
+
+			{classInfo.teachers && (
+				<CardPreviewList
+					title="Select Your Professor"
+					elements={classInfo.teachers.map((teacher) => ({
+						header: `Professor ${teacher.first_name} ${teacher.last_name}`,
+						right:
+							Math.round(
+								(teacher.rating.overall / teacher.rating.counter) * 100
+							) /
+								100 +
+							" / 5",
+						content: `${teacher.members} Students`,
+						link: `/schools/${currentParams.schoolId}/classes/${currentParams.classId}/teachers/${teacher.id}`,
+					}))}
+					link="Add New Professor"
 				/>
 			)}
 

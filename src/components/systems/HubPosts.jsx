@@ -15,6 +15,7 @@ export default function HubPost({ postRef, info, ...props }) {
 
 	useEffect(() => {
 		const fetchData = async () => {
+			setLoading(true);
 			try {
 				let fetchPosts = await postRef
 					.orderBy(props.sortQuery, props.sortQueryOrder)
@@ -28,9 +29,9 @@ export default function HubPost({ postRef, info, ...props }) {
 
 			setLoading(false);
 		};
-
+		console.log("Running Use Effect!");
 		fetchData();
-	}, [props.sortQuery, props.sortQueryOrder]);
+	}, [postRef.path, props.sortQuery, props.sortQueryOrder]);
 
 	if (loading)
 		return (
@@ -42,31 +43,36 @@ export default function HubPost({ postRef, info, ...props }) {
 			</>
 		);
 
+	const cardPost = (post, dataIsFunction) => {
+		const dataProps = dataIsFunction ? post.data() : post.data;
+		return (
+			<CardPost
+				{...dataProps}
+				uid={userInfo ? userInfo.id : null}
+				key={post.id}
+				postRef={post.ref}
+				hideCategory={props.hideCategory}
+				showSource={!info}
+				showModal={(ref, props, liked, likes, disliked, dislikes) => {
+					setModalRef(ref);
+					setModalProps({
+						...props,
+						liked: liked,
+						passLikes: likes,
+						disliked: disliked,
+						passDislikes: dislikes,
+					});
+					setShowModal(true);
+				}}
+			/>
+		);
+	};
+
 	return (
 		<>
-			{posts.map((post) => {
-				return (
-					<CardPost
-						{...post.data()}
-						uid={userInfo ? userInfo.id : null}
-						key={post.id}
-						postRef={post.ref}
-						hideCategory={props.hideCategory}
-						showSource={!info}
-						showModal={(ref, props, liked, likes, disliked, dislikes) => {
-							setModalRef(ref);
-							setModalProps({
-								...props,
-								liked: liked,
-								passLikes: likes,
-								disliked: disliked,
-								passDislikes: dislikes,
-							});
-							setShowModal(true);
-						}}
-					/>
-				);
-			})}
+			{props.created.reverse().map((post) => cardPost(post, false))}
+			{posts.map((post) => cardPost(post, true))}
+			{!posts.length && <p style={{ textAlign: "center" }}>No posts yet...</p>}
 			{showModal && (
 				<PostModal
 					postRef={modalRef}

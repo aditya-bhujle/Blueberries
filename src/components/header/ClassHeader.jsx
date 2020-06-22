@@ -6,7 +6,7 @@ import { UserContext } from "../../App";
 import Skeleton from "react-loading-skeleton";
 import { useToasts } from "react-toast-notifications";
 
-export default function ClassHeader({ school, classId, loading, ...props }) {
+export default function ClassHeader({ school, schoolClass, loading }) {
 	const userInfo = useContext(UserContext);
 	const { addToast } = useToasts();
 	const [joined, setJoined] = useState(false);
@@ -14,14 +14,14 @@ export default function ClassHeader({ school, classId, loading, ...props }) {
 	useEffect(() => {
 		if (userInfo) {
 			userInfo.classes.forEach((userClass) => {
-				if (userClass.id === classId) setJoined(true);
+				if (userClass.id === schoolClass.id) setJoined(true);
 			});
 		}
 	}, [userInfo]);
 
 	if (!userInfo)
 		return (
-			<Header loading short {...props}>
+			<Header loading short>
 				<Skeleton height={37} width={95} />
 				<div style={{ marginLeft: "10px", display: "inline-block" }}>
 					<Skeleton height={37} width={110} />
@@ -29,27 +29,29 @@ export default function ClassHeader({ school, classId, loading, ...props }) {
 			</Header>
 		);
 
-	const classObject = {
-		id: classId,
-		name: props.name,
-		short: props.short,
-		last_name: props.last_name,
-	};
-
 	async function toggleJoin() {
-		const firestoreCommand = joined
-			? firebase.firestore.FieldValue.arrayRemove(classObject)
-			: firebase.firestore.FieldValue.arrayUnion(classObject);
-
 		setJoined(!joined);
+
+		const removeClass = userInfo.classes.filter(
+			(userClass) => userClass.id === schoolClass.id
+		);
 		const userRef = db.collection("users").doc(userInfo.id);
 
 		try {
-			await userRef.update({
-				classes: firestoreCommand,
-			});
+			if (joined)
+				for (let i = 0; i < removeClass.length; i++)
+					await userRef.update({
+						classes: firebase.firestore.FieldValue.arrayRemove(removeClass[i]),
+					});
+			else
+				await userRef.update({
+					classes: firebase.firestore.FieldValue.arrayUnion(schoolClass),
+				});
+
 			addToast(
-				`Successfully ${joined ? "Removed From" : "Added to"} ${props.name}!`,
+				`Successfully ${joined ? "Removed From" : "Added to"} ${
+					schoolClass.name
+				}!`,
 				{ appearance: "success", autoDismiss: true }
 			);
 		} catch (error) {
@@ -63,10 +65,12 @@ export default function ClassHeader({ school, classId, loading, ...props }) {
 			shortLink={`/schools/${school.id}`}
 			loading={loading}
 			subShort={
-				props.short +
-					(props.last_name ? " - Professor " + props.last_name : "") || true
+				schoolClass.short +
+					(schoolClass.teacher
+						? " - Professor " + schoolClass.teacher.name
+						: "") || true
 			}
-			name={props.name}
+			name={schoolClass.name}
 		>
 			{joined ? (
 				<button onClick={toggleJoin} className="button select">

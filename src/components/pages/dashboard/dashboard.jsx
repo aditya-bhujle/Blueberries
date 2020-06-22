@@ -16,20 +16,20 @@ export default function DashboardHub() {
 		.doc("tMDQlZ37elhZdqWK7HTq")
 		.collection("posts");
 
+	const createProps = {
+		title: "Create Post",
+		placeholder: "Ask questions, share information, or start a discussion!",
+		createPlaceholder: "Post Title",
+		category: ["Question", "Resource", "Other"],
+	};
 	return (
 		<Section>
 			<HubPostSystem
 				contentTitle="Your Feed"
 				hubRef={dashboardRef}
 				sidebar={<Sidebar userInfo={userInfo} />}
-			>
-				<CardCreate
-					title="Create Post"
-					placeholder="Ask questions, share information, or start a discussion!"
-					createPlaceholder="Post Title"
-					postRef={dashboardRef}
-				/>
-			</HubPostSystem>
+				create={createProps}
+			/>
 		</Section>
 	);
 }

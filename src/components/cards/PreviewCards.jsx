@@ -1,6 +1,6 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function CardPreviewInfo({
 	title,
@@ -10,6 +10,7 @@ function CardPreviewInfo({
 	loading,
 	linkUrl,
 	onClick,
+	teacherLink,
 }) {
 	const content = (
 		<>
@@ -21,17 +22,18 @@ function CardPreviewInfo({
 			)}
 			<div className="hub_about_count">
 				{loading ? <Skeleton width={50} /> : members + " Joined"}
+				{teacherLink ? <Link className="text_link" to={".."}> ⋅ Go to Hub</Link> : ""}
 			</div>
-			<p>{description && (loading ? <Skeleton count={3} /> : description)}</p>
+			{description && <p>{loading ? <Skeleton count={3} /> : description}</p>}
 		</>
 	);
 	return linkUrl ? (
-		<a href="." className="hub_card">
+		<a href="." className="hub_card bottom_padding">
 			{content}
 		</a>
 	) : (
 		<div
-			className="hub_card"
+			className="hub_card bot_padding"
 			style={onClick ? { cursor: "pointer" } : {}}
 			onClick={onClick}
 		>
@@ -51,6 +53,24 @@ function CardPreviewList({
 	titleLoading,
 	loading,
 }) {
+	const listContent = (element) => (
+		<>
+			{element.image && (
+				<img
+					{...element.image}
+					sizes="100vw"
+					alt=""
+					className="hub_notes_image small"
+				/>
+			)}
+			<p className="list_date">{element.right}</p>
+			<strong>{element.header}</strong>
+			<p className="list_subtitle">
+				{loading ? <Skeleton width={50} /> : element.content}
+			</p>
+		</>
+	);
+
 	return (
 		<div className={"hub_card" + (bot_padding ? " bot_padding" : "")}>
 			{title && (
@@ -63,23 +83,21 @@ function CardPreviewList({
 			)}
 
 			<div className={isDouble ? "list_grid_div" : ""}>
-				{elements.map((element, index) => (
-					<div className="list_div w-clearfix" key={index}>
-						{element.image && (
-							<img
-								{...element.image}
-								sizes="100vw"
-								alt=""
-								className="hub_notes_image small"
-							/>
-						)}
-						<p className="list_date">{element.right}</p>
-						<strong>{element.header}</strong>
-						<p className="list_subtitle">
-							{loading ? <Skeleton width={50} /> : element.content}
-						</p>
-					</div>
-				))}
+				{elements.map((element, index) =>
+					element.link ? (
+						<Link
+							className="list_div"
+							key={index}
+							to={element.link || "/notfound"}
+						>
+							{listContent(element)}
+						</Link>
+					) : (
+						<div className="list_div w-clearfix" key={index}>
+							{listContent(element)}
+						</div>
+					)
+				)}
 			</div>
 			{children}
 			{link && (

@@ -273,7 +273,7 @@ function CardCreate({
 
 			if (postFiles) firestoreAdd.files = postFiles.map(({ name }) => name);
 
-			const { id: docId } = await postRef.add(firestoreAdd);
+			const createdPost = await postRef.add(firestoreAdd);
 
 			if (postFiles)
 				for (let index = 0; index < postFiles.length; index++) {
@@ -281,7 +281,7 @@ function CardCreate({
 					await storage()
 						.ref()
 						.child(postRef.path)
-						.child(docId)
+						.child(createdPost.id)
 						.child(file.name)
 						.put(file);
 				}
@@ -294,6 +294,11 @@ function CardCreate({
 			console.log(`${postInfo.title} successfully created!`);
 
 			setShowCreate(false);
+			props.addCreated({
+				id: createdPost.id,
+				data: firestoreAdd,
+				ref: createdPost,
+			});
 			setPostInfo({ files: [] });
 		} catch (error) {
 			console.error(error);
