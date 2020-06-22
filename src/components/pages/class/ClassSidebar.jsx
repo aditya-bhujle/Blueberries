@@ -23,7 +23,7 @@ export default function ClassSidebar({ classInfo, classLoading }) {
 			<CardPreviewInfo
 				title={classInfo.name}
 				subtitle={
-					classInfo.last_name ? `Professor ${classInfo.last_name}` : false
+					classInfo.last_name ? `Professor ${classInfo.last_name}` : "Hub"
 				}
 				members={classInfo.members}
 				loading={classLoading}

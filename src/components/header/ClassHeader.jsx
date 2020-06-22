@@ -68,7 +68,7 @@ export default function ClassHeader({ school, schoolClass, loading }) {
 				schoolClass.short +
 					(schoolClass.teacher
 						? " - Professor " + schoolClass.teacher.name
-						: "") || true
+						: " - Hub") || true
 			}
 			name={schoolClass.name}
 		>
