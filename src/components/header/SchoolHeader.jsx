@@ -40,7 +40,7 @@ export default function SchoolHeader({ schoolId, loading, ...props }) {
 				school: joined ? {} : schoolObject,
 			});
 			addToast(
-				`Successfully ${joined ? "Removed From" : "Added to"} ${props.name}!`,
+				`Successfully ${joined ? "Left" : "Added to"} ${props.name}!`,
 				{ appearance: "success", autoDismiss: true }
 			);
 		} catch (error) {
@@ -55,7 +55,7 @@ export default function SchoolHeader({ schoolId, loading, ...props }) {
 			{...props}
 		>
 			{joined ? (
-				<button onClick={toggleJoin} className="button select">
+				<button onClick={toggleJoin} className="button select border">
 					{`Joined ${props.short}!`}
 				</button>
 			) : (

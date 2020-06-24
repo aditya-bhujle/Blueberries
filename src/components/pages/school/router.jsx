@@ -104,13 +104,18 @@ export default function SchoolRouter({ match }) {
 
 	return (
 		<Section>
-			<SchoolHeader
-				name={schoolInfo.name}
-				short={schoolInfo.short}
-				schoolId={schoolId}
-				loading={schoolInfoLoading}
-			/>
-			<PageNav type="school" baseLink={match.url} />
+			<div
+				className="hub_card"
+				style={{ borderBottomStyle: "none", flexShrink: 0 }}
+			>
+				<SchoolHeader
+					name={schoolInfo.name}
+					short={schoolInfo.short}
+					schoolId={schoolId}
+					loading={schoolInfoLoading}
+				/>
+				<PageNav type="school" baseLink={match.url} />
+			</div>
 			<div className="line" />
 			<Switch>
 				<Route

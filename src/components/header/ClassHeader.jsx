@@ -49,7 +49,7 @@ export default function ClassHeader({ school, schoolClass, loading }) {
 				});
 
 			addToast(
-				`Successfully ${joined ? "Removed From" : "Added to"} ${
+				`Successfully ${joined ? "Left" : "Added to"} ${
 					schoolClass.name
 				}!`,
 				{ appearance: "success", autoDismiss: true }
@@ -73,7 +73,7 @@ export default function ClassHeader({ school, schoolClass, loading }) {
 			name={schoolClass.name}
 		>
 			{joined ? (
-				<button onClick={toggleJoin} className="button select">
+				<button onClick={toggleJoin} className="button select border">
 					Joined Class
 				</button>
 			) : (

@@ -791,6 +791,10 @@ strong {
 	background-color: #1567d3;
 }
 
+.button.border {
+	border-style: solid;
+}
+
 .button.small {
 	padding-top: 7px;
 	padding-bottom: 4px;
