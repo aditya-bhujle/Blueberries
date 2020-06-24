@@ -53,19 +53,24 @@ export default function ClassRouter({ match }) {
 
 	return (
 		<Section fullscreen>
-			<ClassHeader
-				school={{ id: schoolId, short: classInfo.school_short }}
-				schoolClass={{
-					id: classId,
-					name: classInfo.name,
-					short: classInfo.short,
-					...(classInfo.last_name && {
-						teacher: { name: classInfo.last_name, id: teacherId },
-					}),
-				}}
-				loading={loading}
-			/>
-			<PageNav type="class" baseLink={match.url} />
+			<div
+				className="hub_card"
+				style={{ borderBottomStyle: "none", flexShrink: 0 }}
+			>
+				<ClassHeader
+					school={{ id: schoolId, short: classInfo.school_short }}
+					schoolClass={{
+						id: classId,
+						name: classInfo.name,
+						short: classInfo.short,
+						...(classInfo.last_name && {
+							teacher: { name: classInfo.last_name, id: teacherId },
+						}),
+					}}
+					loading={loading}
+				/>
+				<PageNav type="class" baseLink={match.url} />
+			</div>
 			<div className="line" />
 			<Switch>
 				<Route

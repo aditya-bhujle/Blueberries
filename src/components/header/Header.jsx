@@ -2,12 +2,23 @@ import React from "react";
 import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
 
-export default function Header({ name, short, shortLink, subShort, loading, children }) {
+export default function Header({
+	name,
+	short,
+	shortLink,
+	subShort,
+	loading,
+	children,
+}) {
 	return (
 		<div className="hub_header">
 			<div>
 				<div className="hub_parent_title">
-					{loading ? <Skeleton width={40} /> : <Link to={shortLink}>{short}</Link>}
+					{loading ? (
+						<Skeleton width={40} />
+					) : (
+						<Link to={shortLink}>{short}</Link>
+					)}
 				</div>
 				{subShort && (
 					<>
@@ -19,7 +30,7 @@ export default function Header({ name, short, shortLink, subShort, loading, chil
 				)}
 				<h2>{loading ? <Skeleton width={500} /> : name}</h2>
 			</div>
-			<div>
+			<div style={{ marginTop: "20px" }}>
 				{children || (
 					<>
 						<button className="button w-button">Join Class</button>

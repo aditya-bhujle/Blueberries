@@ -33,22 +33,20 @@ export default function PageNav({ type, baseLink }) {
 
 	return (
 		<div className="hub_nav">
-			{links.map((link) => {
-				return (
-					<NavLink
-						exact
-						to={`${baseLink}${link.path}`}
-						className="nav_link"
-						activeClassName="current"
-						key={link.path}
-					>
-						<svg className="nav_svg">
-							<use xlinkHref={`#${link.icon}`} />
-						</svg>
-						<div className="menu_link post">{link.content}</div>
-					</NavLink>
-				);
-			})}
+			{links.map((link) => (
+				<NavLink
+					exact
+					to={`${baseLink}${link.path}`}
+					className="nav_link"
+					activeClassName="current"
+					key={link.path}
+				>
+					<svg className="nav_svg">
+						<use xlinkHref={`#${link.icon}`} />
+					</svg>
+					<div className="menu_link post">{link.content}</div>
+				</NavLink>
+			))}
 		</div>
 	);
 }
