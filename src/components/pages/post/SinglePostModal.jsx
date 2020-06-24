@@ -53,7 +53,7 @@ export default function SinglePostModal() {
 		};
 
 	return (
-		<div className="section modal">
+		<div className="section modal" id="section_modal">
 			<div className="w-container" style={{ width: "100%" }}>
 				{postProps && (
 					<div className="hub_column_layout">

@@ -1338,6 +1338,29 @@ strong {
 	color: #333;
 }
 
+.post_comment.more {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+
+	text-align: center;
+	padding: 4px 45px 3px 15px;
+	fill: #788699;
+	cursor: pointer;
+}
+
+.post_comment.more:hover {
+	background-color: #f8f2f2;
+}
+
 .post_modal {
 	position: fixed;
 	left: 0%;

@@ -5,7 +5,6 @@ import Sidebar from "./Sidebar";
 import { UserContext } from "../../../App";
 import { db } from "../../../firebase/config";
 import HubPostSystem from "../../systems/HubPostSystem";
-import { CardCreate } from "../../cards/CenterCards";
 
 export default function DashboardHub() {
 	const userInfo = useContext(UserContext);

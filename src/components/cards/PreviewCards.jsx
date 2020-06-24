@@ -28,7 +28,7 @@ function CardPreviewInfo({
 		</>
 	);
 	return linkUrl ? (
-		<a href="." className="hub_card bottom_padding">
+		<a href="." className="hub_card bot_padding">
 			{content}
 		</a>
 	) : (

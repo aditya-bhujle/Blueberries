@@ -17,6 +17,10 @@ export default function PostComment({
 	const [likes, setLikes] = useState(propLikes.length);
 	const [liked, setLiked] = useState(false);
 
+	const numShownComments = 2;
+	const [showMore, setShowMore] = useState(false);
+	const [queryCursor, setQueryCursor] = useState();
+
 	const [showReply, setShowReply] = useState(false);
 	const [replyText, setReplyText] = useState("");
 
@@ -27,10 +31,20 @@ export default function PostComment({
 
 	useEffect(() => {
 		const fetchData = async () => {
+			setShowMore(false);
+			setQueryCursor(null);
+
 			try {
 				let fetchReplies = await props.commentDocRef
 					.collection("comments")
+					.limit(numShownComments)
 					.get();
+
+				if (props.replies > numShownComments) {
+					setShowMore(true);
+					setQueryCursor(fetchReplies.docs[fetchReplies.docs.length - 1]);
+				}
+
 				setReplies(fetchReplies.docs);
 			} catch (error) {
 				console.error(error);
@@ -45,6 +59,28 @@ export default function PostComment({
 			if (userInfo && user === userInfo.id) setLiked(true);
 		});
 	}, [userInfo]);
+
+	async function loadMoreComments() {
+		try {
+			let fetchPosts = await props.commentDocRef
+				.collection("comments")
+				.startAfter(queryCursor)
+				.limit(numShownComments)
+				.get();
+
+			setReplies(replies.concat(fetchPosts.docs));
+
+			if (fetchPosts.docs.length + replies.length === props.replies) {
+				console.log("End of comment thread")
+				setShowMore(false);
+				return;
+			}
+
+			setQueryCursor(fetchPosts.docs[fetchPosts.docs.length - 1]);
+		} catch (error) {
+			console.error(error);
+		}
+	}
 
 	async function toggleLike() {
 		try {
@@ -99,6 +135,7 @@ export default function PostComment({
 			setPreviewReplies(
 				previewReplies.concat({ ...replyInfo, id: tempRef.id })
 			);
+			setShowReply(false);
 			addToast(`Comment Successfully Added!`, {
 				appearance: "success",
 				autoDismiss: true,
@@ -109,7 +146,7 @@ export default function PostComment({
 	}
 
 	return (
-		<div>
+		<>
 			<div
 				className={
 					"post_comment" +
@@ -175,19 +212,35 @@ export default function PostComment({
 							key={comment.id}
 						/>
 					))}
-					{replies &&
-						replies.map((reply) => (
-							<PostComment
-								{...reply.data()}
-								commentDocRef={props.commentDocRef
-									.collection("comments")
-									.doc(reply.id)}
-								postRef={props.postRef}
-								key={reply.id}
-							/>
-						))}
+					{replies && (
+						<>
+							{replies.map((reply) => (
+								<PostComment
+									{...reply.data()}
+									commentDocRef={props.commentDocRef
+										.collection("comments")
+										.doc(reply.id)}
+									postRef={props.postRef}
+									key={reply.id}
+								/>
+							))}
+							{showMore && (
+								<div className="post_comment more" onClick={loadMoreComments}>
+									<p style={{ marginBottom: "5px", marginRight: "5px" }}>
+										Load More Comments
+									</p>
+									<svg
+										className="menu_svg"
+										style={{ width: "20px", height: "20px" }}
+									>
+										<use xlinkHref="#down" />
+									</svg>
+								</div>
+							)}
+						</>
+					)}
 				</div>
 			)}
-		</div>
+		</>
 	);
 }

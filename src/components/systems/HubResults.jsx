@@ -3,9 +3,8 @@ import algoliasearch from "algoliasearch/lite";
 import { CardPost } from "../cards/CenterCards";
 import { UserContext } from "../../App";
 import PostModal from "../pages/post/PostModal";
-import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import { firestore } from "firebase/app";
+import SpinLoad from "../SpinLoad";
 
 export default function HubResults({ searchQuery, hubRef, info, ...props }) {
 	const userInfo = useContext(UserContext);
@@ -58,12 +57,7 @@ export default function HubResults({ searchQuery, hubRef, info, ...props }) {
 		fetchData();
 	}, [searchQuery, hubRef.path]);
 
-	if (algoliaLoading)
-		return (
-			<div style={{ textAlign: "center" }}>
-				<Spin indicator={<LoadingOutlined style={{ fontSize: 36 }} spin />} />
-			</div>
-		);
+	if (algoliaLoading) return <SpinLoad big />;
 
 	return (
 		<>

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CardSearch } from "../../../cards/CenterCards";
-import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import { Link, useParams } from "react-router-dom";
+import SpinLoad from "../../../SpinLoad";
 
 export default function SchoolClassesContent({ schoolRef }) {
 	const param = useParams(); //schoolId
@@ -73,7 +72,7 @@ export default function SchoolClassesContent({ schoolRef }) {
 				))
 			) : (
 				<div style={{ textAlign: "center" }}>
-					<Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
+					<SpinLoad/>
 				</div>
 			)}
 		</div>

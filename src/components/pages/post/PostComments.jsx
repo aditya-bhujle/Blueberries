@@ -5,10 +5,13 @@ import { useToasts } from "react-toast-notifications";
 
 import SortList from "../../SortList";
 import PostComment from "./Comment";
-import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import SpinLoad from "../../SpinLoad";
+import InfiniteScroll from "../../../../node_modules/react-infinite-scroll-component/dist/index";
 
 export default function PostComments({ postProps, postRef }) {
+	const userInfo = useContext(UserContext);
+	const { addToast } = useToasts();
+
 	const [sortQuery, setSortQuery] = useState({
 		title: "New",
 		query: "date_posted",
@@ -21,19 +24,23 @@ export default function PostComments({ postProps, postRef }) {
 	const [newComment, setNewComment] = useState("");
 	const [previewComments, setPreviewComments] = useState([]);
 
-	const userInfo = useContext(UserContext);
-	const { addToast } = useToasts();
+	const commentColRef = postRef.collection("comments");
 
-	const commentRef = postRef.collection("comments");
+	const loadCommentNum = 6;
+	const [queryCursor, setQueryCursor] = useState();
+	const [hasMoreComments, sethasMoreComments] = useState(true);
 
 	useEffect(() => {
 		const fetchData = async () => {
+			setPreviewComments([]);
 			try {
-				console.log(sortQuery.query);
-				console.log(sortQuery.desc);
-				let fetchPosts = await commentRef
+				let fetchPosts = await commentColRef
 					.orderBy(sortQuery.query, sortQuery.desc ? "desc" : "asc")
+					.limit(loadCommentNum)
 					.get();
+
+				setQueryCursor(fetchPosts.docs[fetchPosts.docs.length - 1]);
+
 				console.log("Comment data fetched!");
 				setComments(fetchPosts.docs);
 			} catch (error) {
@@ -45,6 +52,29 @@ export default function PostComments({ postProps, postRef }) {
 
 		fetchData();
 	}, [sortQuery]);
+
+	async function fetchMoreComments() {
+		try {
+			let fetchComments = await commentColRef
+				.orderBy(sortQuery.query, sortQuery.desc ? "desc" : "asc")
+				.startAfter(queryCursor)
+				.limit(loadCommentNum)
+				.get();
+
+			if (fetchComments.empty) {
+				sethasMoreComments(false);
+				console.log("Reached end of the query!");
+				return;
+			}
+
+			setQueryCursor(fetchComments.docs[fetchComments.docs.length - 1]);
+
+			console.log("Paginated comments fetched!");
+			setComments(comments.concat(fetchComments.docs));
+		} catch (error) {
+			console.error(error);
+		}
+	}
 
 	async function addComment(e) {
 		e.preventDefault();
@@ -59,7 +89,7 @@ export default function PostComments({ postProps, postRef }) {
 		};
 
 		try {
-			const tempRef = await commentRef.add(commentInfo);
+			const tempRef = await commentColRef.add(commentInfo);
 			await postRef.update({
 				comments: firestore.FieldValue.increment(1),
 			});
@@ -110,26 +140,31 @@ export default function PostComments({ postProps, postRef }) {
 						{previewComments.map((comment) => (
 							<PostComment
 								{...comment}
-								commentDocRef={commentRef.doc(comment.id)}
+								commentDocRef={commentColRef.doc(comment.id)}
 								postRef={postRef}
 								key={comment.id}
 							/>
 						))}
-						{comments &&
-							comments.map((comment) => (
+						<InfiniteScroll
+							dataLength={comments.length}
+							next={fetchMoreComments}
+							hasMore={hasMoreComments}
+							loader={<SpinLoad big />}
+							scrollableTarget="section_modal"
+						>
+							{comments.map((comment) => (
 								<PostComment
 									{...comment.data()}
-									commentDocRef={commentRef.doc(comment.id)}
+									commentDocRef={commentColRef.doc(comment.id)}
 									postRef={postRef}
 									key={comment.id}
 								/>
 							))}
+						</InfiniteScroll>
 					</div>
 				)
 			) : (
-				<div style={{ textAlign: "center" }}>
-					<Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
-				</div>
+				<SpinLoad />
 			)}
 		</>
 	);
