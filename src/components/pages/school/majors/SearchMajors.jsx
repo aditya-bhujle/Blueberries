@@ -3,7 +3,7 @@ import algoliasearch from "algoliasearch/lite";
 import SpinLoad from "../../../SpinLoad";
 import { Link, useParams } from "react-router-dom";
 
-export default function SearchMajors({ searchQuery, hubRef, loc }) {
+export default function SearchMajors({ searchQuery, hubRef }) {
 	const [algoliaLoading, setAlgoliaLoading] = useState(true);
 	const [searchResults, setSearchResults] = useState([]);
 	const { schoolId } = useParams();

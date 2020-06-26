@@ -65,7 +65,6 @@ export default function SchoolPosts({ sidebar, schoolRef }) {
 						<SearchMajors
 							searchQuery={searchQuery}
 							hubRef={schoolRef}
-							loc={loc}
 						/>
 					)}
 				</div>

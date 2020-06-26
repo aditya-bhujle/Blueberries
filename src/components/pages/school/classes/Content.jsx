@@ -25,7 +25,6 @@ export default function SchoolClassesContent({ schoolRef }) {
 			setLoading(false);
 		};
 
-		console.log("USEEFFEECTE!")
 		fetchData();
 	}, []);
 
@@ -48,34 +47,29 @@ export default function SchoolClassesContent({ schoolRef }) {
 		});
 	}
 
-	return (
-		<div className="hub_content">
-			<p>
-				Can't find your class? <a>Add it here.</a>
-			</p>
-			<CardSearch placeholder="Search All Classes" />
-
-			{!loading ? (
-				fieldArray.map((field, index) => (
-					<div className="hub_card" key={index}>
-						<h4 className="main_color">
-							<strong>{field.name}</strong>
-						</h4>
-						<div className="list_grid_div">
-							{field.content.map((element, index) => (
-								<Link to={`/schools/${param.schoolId}/classes/${element.id}`} className="list_div w-clearfix" key={index}>
-									<strong>{element.header}</strong>
-									<p className="list_subtitle">{element.content}</p>
-								</Link>
-							))}
-						</div>
-					</div>
-				))
-			) : (
-				<div style={{ textAlign: "center" }}>
-					<SpinLoad/>
+	return !loading ? (
+		fieldArray.map((field, index) => (
+			<div className="hub_card" key={index}>
+				<h4 className="main_color">
+					<strong>{field.name}</strong>
+				</h4>
+				<div className="list_grid_div">
+					{field.content.map((element, index) => (
+						<Link
+							to={`/schools/${param.schoolId}/classes/${element.id}`}
+							className="list_div w-clearfix"
+							key={index}
+						>
+							<strong>{element.header}</strong>
+							<p className="list_subtitle">{element.content}</p>
+						</Link>
+					))}
 				</div>
-			)}
+			</div>
+		))
+	) : (
+		<div style={{ textAlign: "center" }}>
+			<SpinLoad />
 		</div>
 	);
 }
