@@ -14,6 +14,7 @@ import Classes from "./classes/classes";
 import Clubs from "./clubs/clubs";
 import Events from "./events/events";
 import Chats from "./chats/chats";
+import NotFoundSection from "../../NotFoundSection";
 
 export default function SchoolRouter({ match }) {
 	let { schoolId } = match.params;
@@ -82,7 +83,8 @@ export default function SchoolRouter({ match }) {
 				let fetchInfo = await schoolRef.get();
 				console.log("School info fetched!");
 
-				setSchoolInfo(fetchInfo.data());
+				if (!fetchInfo.exists) setSchoolInfo(404);
+				else setSchoolInfo(fetchInfo.data());
 			} catch (error) {
 				console.error(error);
 			}
@@ -92,6 +94,8 @@ export default function SchoolRouter({ match }) {
 
 		fetchData();
 	}, [match.url]);
+
+	if (schoolInfo === 404) return <NotFoundSection text="school" />;
 
 	const NewSidebar = (
 		<Sidebar

@@ -618,6 +618,16 @@ strong {
 	flex: 1;
 }
 
+.section.center {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	padding-top: 50px;
+}
+
 .section.content {
 	margin-left: 0px;
 	display: -webkit-box;

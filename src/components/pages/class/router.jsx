@@ -15,6 +15,7 @@ import Thoughts from "./thoughts/thoughts";
 import Reviews from "./reviews/reviews";
 import ClassHeader from "../../header/ClassHeader";
 import SinglePostModal from "../post/SinglePostModal";
+import NotFoundSection from "../../NotFoundSection";
 
 export default function ClassRouter({ match }) {
 	let { schoolId, classId, teacherId } = match.params;
@@ -38,7 +39,8 @@ export default function ClassRouter({ match }) {
 				let fetchInfo = await classRef.get();
 				console.log("Class info fetched!");
 
-				setClassInfo(fetchInfo.data());
+				if (!fetchInfo.exists) setClassInfo(404);
+				else setClassInfo(fetchInfo.data());
 			} catch (error) {
 				console.error(error);
 			}
@@ -48,6 +50,8 @@ export default function ClassRouter({ match }) {
 
 		fetchData();
 	}, [match.url]);
+
+	if (classInfo === 404) return <NotFoundSection text="class" />;
 
 	const NewSidebar = <Sidebar classLoading={loading} classInfo={classInfo} />;
 
