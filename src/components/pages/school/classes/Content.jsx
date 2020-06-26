@@ -25,6 +25,7 @@ export default function SchoolClassesContent({ schoolRef }) {
 			setLoading(false);
 		};
 
+		console.log("USEEFFEECTE!")
 		fetchData();
 	}, []);
 
