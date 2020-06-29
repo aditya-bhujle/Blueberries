@@ -16,6 +16,7 @@ import Login from "./components/pages/auth/login";
 import Signup from "./components/pages/auth/signup";
 import SchoolRouter from "./components/pages/school/router";
 import ClassRouter from "./components/pages/class/router";
+import OnboardingRouter from "./components/pages/onboarding/router";
 
 export const UserContext = createContext({ user: null });
 
@@ -61,6 +62,8 @@ export default function App() {
 				<Switch>
 					<Route path="/login" component={Login}></Route>
 					<Route path="/signup" component={Signup} />
+
+					<Route path="/onboarding" component={OnboardingRouter} />
 
 					<Route exact path="/" component={DashboardHub} />
 

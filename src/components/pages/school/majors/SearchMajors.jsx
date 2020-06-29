@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import algoliasearch from "algoliasearch/lite";
 import SpinLoad from "../../../SpinLoad";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default function SearchMajors({ searchQuery, hubRef }) {
+export default function SearchMajors({
+	searchQuery,
+	schoolId,
+	isOnboarding,
+	...props
+}) {
 	const [algoliaLoading, setAlgoliaLoading] = useState(true);
 	const [searchResults, setSearchResults] = useState([]);
-	const { schoolId } = useParams();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -32,27 +36,54 @@ export default function SearchMajors({ searchQuery, hubRef }) {
 		};
 
 		fetchData();
-	}, [searchQuery, hubRef.path]);
+	}, [searchQuery]);
 
 	if (algoliaLoading) return <SpinLoad big />;
 
 	return (
 		<>
-			<div className="list_grid_div space_between">
-				{searchResults.map((major, index) => (
-					<Link
-						to={`/schools/${schoolId}/majors/${major.objectID}`}
-						className="hub_card bot_padding hoverable"
-						style={{ padding: "15px 20px", textAlign: "center" }}
-						key={index}
-					>
-						<strong>{major.name}</strong>
-					</Link>
-				))}
-			</div>
-
 			{!searchResults.length && (
 				<p style={{ textAlign: "center" }}>No results</p>
+			)}
+			{isOnboarding ? (
+				<div className="list_grid_div onboarding_school">
+					{searchResults.map((major, index) => (
+						<div
+							className={
+								"hub_card bot_padding " +
+								(major.objectID === props.selectedMajor.id
+									? "selected"
+									: "hoverable")
+							}
+							style={{ padding: "15px 20px", textAlign: "center" }}
+							onClick={() => {
+								if (major.objectID === props.selectedMajor.id)
+									props.setSelectedMajor({});
+								else
+									props.setSelectedMajor({
+										id: major.objectID,
+										name: major.name,
+									});
+							}}
+							key={index}
+						>
+							<strong>{major.name}</strong>
+						</div>
+					))}
+				</div>
+			) : (
+				<div className="list_grid_div space_between">
+					{searchResults.map((major, index) => (
+						<Link
+							to={`/schools/${schoolId}/majors/${major.objectID}`}
+							className="hub_card bot_padding hoverable"
+							style={{ padding: "15px 20px", textAlign: "center" }}
+							key={index}
+						>
+							<strong>{major.name}</strong>
+						</Link>
+					))}
+				</div>
 			)}
 		</>
 	);

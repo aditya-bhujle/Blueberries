@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import ContentTitle from "../../../header/ContentTitle";
 import Content from "./Content";
-import { useLocation, Redirect } from "react-router-dom";
+import { useLocation, Redirect, useParams } from "react-router-dom";
 import SearchMajors from "./SearchMajors";
 import { CardSearch } from "../../../cards/CenterCards";
 
@@ -16,6 +16,7 @@ export default function SchoolPosts({ sidebar, schoolRef }) {
 	const [searchQuery, setSearchQuery] = useState("");
 	const loc = useLocation();
 	const [loading, setLoading] = useState(true);
+	const { schoolId } = useParams();
 
 	useEffect(() => {
 		let searchHash = new URLSearchParams(loc.search).get("search");
@@ -61,12 +62,7 @@ export default function SchoolPosts({ sidebar, schoolRef }) {
 						/>
 					)}
 
-					{searchQuery && (
-						<SearchMajors
-							searchQuery={searchQuery}
-							hubRef={schoolRef}
-						/>
-					)}
+					{searchQuery && <SearchMajors searchQuery={searchQuery} schoolId={schoolId}/>}
 				</div>
 				{sidebar}
 			</div>

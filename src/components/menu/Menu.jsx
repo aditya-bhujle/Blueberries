@@ -1,8 +1,13 @@
 import React from "react";
 import MenuLink from "./MenuLink";
 import SubMenuHead from "./SubMenuHead";
+import { useLocation } from "react-router-dom";
 
 export default function Menu({ data, loading }) {
+	const loc = useLocation();
+
+	if (loc.pathname.startsWith("/onboarding")) return null;
+
 	if (loading) {
 		return (
 			<div className="nav_menu">
@@ -107,23 +112,29 @@ export default function Menu({ data, loading }) {
 				</>
 			)}
 
-			{mapLinks(classes, "classes", "flask", [
-				{ content: "Posts", icon: "post", link: "" },
-				{ content: "Chat", icon: "chat", link: "chat" },
-				{ content: "Notes", icon: "notes", link: "notes" },
-				{ content: "Calendar", icon: "calendar", link: "calendar" },
-				{ content: "Thoughts", icon: "thoughts", link: "thoughts" },
-				{ content: "Reviews", icon: "reviews", link: "reviews" },
-			])}
+			{classes &&
+				mapLinks(classes, "classes", "flask", [
+					{ content: "Posts", icon: "post", link: "" },
+					{ content: "Chat", icon: "chat", link: "chat" },
+					{ content: "Notes", icon: "notes", link: "notes" },
+					{ content: "Calendar", icon: "calendar", link: "calendar" },
+					{ content: "Thoughts", icon: "thoughts", link: "thoughts" },
+					{ content: "Reviews", icon: "reviews", link: "reviews" },
+				])}
 
-			{mapLinks(clubs, "club", "football", [
-				{ content: "Posts", icon: "post", link: "" },
-				{ content: "Chat", icon: "chat", link: "chat" },
-				{ content: "Announcement", icon: "announcement", link: "announcement" },
-				{ content: "Calendar", icon: "calendar", link: "calendar" },
-			])}
+			{clubs &&
+				mapLinks(clubs, "club", "football", [
+					{ content: "Posts", icon: "post", link: "" },
+					{ content: "Chat", icon: "chat", link: "chat" },
+					{
+						content: "Announcement",
+						icon: "announcement",
+						link: "announcement",
+					},
+					{ content: "Calendar", icon: "calendar", link: "calendar" },
+				])}
 
-			{!!chats.length && (
+			{chats && (
 				<>
 					{chats.map((chat) => (
 						<MenuLink
@@ -163,7 +174,8 @@ export default function Menu({ data, loading }) {
 							<div key={item.id}>
 								<SubMenuHead
 									content={
-										item.name + (item.teacher ? ` - ${item.teacher.name}` : " - Hub")
+										item.name +
+										(item.teacher ? ` - ${item.teacher.name}` : " - Hub")
 									}
 									icon={icon}
 									link={itemURL}

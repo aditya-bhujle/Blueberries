@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import algoliasearch from "algoliasearch/lite";
 import SpinLoad from "../../../SpinLoad";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default function SearchClasses({ searchQuery, hubRef }) {
+export default function SearchClasses({
+	searchQuery,
+	schoolId,
+	isOnboarding,
+	...props
+}) {
 	const [algoliaLoading, setAlgoliaLoading] = useState(true);
 	const [searchResults, setSearchResults] = useState([]);
-	const { schoolId } = useParams();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -32,7 +36,7 @@ export default function SearchClasses({ searchQuery, hubRef }) {
 		};
 
 		fetchData();
-	}, [searchQuery, hubRef.path]);
+	}, [searchQuery]);
 
 	if (algoliaLoading) return <SpinLoad big />;
 
@@ -45,29 +49,70 @@ export default function SearchClasses({ searchQuery, hubRef }) {
 
 		fieldArray[fieldArray.length - 1].content.push({
 			header: classData.name,
-			content: `${classData.short} ⋅ ${classData.members} Students`,
+			content: classData.short,
 			id: classData.objectID,
 		});
 		previousField = classData.field;
 	});
+
+	if (!searchResults.length)
+		return <p style={{ textAlign: "center" }}>No results</p>;
 
 	return fieldArray.map((field, index) => (
 		<div className="hub_card" key={index}>
 			<h4 className="main_color">
 				<strong>{field.name}</strong>
 			</h4>
-			<div className="list_grid_div">
-				{field.content.map((element, index) => (
-					<Link
-						to={`/schools/${schoolId}/classes/${element.id}`}
-						className="list_div w-clearfix"
-						key={index}
-					>
-						<strong>{element.header}</strong>
-						<p className="list_subtitle">{element.content}</p>
-					</Link>
-				))}
-			</div>
+			{!isOnboarding && (
+				<div className="list_grid_div">
+					{field.content.map((element, index) => (
+						<Link
+							to={`/schools/${schoolId}/classes/${element.id}`}
+							className="list_div w-clearfix"
+							key={index}
+						>
+							<strong>{element.header}</strong>
+							<p className="list_subtitle">{element.content}</p>
+						</Link>
+					))}
+				</div>
+			)}
+			{isOnboarding && (
+				<div className="list_grid_div onboarding_classes">
+					{field.content.map((element, index) => {
+						const isSelected = !!props.selectedClasses.filter(
+							(selectedClass) => selectedClass.id === element.id
+						).length;
+
+						return (
+							<div
+								className={
+									"hub_card inside_div bot_padding " +
+									(isSelected ? "selected" : "hoverable")
+								}
+								onClick={() => {
+									isSelected
+										? props.setSelectedClasses(
+												props.selectedClasses.filter(
+													(selectedClass) => selectedClass.id !== element.id
+												)
+										  )
+										: props.setSelectedClasses(
+												props.selectedClasses.concat({
+													id: element.id,
+													short: element.content,
+													name: element.header,
+												})
+										  );
+								}}
+							>
+								<strong>{element.header}</strong>
+								<p className="list_subtitle">{element.content}</p>
+							</div>
+						);
+					})}
+				</div>
+			)}
 		</div>
 	));
 }
