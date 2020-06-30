@@ -1,7 +1,6 @@
 import React from "react";
 
 import ContentTitle from "../../../header/ContentTitle";
-import Sidebar from "../ClassSidebar";
 import Content from "./Content";
 
 export default function SchoolPosts({ sidebar }) {

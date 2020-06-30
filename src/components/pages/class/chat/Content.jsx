@@ -6,7 +6,6 @@ import { UserContext } from "../../../../App";
 
 export default function ClassMessageContent({ classRef }) {
 	const [messages, setMessages] = useState([]);
-	const [loading, setLoading] = useState(true);
 
 	const userInfo = useContext(UserContext);
 
@@ -21,7 +20,7 @@ export default function ClassMessageContent({ classRef }) {
 				console.error(error);
 			}
 
-			setLoading(false);
+			//setLoading(false);
 		};
 
 		fetchData();

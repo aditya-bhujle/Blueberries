@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { CardSearch } from "../../../cards/CenterCards";
-import { useLocation, Redirect, Link } from "react-router-dom";
+import { useLocation, Redirect } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import { db } from "../../../../firebase/config";
 import SchoolResults from "./SchoolResults";

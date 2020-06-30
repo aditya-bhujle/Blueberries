@@ -22,7 +22,14 @@ function CardPreviewInfo({
 			)}
 			<div className="hub_about_count">
 				{loading ? <Skeleton width={50} /> : members + " Joined"}
-				{teacherLink ? <Link className="text_link" to={".."}> ⋅ Go to Hub</Link> : ""}
+				{teacherLink ? (
+					<Link className="text_link" to={".."}>
+						{" "}
+						⋅ Go to Hub
+					</Link>
+				) : (
+					""
+				)}
 			</div>
 			{description && <p>{loading ? <Skeleton count={3} /> : description}</p>}
 		</>
@@ -59,7 +66,7 @@ function CardPreviewList({
 				<img
 					{...element.image}
 					sizes="100vw"
-					alt=""
+					alt="Preview Card"
 					className="hub_notes_image small"
 				/>
 			)}
@@ -164,6 +171,7 @@ function CardPreviewPictures({ title, subtitle, pictures, link }) {
 							sizes="100vw"
 							className="hub_chat_photo"
 							key={index}
+							alt="Card Preview"
 						/>
 					))}
 				</div>
@@ -193,13 +201,13 @@ function CardPreviewReview(props) {
 		<CardPreviewList
 			title={title}
 			elements={[
-				{ header: "Overall Rating", content: overall + " / 5" },
-				{ header: "Average Difficulty", content: difficulty + " / 5" },
+				{ header: "Overall Rating", content: (overall || 0) + " / 5" },
+				{ header: "Average Difficulty", content: (difficulty || 0) + " / 5" },
 				{
 					header: "Attendance Mandatory",
-					content: attendance_perc + "%",
+					content: (attendance_perc || 0) + "%",
 				},
-				{ header: "Textbook Use", content: textbook_perc + "%" },
+				{ header: "Textbook Use", content: (textbook_perc || 0) + "%" },
 			]}
 			isDouble
 			link={["Add Review", "See All Reviews"]}
@@ -209,7 +217,7 @@ function CardPreviewReview(props) {
 			<div className="list_div w-clearfix">
 				<strong>Would Take Professor Again</strong>
 				<p className="list_subtitle">
-					{loading ? <Skeleton width={50} /> : take_again_perc + "%"}
+					{loading ? <Skeleton width={50} /> : (take_again_perc || 0) + "%"}
 				</p>
 			</div>
 			<div className="list_div w-clearfix">
@@ -232,7 +240,8 @@ function CardPreviewReview(props) {
 										<Skeleton width={120} height={30} />
 									</div>
 								))
-						: props.tags.map((tag) => (
+						: props.tags &&
+						  props.tags.map((tag) => (
 								<div className="tag preview" key={tag}>
 									{tag}
 								</div>

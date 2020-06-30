@@ -17,7 +17,7 @@ export default function ClassHeader({ school, schoolClass, loading }) {
 				if (userClass.id === schoolClass.id) setJoined(true);
 			});
 		}
-	}, [userInfo]);
+	}, [schoolClass.id, userInfo]);
 
 	if (!userInfo)
 		return (

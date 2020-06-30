@@ -23,7 +23,7 @@ function AvgReviewCard({ title, id, children, h3, loading }) {
 }
 
 function AvgReviews({ counter, tags, quote, loading, ...props }) {
-	const calculate = (num) => Math.round((num / counter) * 100) / 100;
+	const calculate = (num) => Math.round(((num || 0) / counter) * 100) / 100;
 
 	const overall = calculate(props.overall);
 	const difficulty = calculate(props.difficulty);
@@ -76,7 +76,8 @@ function AvgReviews({ counter, tags, quote, loading, ...props }) {
 									<Skeleton width={100} height={36} />
 								</div>
 							))
-					: tags.map((tag) => (
+					: tags &&
+					  tags.map((tag) => (
 							<div className="tag big" key={tag}>
 								{tag}
 							</div>
@@ -117,6 +118,8 @@ function ReviewCard({
 		unhelpful.forEach((user) => {
 			if (user === uid) setUnhelped(true);
 		});
+		console.log("Review Card Useeffect");
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [uid]);
 
 	const ratingQuestions = (answer, text) => {

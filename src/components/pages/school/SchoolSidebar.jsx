@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import {
 	CardPreviewInfo,
@@ -11,7 +11,7 @@ export default function SchoolSidebar({
 	schoolInfo,
 	schoolLoading,
 	previewInfo,
-	previewLoading
+	previewLoading,
 }) {
 	const currentPath = useLocation();
 	const currentParams = useParams();

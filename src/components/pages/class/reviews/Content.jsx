@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CardSearch, CardCreate } from "../../../cards/CenterCards";
+import { CardSearch } from "../../../cards/CenterCards";
 import {
 	AvgReviews,
 	ReviewCard,
@@ -26,6 +26,7 @@ export default function SchoolMajorsContent({
 		};
 
 		fetchData();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
@@ -41,7 +42,13 @@ export default function SchoolMajorsContent({
 			<ReviewCreate classRef={classRef} />
 
 			{reviews.map((review) => {
-				return <ReviewCard {...review.data()} key={review.id} reviewRef={classRef.doc(review.id)}/>;
+				return (
+					<ReviewCard
+						{...review.data()}
+						key={review.id}
+						reviewRef={classRef.doc(review.id)}
+					/>
+				);
 			})}
 		</div>
 	);

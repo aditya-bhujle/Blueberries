@@ -14,6 +14,7 @@ export default function SearchClasses({
 
 	useEffect(() => {
 		const fetchData = async () => {
+			console.log("Fetchin data!");
 			setAlgoliaLoading(true);
 
 			const searchClient = algoliasearch(
@@ -36,7 +37,7 @@ export default function SearchClasses({
 		};
 
 		fetchData();
-	}, [searchQuery]);
+	}, [schoolId, searchQuery]);
 
 	if (algoliaLoading) return <SpinLoad big />;
 
@@ -105,6 +106,7 @@ export default function SearchClasses({
 												})
 										  );
 								}}
+								key={index}
 							>
 								<strong>{element.header}</strong>
 								<p className="list_subtitle">{element.content}</p>

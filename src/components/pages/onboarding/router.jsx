@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import SchoolOnboarding from "./school/schools";
-import MajorOnboarding from "./major/major2";
-import ClassesOnboarding from "./class/classes2";
+import MajorOnboarding from "./major/major";
+import ClassesOnboarding from "./class/classes";
 import { UserContext } from "../../../App";
 import OnboardingOverview from "./overview";
 

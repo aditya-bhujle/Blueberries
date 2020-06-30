@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import Header from "./Header";
-import firebase from "firebase/app";
 import { db } from "../../firebase/config";
 import { UserContext } from "../../App";
 import Skeleton from "react-loading-skeleton";
@@ -13,7 +12,7 @@ export default function SchoolHeader({ schoolId, loading, ...props }) {
 
 	useEffect(() => {
 		if (userInfo && userInfo.school.id === schoolId) setJoined(true);
-	}, [userInfo]);
+	}, [schoolId, userInfo]);
 
 	if (!userInfo)
 		return (
@@ -39,21 +38,17 @@ export default function SchoolHeader({ schoolId, loading, ...props }) {
 			await userRef.update({
 				school: joined ? {} : schoolObject,
 			});
-			addToast(
-				`Successfully ${joined ? "Left" : "Added to"} ${props.name}!`,
-				{ appearance: "success", autoDismiss: true }
-			);
+			addToast(`Successfully ${joined ? "Left" : "Added to"} ${props.name}!`, {
+				appearance: "success",
+				autoDismiss: true,
+			});
 		} catch (error) {
 			console.error(error);
 		}
 	}
 
 	return (
-		<Header
-			shortLink={`/schools/${schoolId}`}
-			loading={loading}
-			{...props}
-		>
+		<Header shortLink={`/schools/${schoolId}`} loading={loading} {...props}>
 			{joined ? (
 				<button onClick={toggleJoin} className="button select border">
 					{`Joined ${props.short}!`}

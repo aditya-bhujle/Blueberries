@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 
-import ContentTitle from "../../../header/ContentTitle";
 import ChatPreview from "../../../chat/ChatPreview";
 import Content from "./Content";
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { CardSearch } from "../../../cards/CenterCards";
 import { Link, useParams } from "react-router-dom";
 import SpinLoad from "../../../SpinLoad";
 
@@ -26,6 +25,7 @@ export default function SchoolClassesContent({ schoolRef }) {
 		};
 
 		fetchData();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	//[{name: "College of Computing and Informatics", content: [{header: "test", content: "ITSC 2214"}]}]
