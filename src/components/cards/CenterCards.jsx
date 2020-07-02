@@ -419,7 +419,7 @@ function CardPost({ uid, showModal, ...props }) {
 		if (props.files) getFiles();
 
 		if (props.showSource) getSource();
-	}, [props.files, props.showSource, props.postRef]);
+	}, [props.showSource]);
 
 	useEffect(() => {
 		if (props.likes) setLikes(props.likes.length);

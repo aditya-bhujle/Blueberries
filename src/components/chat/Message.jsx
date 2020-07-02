@@ -9,9 +9,8 @@ export default function Message({ user, time, content, self, ...props }) {
 	const userInfo = useContext(UserContext);
 
 	useEffect(() => {
-		const { poll } = props;
-		if (poll) {
-			Object.entries(poll.choices).forEach(([index, choice]) => {
+		if (props.poll) {
+			Object.entries(props.poll.choices).forEach(([index, choice]) => {
 				choice.votes.forEach((user) => {
 					if (user === userInfo.id) {
 						setPollAllowVote(false);

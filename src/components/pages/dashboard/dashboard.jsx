@@ -28,6 +28,7 @@ export default function DashboardHub() {
 				hubRef={dashboardRef}
 				sidebar={<Sidebar userInfo={userInfo} />}
 				create={createProps}
+				dashboard
 			/>
 		</Section>
 	);

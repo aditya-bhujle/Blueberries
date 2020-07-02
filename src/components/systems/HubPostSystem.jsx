@@ -4,6 +4,7 @@ import ContentTitle from "../header/ContentTitle";
 import { useLocation, Redirect } from "react-router-dom";
 import { CardSearch, CardCreate } from "../cards/CenterCards";
 import HubResults from "./HubResults";
+import DashboardPost from "./DashboardPosts";
 
 export default function HubPostSystem({
 	contentTitle,
@@ -74,25 +75,37 @@ export default function HubPostSystem({
 							/>
 						</>
 					)}
-					{!searchQuery && !loading && (
-						<HubPost
-							created={created}
-							postRef={props.hubPostQuery || hubRef}
-							info={hubInfo}
-							sortQuery={sortQuery.query}
-							sortQueryOrder={sortQuery.desc ? "desc" : "asc"}
-							hideCategory={props.hideCategory}
-							loc={loc}
-						/>
-					)}
-					{searchQuery && (
-						<HubResults
-							searchQuery={searchQuery}
-							hubRef={hubRef}
-							info={hubInfo}
-							loc={loc}
-						/>
-					)}
+					{!searchQuery &&
+						!loading &&
+						(!props.dashboard ? (
+							<HubPost
+								created={created}
+								collectionRef={props.hubPostQuery || hubRef}
+								info={hubInfo}
+								sortQuery={sortQuery.query}
+								sortQueryOrder={sortQuery.desc ? "desc" : "asc"}
+								hideCategory={props.hideCategory}
+								loc={loc}
+							/>
+						) : (
+							<DashboardPost
+								created={created}
+								sortQuery={sortQuery.query}
+								sortQueryOrder={sortQuery.desc ? "desc" : "asc"}
+								loc={loc}
+							/>
+						))}
+					{searchQuery &&
+						(!props.dashboard ? (
+							<HubResults
+								searchQuery={searchQuery}
+								hubRef={hubRef}
+								info={hubInfo}
+								loc={loc}
+							/>
+						) : (
+							<h1>dashboard search</h1>
+						))}
 				</div>
 				{props.sidebar}
 			</div>

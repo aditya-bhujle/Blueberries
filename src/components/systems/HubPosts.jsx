@@ -1,19 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-import { CardPost, CardPostSkeleton } from "../cards/CenterCards";
-import { UserContext } from "../../App";
-import PostModal from "../pages/post/PostModal";
-import InfiniteScroll from "react-infinite-scroll-component";
-import SpinLoad from "../SpinLoad";
+import React, { useState, useEffect } from "react";
+import HubPostsRender from "./HubPostsRender";
 
-export default function HubPost({ postRef, info, ...props }) {
-	const userInfo = useContext(UserContext);
-
+export default function HubPost({ collectionRef, ...props }) {
 	const [loading, setLoading] = useState(true);
 	const [posts, setPosts] = useState([]);
-
-	const [showModal, setShowModal] = useState(false);
-	const [modalRef, setModalRef] = useState();
-	const [modalProps, setModalProps] = useState();
 
 	const loadPostNum = 4;
 	const [queryCursor, setQueryCursor] = useState();
@@ -24,7 +14,7 @@ export default function HubPost({ postRef, info, ...props }) {
 			setHasMorePosts(true);
 			setLoading(true);
 			try {
-				let fetchPosts = await postRef
+				let fetchPosts = await collectionRef
 					.orderBy(props.sortQuery, props.sortQueryOrder)
 					.limit(loadPostNum)
 					.get();
@@ -32,6 +22,8 @@ export default function HubPost({ postRef, info, ...props }) {
 				setQueryCursor(fetchPosts.docs[fetchPosts.docs.length - 1]);
 
 				console.log("Post data fetched!");
+				
+				console.log(fetchPosts.docs);
 				setPosts(fetchPosts.docs);
 			} catch (error) {
 				console.error(error);
@@ -39,16 +31,12 @@ export default function HubPost({ postRef, info, ...props }) {
 
 			setLoading(false);
 		};
-		console.log("Running Use Effect!");
 		fetchData();
-	}, [postRef.path, props.sortQuery, props.sortQueryOrder]);
-
-	if (loading)
-		return [...Array(loadPostNum)].map((e, i) => <CardPostSkeleton key={i} />);
+	}, [collectionRef.path, props.sortQuery, props.sortQueryOrder]);
 
 	async function fetchMorePosts() {
 		try {
-			let fetchPosts = await postRef
+			let fetchPosts = await collectionRef
 				.orderBy(props.sortQuery, props.sortQueryOrder)
 				.startAfter(queryCursor)
 				.limit(loadPostNum)
@@ -69,58 +57,13 @@ export default function HubPost({ postRef, info, ...props }) {
 		}
 	}
 
-	const cardPost = (post, dataIsFunction) => {
-		const dataProps = dataIsFunction ? post.data() : post.data;
-		return (
-			<CardPost
-				{...dataProps}
-				uid={userInfo ? userInfo.id : null}
-				key={post.id}
-				postRef={post.ref}
-				hideCategory={props.hideCategory}
-				showSource={!info}
-				showModal={(ref, props, liked, likes, disliked, dislikes) => {
-					setModalRef(ref);
-					setModalProps({
-						...props,
-						liked: liked,
-						passLikes: likes,
-						disliked: disliked,
-						passDislikes: dislikes,
-					});
-					setShowModal(true);
-				}}
-			/>
-		);
-	};
-
 	return (
-		<>
-			{props.created.reverse().map((post) => cardPost(post, false))}
-
-			<InfiniteScroll
-				dataLength={posts.length}
-				next={fetchMorePosts}
-				hasMore={hasMorePosts}
-				loader={<SpinLoad big />}
-				endMessage={<p style={{ textAlign: "center" }}>No more posts!</p>}
-				style={{ overflow: "none" }}
-			>
-				{posts.map((post) => cardPost(post, true))}
-			</InfiniteScroll>
-
-			{!posts.length && <p style={{ textAlign: "center" }}>No posts yet...</p>}
-			{showModal && (
-				<PostModal
-					postRef={modalRef}
-					postProps={modalProps}
-					close={() => {
-						window.history.replaceState(null, "New Post", props.loc.pathname);
-						setShowModal(false);
-					}}
-					info={info}
-				/>
-			)}
-		</>
+		<HubPostsRender
+			hasMorePosts={hasMorePosts}
+			loading={loading}
+			posts={posts}
+			fetchMorePosts={fetchMorePosts}
+			{...props}
+		/>
 	);
 }
