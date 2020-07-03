@@ -56,14 +56,15 @@ export default function Menu({ data, loading }) {
 			<SchoolLink school={school} />
 
 			<MenuLink content="Community" icon="community" link="/community" />
+
 			<div className="line even" />
 
 			{school.short && (
 				<>
 					<MenuLink
-						content={major.name ? `${major.name} Hub` : "Pick Your Major!"}
+						content={major.id ? `${major.name} Hub` : "Pick Your Major!"}
 						icon="hub"
-						link={`/schools/${school.id}/major/${major.id}`}
+						link={`/schools/${school.id}/majors/` + (major.id ? major.id : "")}
 					/>
 					<div className="line even" />
 				</>
@@ -77,7 +78,7 @@ export default function Menu({ data, loading }) {
 					{ content: "Calendar", icon: "calendar", link: "calendar" },
 					{ content: "Thoughts", icon: "thoughts", link: "thoughts" },
 					{ content: "Reviews", icon: "reviews", link: "reviews" },
-				])}
+				], "Add Your Classes!")}
 
 			{clubs &&
 				mapLinks(clubs, "club", "football", [
@@ -89,7 +90,7 @@ export default function Menu({ data, loading }) {
 						link: "announcement",
 					},
 					{ content: "Calendar", icon: "calendar", link: "calendar" },
-				])}
+				], "Join Some Clubs!")}
 
 			{chats && (
 				<>
@@ -116,9 +117,9 @@ export default function Menu({ data, loading }) {
 		</div>
 	);
 
-	function mapLinks(list, hubType, icon, submenu) {
-		return (
-			!!list.length && (
+	function mapLinks(list, hubType, icon, submenu, noItemsText) {
+		if (list.length)
+			return (
 				<>
 					{list.map((item) => {
 						const teacherLink = item.teacher
@@ -154,7 +155,14 @@ export default function Menu({ data, loading }) {
 					})}
 					<div className="line even" />
 				</>
-			)
-		);
+			);
+		else
+			return (
+				<MenuLink
+					content={noItemsText}
+					icon={icon}
+					link={`/schools/${school.id}/${hubType}`}
+				/>
+			);
 	}
 }
