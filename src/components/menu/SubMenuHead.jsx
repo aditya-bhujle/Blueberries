@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useRouteMatch, useLocation } from "react-router-dom";
 
-export default function SubMenuLink({
+export default function SubMenuHead({
 	content,
 	icon,
 	link,

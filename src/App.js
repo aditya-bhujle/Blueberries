@@ -17,6 +17,7 @@ import Signup from "./components/pages/auth/signup";
 import SchoolRouter from "./components/pages/school/router";
 import ClassRouter from "./components/pages/class/router";
 import OnboardingRouter from "./components/pages/onboarding/router";
+import FindSchools from "./components/pages/findHubs/findSchools";
 
 export const UserContext = createContext({ user: null });
 
@@ -88,6 +89,7 @@ export default function App() {
 						component={ClassRouter}
 					/>
 					<Route path="/schools/:schoolId" component={SchoolRouter} />
+					<Route path="/schools" component={FindSchools} />
 				</Switch>
 			</Router>
 		</UserContext.Provider>

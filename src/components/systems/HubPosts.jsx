@@ -23,7 +23,6 @@ export default function HubPost({ collectionRef, ...props }) {
 
 				console.log("Post data fetched!");
 				
-				console.log(fetchPosts.docs);
 				setPosts(fetchPosts.docs);
 			} catch (error) {
 				console.error(error);

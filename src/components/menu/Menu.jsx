@@ -2,6 +2,7 @@ import React from "react";
 import MenuLink from "./MenuLink";
 import SubMenuHead from "./SubMenuHead";
 import { useLocation } from "react-router-dom";
+import SchoolLink from "./SchoolLink";
 
 export default function Menu({ data, loading }) {
 	const loc = useLocation();
@@ -52,51 +53,7 @@ export default function Menu({ data, loading }) {
 		<div className="nav_menu">
 			<MenuLink content="Your Feed" icon="home" link="/" />
 
-			<SubMenuHead
-				content={school.short || "Pick Your School!"}
-				icon="school"
-				link={`/schools/${school.id}`}
-				siblingLinks={["/majors", "/classes", "/clubs", "/events", "/chats"]}
-			>
-				<MenuLink
-					submenu
-					content="Posts"
-					icon="post"
-					link={`/schools/${school.id}`}
-				/>
-				<MenuLink
-					submenu
-					content="Majors"
-					icon="rocket"
-					link={`/schools/${school.id}/majors`}
-					siblingLinks={["/majors", "/classes", "/clubs"]}
-				/>
-				<MenuLink
-					submenu
-					content="Classes"
-					icon="flask"
-					link={`/schools/${school.id}/classes`}
-				/>
-				<MenuLink
-					submenu
-					content="Clubs"
-					icon="football"
-					link={`/schools/${school.id}/clubs`}
-				/>
-				<MenuLink
-					submenu
-					content="Chats"
-					icon="chat"
-					link={`/schools/${school.id}/chats`}
-				/>
-
-				<MenuLink
-					submenu
-					content="Events"
-					icon="calendar"
-					link={`/schools/${school.id}/events`}
-				/>
-			</SubMenuHead>
+			<SchoolLink school={school} />
 
 			<MenuLink content="Community" icon="community" link="/community" />
 			<div className="line even" />
