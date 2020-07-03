@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { db } from "../../../firebase/config";
 
 import SchoolHeader from "../../header/SchoolHeader";
@@ -15,6 +15,7 @@ import Clubs from "./clubs/clubs";
 import Events from "./events/events";
 import Chats from "./chats/chats";
 import NotFoundSection from "../../NotFoundSection";
+import SinglePostModal from "../post/SinglePostModal";
 
 export default function SchoolRouter({ match }) {
 	let { schoolId } = match.params;
@@ -134,6 +135,18 @@ export default function SchoolRouter({ match }) {
 						/>
 					)}
 				/>
+
+				<Route
+					exact
+					path={`${match.path}/posts`}
+					render={() => <Redirect to={match.url} />}
+				/>
+
+				<Route
+					path={`${match.path}/posts/:postId`}
+					component={SinglePostModal}
+				/>
+
 				<Route
 					exact
 					path={`${match.path}/majors`}
