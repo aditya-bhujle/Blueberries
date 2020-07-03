@@ -10,7 +10,7 @@ export default function DashboardPost({ postRef, ...props }) {
 	const [posts, setPosts] = useState([]);
 
 	const loadPostNum = 4;
-	const [queryCursors, setQueryCursors] = useState([]);
+	const [queryCursors, setQueryCursors] = useState("test");
 	const [hasMorePosts, setHasMorePosts] = useState(true);
 
 	const [collectionRefs, setCollectionRefs] = useState([]);
@@ -55,7 +55,6 @@ export default function DashboardPost({ postRef, ...props }) {
 				let tempCollectionDocs = [];
 				let tempQueryCursors = [];
 
-				console.log(collectionRefs);
 				for (let i = 0; i < collectionRefs.length; i++) {
 					const collectionRef = collectionRefs[i];
 
@@ -72,10 +71,8 @@ export default function DashboardPost({ postRef, ...props }) {
 						tempQueryCursors = tempQueryCursors.concat(
 							collectionDoc[collectionDoc.length - 1]
 						);
-						console.log(tempQueryCursors);
 					}
 				}
-				console.log(tempQueryCursors);
 
 				console.log("Dashboard data fetched!");
 				setQueryCursors(tempQueryCursors);
@@ -96,8 +93,11 @@ export default function DashboardPost({ postRef, ...props }) {
 			let tempQueryCursor = [];
 
 			for (let i = 0; i < collectionRefs.length; i++) {
+				if (!queryCursors[i]) continue;
+
 				const collectionRef = collectionRefs[i];
 
+				console.log(queryCursors);
 				const fetchPosts = await collectionRef
 					.orderBy("date_posted", "desc")
 					.startAfter(queryCursors[i])

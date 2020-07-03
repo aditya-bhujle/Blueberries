@@ -64,7 +64,7 @@ export default function MajorOnboarding({
 			return (
 				<div className="list_grid_div onboarding_school">
 					{majors.map((major, index) => {
-						const isSelected = selectedMajor.id === major.id;
+						const isSelected = selectedMajor && selectedMajor.id === major.id;
 						return (
 							<div
 								className={
@@ -72,7 +72,8 @@ export default function MajorOnboarding({
 									(isSelected ? "selected" : "hoverable")
 								}
 								onClick={() => {
-									if (major.id === selectedMajor.id) setSelectedMajor({});
+									if (selectedMajor && major.id === selectedMajor.id)
+										setSelectedMajor(null);
 									else
 										setSelectedMajor({ name: major.data().name, id: major.id });
 								}}

@@ -62,35 +62,47 @@ export default function Menu({ data, loading }) {
 			{school.short && (
 				<>
 					<MenuLink
-						content={major.id ? `${major.name} Hub` : "Pick Your Major!"}
+						content={major ? `${major.name} Hub` : "Pick Your Major!"}
 						icon="hub"
-						link={`/schools/${school.id}/majors/` + (major.id ? major.id : "")}
+						link={`/schools/${school.id}/majors/` + (major ? major.id : "")}
 					/>
 					<div className="line even" />
 				</>
 			)}
 
 			{classes &&
-				mapLinks(classes, "classes", "flask", [
-					{ content: "Posts", icon: "post", link: "" },
-					{ content: "Chat", icon: "chat", link: "chat" },
-					{ content: "Notes", icon: "notes", link: "notes" },
-					{ content: "Calendar", icon: "calendar", link: "calendar" },
-					{ content: "Thoughts", icon: "thoughts", link: "thoughts" },
-					{ content: "Reviews", icon: "reviews", link: "reviews" },
-				], "Add Your Classes!")}
+				mapLinks(
+					classes,
+					"classes",
+					"flask",
+					[
+						{ content: "Posts", icon: "post", link: "" },
+						{ content: "Chat", icon: "chat", link: "chat" },
+						{ content: "Notes", icon: "notes", link: "notes" },
+						{ content: "Calendar", icon: "calendar", link: "calendar" },
+						{ content: "Thoughts", icon: "thoughts", link: "thoughts" },
+						{ content: "Reviews", icon: "reviews", link: "reviews" },
+					],
+					"Add Your Classes!"
+				)}
 
 			{clubs &&
-				mapLinks(clubs, "club", "football", [
-					{ content: "Posts", icon: "post", link: "" },
-					{ content: "Chat", icon: "chat", link: "chat" },
-					{
-						content: "Announcement",
-						icon: "announcement",
-						link: "announcement",
-					},
-					{ content: "Calendar", icon: "calendar", link: "calendar" },
-				], "Join Some Clubs!")}
+				mapLinks(
+					clubs,
+					"club",
+					"football",
+					[
+						{ content: "Posts", icon: "post", link: "" },
+						{ content: "Chat", icon: "chat", link: "chat" },
+						{
+							content: "Announcement",
+							icon: "announcement",
+							link: "announcement",
+						},
+						{ content: "Calendar", icon: "calendar", link: "calendar" },
+					],
+					"Join Some Clubs!"
+				)}
 
 			{chats && (
 				<>
@@ -158,11 +170,14 @@ export default function Menu({ data, loading }) {
 			);
 		else
 			return (
-				<MenuLink
-					content={noItemsText}
-					icon={icon}
-					link={`/schools/${school.id}/${hubType}`}
-				/>
+				<>
+					<MenuLink
+						content={noItemsText}
+						icon={icon}
+						link={`/schools/${school.id}/${hubType}`}
+					/>
+					<div className="line even" />
+				</>
 			);
 	}
 }
