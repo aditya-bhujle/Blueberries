@@ -11,6 +11,7 @@
 
 .text_link:hover {
 	color: #1a73e8;
+	text-decoration: underline;
 }
 
 .nav_search_icon {
@@ -877,6 +878,13 @@ strong {
 
 .button.poll:hover {
 	color: #1a73e8;
+}
+
+.button_icon {
+	width: 16px;
+	height: 16px;
+	margin-right: 8px;
+	margin-bottom: 4px;
 }
 
 .list_date {

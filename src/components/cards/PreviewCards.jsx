@@ -23,10 +23,12 @@ function CardPreviewInfo({
 			<div className="hub_about_count">
 				{loading ? <Skeleton width={50} /> : members + " Joined"}
 				{teacherLink ? (
-					<Link className="text_link" to={".."}>
-						{" "}
-						⋅ Go to Hub
-					</Link>
+					<>
+						{" ⋅ "}
+						<Link className="text_link" to={".."}>
+							Go to Hub
+						</Link>
+					</>
 				) : (
 					""
 				)}

@@ -26,13 +26,6 @@ function CardCreate({
 
 	const [uploading, setUploading] = useState(false);
 
-	const iconStyles = {
-		width: "16px",
-		height: "16px",
-		marginRight: "8px",
-		marginBottom: "4px",
-	};
-
 	const linkDiv = (
 		<div>
 			<span className="w-form-label">
@@ -144,7 +137,7 @@ function CardCreate({
 					className="button select small no_margin"
 					onClick={() => inputRef.click()}
 				>
-					<svg className="menu_svg" style={iconStyles}>
+					<svg className="menu_svg button_icon">
 						<use xlinkHref={"#upload"} />
 					</svg>
 					Upload Files
@@ -163,8 +156,8 @@ function CardCreate({
 					onClick={() => setShowLink(!showLink)}
 				>
 					<svg
-						className="menu_svg"
-						style={showLink ? { ...iconStyles, fill: "white" } : iconStyles}
+						className="menu_svg button_icon"
+						style={showLink ? { fill: "white" } : {}}
 					>
 						<use xlinkHref={"#link"} />
 					</svg>
@@ -390,18 +383,21 @@ function CardPost({ uid, showModal, ...props }) {
 			let fileCounter = [];
 			let imageCounter = [];
 			for (let index = 0; index < props.files.length; index++) {
-				const fileRef = storage()
+				const ref = storage()
 					.ref()
 					.child(props.postRef.path)
 					.child(props.files[index]);
 
-				const fileURL = await fileRef.getDownloadURL();
-				const fileType = await fileRef.getMetadata();
+				const URL = await ref.getDownloadURL();
+				const { name, contentType: type } = await ref.getMetadata();
 
-				fileCounter.push({ url: fileURL, type: fileType.contentType });
-
-				if (fileType.contentType.startsWith("image/"))
-					imageCounter.push(fileURL);
+				if (type.startsWith("image/")) imageCounter.push(URL);
+				else
+					fileCounter.push({
+						name: name,
+						url: URL,
+						type: type,
+					});
 			}
 
 			setFiles(fileCounter);
@@ -546,7 +542,8 @@ function CardPost({ uid, showModal, ...props }) {
 			targetClass !== "action_div post" &&
 			event.target.textContent !== "follow" &&
 			event.target.tagName !== "svg" &&
-			event.target.tagName !== "use"
+			event.target.tagName !== "use" &&
+			event.target.id !== "link"
 		) {
 			showModal(
 				props.postRef,
@@ -620,9 +617,26 @@ function CardPost({ uid, showModal, ...props }) {
 			</div>
 
 			{props.alert && <p className="alert">{props.alert}</p>}
-			{showImages.length > 0 && (
+
+			{props.linkUrl && (
+				<a
+					className="main_color text_link"
+					href={props.linkUrl}
+					target="_blank"
+					rel="noopener noreferrer"
+					id="link"
+				>
+					{props.linkUrl}
+				</a>
+			)}
+
+			{(showImages.length > 0 || files.length > 0) && (
 				<p className="main_color">
-					{showImages.length > 1 ? `${showImages.length} Images` : "1 Image"}
+					{showImages.length > 0 &&
+						showImages.length + (showImages.length > 1 ? " Images" : " Image")}
+					{showImages.length > 0 && files.length > 0 && " ⋅ "}
+					{files.length > 0 &&
+						files.length + (files.length > 1 ? " Files" : " File")}
 				</p>
 			)}
 
@@ -637,6 +651,24 @@ function CardPost({ uid, showModal, ...props }) {
 						key={url}
 					/>
 				))}
+
+			{props.modal && (
+				<div style={{ margin: "5px 0px" }}>
+					{files.map((file, index) => (
+						<a
+							className={`button select small` + (!index ? " no_margin" : "")}
+							href={file.url}
+							download
+							key={index}
+						>
+							<svg className="menu_svg button_icon">
+								<use xlinkHref={"#download"} />
+							</svg>
+							{file.name}
+						</a>
+					))}
+				</div>
+			)}
 
 			<div className="hub_card_line"></div>
 			<div className="hub_card_links multiple post">
