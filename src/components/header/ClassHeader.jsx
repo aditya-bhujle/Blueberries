@@ -19,7 +19,7 @@ export default function ClassHeader({ school, schoolClass, loading }) {
 		}
 	}, [schoolClass.id, userInfo]);
 
-	if (!userInfo)
+	if (loading)
 		return (
 			<Header loading short>
 				<Skeleton height={37} width={95} />
@@ -63,7 +63,6 @@ export default function ClassHeader({ school, schoolClass, loading }) {
 		<Header
 			short={school.short}
 			shortLink={`/schools/${school.id}`}
-			loading={loading}
 			subShort={
 				schoolClass.short +
 					(schoolClass.teacher

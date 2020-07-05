@@ -1,5 +1,10 @@
-import React, { useEffect, useState, createContext } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useEffect, useState, createContext, Component } from "react";
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Redirect,
+} from "react-router-dom";
 import { db, auth } from "./firebase/config";
 
 import "./styles/antd.css";
@@ -17,17 +22,22 @@ import Signup from "./components/pages/auth/signup";
 import SchoolRouter from "./components/pages/school/router";
 import ClassRouter from "./components/pages/class/router";
 import OnboardingRouter from "./components/pages/onboarding/router";
+import ProtectedAccess from "./components/WarningPage/ProtectedAccess";
 import FindSchools from "./components/pages/findHubs/findSchools";
 
 export const UserContext = createContext({ user: null });
 
 export default function App() {
 	const [loading, setLoading] = useState(true);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [userInfo, setUserInfo] = useState();
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
-		auth().onAuthStateChanged((userAuth) => setUser(userAuth));
+		auth().onAuthStateChanged((userAuth) => {
+			setIsLoggedIn(!!userAuth);
+			setUser(userAuth);
+		});
 	}, []);
 
 	useEffect(() => {
@@ -53,12 +63,21 @@ export default function App() {
 		user ? fetchData() : setUserInfo(null);
 	}, [user]);
 
+	const PrivateRoute = ({ component: Component, ...props }) => (
+		<Route
+			{...props}
+			render={(props) =>
+				isLoggedIn ? <Component {...props} /> : <Redirect to="/protected" />
+			}
+		/>
+	);
+
 	return (
 		<UserContext.Provider value={userInfo}>
 			<Router>
 				<SVG />
 				<Navbar user={user} />
-				{userInfo && <Menu data={userInfo} loading={loading} />}
+				{isLoggedIn && <Menu data={userInfo} loading={loading} />}
 
 				<Switch>
 					<Route path="/login" component={Login}></Route>
@@ -66,29 +85,36 @@ export default function App() {
 
 					<Route path="/onboarding" component={OnboardingRouter} />
 
+					<Route path="/protected" component={ProtectedAccess} />
+
 					<Route exact path="/" component={DashboardHub} />
 
-					<Route
+					<PrivateRoute
 						path="/schools/:schoolId/major/:majorId"
 						component={ClassRouter}
 					/>
-					<Route
+					<PrivateRoute
 						path="/schools/:schoolId/classes/:classId/teachers/:teacherId"
 						component={ClassRouter}
 					/>
-					<Route
+					<PrivateRoute
 						path="/schools/:schoolId/classes/:classId"
 						component={ClassRouter}
 					/>
-					<Route
+					<PrivateRoute
 						path="/schools/:schoolId/club/:clubId"
 						component={ClassRouter}
 					/>
-					<Route
+					<PrivateRoute
 						path="/schools/:schoolId/chat/:chatId"
 						component={ClassRouter}
 					/>
-					<Route path="/schools/:schoolId" component={SchoolRouter} />
+					<Route
+						path="/schools/:schoolId"
+						render={(props) => (
+							<SchoolRouter {...props} isLoggedIn={isLoggedIn} />
+						)}
+					/>
 					<Route path="/schools" component={FindSchools} />
 				</Switch>
 			</Router>

@@ -827,6 +827,8 @@ strong {
 	box-shadow: 4px 4px 5px 3px rgba(26, 115, 232, 0.05);
 	color: #fff;
 	font-weight: 500;
+	display: inline-block;
+	text-align: center;
 }
 
 .button:hover {
@@ -1733,6 +1735,7 @@ strong {
 
 .nav_menu {
 	padding-right: 10px;
+	z-index: 99;
 	position: fixed;
 	top: 75px;
 	bottom: 25px;

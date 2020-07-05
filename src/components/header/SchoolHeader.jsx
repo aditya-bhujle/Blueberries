@@ -4,17 +4,24 @@ import { db } from "../../firebase/config";
 import { UserContext } from "../../App";
 import Skeleton from "react-loading-skeleton";
 import { useToasts } from "react-toast-notifications";
+import { useHistory } from "react-router-dom";
 
-export default function SchoolHeader({ schoolId, loading, ...props }) {
+export default function SchoolHeader({
+	schoolId,
+	loading,
+	isLoggedIn,
+	...props
+}) {
 	const userInfo = useContext(UserContext);
+	const his = useHistory();
 	const { addToast } = useToasts();
 	const [joined, setJoined] = useState(false);
 
 	useEffect(() => {
-		if (userInfo && userInfo.school.id === schoolId) setJoined(true);
+		if (userInfo && userInfo.school && userInfo.school.id === schoolId) setJoined(true);
 	}, [schoolId, userInfo]);
 
-	if (!userInfo)
+	if (loading)
 		return (
 			<Header loading short {...props}>
 				<Skeleton height={37} width={95} />
@@ -31,6 +38,8 @@ export default function SchoolHeader({ schoolId, loading, ...props }) {
 	};
 
 	async function toggleJoin() {
+		if (!isLoggedIn) return his.push("/signup");
+
 		setJoined(!joined);
 		const userRef = db.collection("users").doc(userInfo.id);
 
@@ -48,7 +57,7 @@ export default function SchoolHeader({ schoolId, loading, ...props }) {
 	}
 
 	return (
-		<Header shortLink={`/schools/${schoolId}`} loading={loading} {...props}>
+		<Header shortLink={`/schools/${schoolId}`} {...props}>
 			{joined ? (
 				<button onClick={toggleJoin} className="button select border">
 					{`Joined ${props.short}!`}

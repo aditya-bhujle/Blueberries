@@ -5,6 +5,7 @@ import { Checkbox } from "antd";
 import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../../App";
 import TimeAgo from "react-timeago";
+import { useHistory } from "react-router-dom";
 
 function CardCreate({
 	title,
@@ -378,6 +379,8 @@ function CardPost({ uid, showModal, ...props }) {
 	const [files, setFiles] = useState([]);
 	const [showImages, setShowImages] = useState([]);
 
+	const his = useHistory();
+
 	useEffect(() => {
 		async function getFiles() {
 			let fileCounter = [];
@@ -454,6 +457,11 @@ function CardPost({ uid, showModal, ...props }) {
 
 	function likeLink() {
 		async function toggleLike() {
+			if (!uid) {
+				his.push("/signup");
+				return;
+			}
+
 			try {
 				if (!liked) {
 					setLiked(true);
@@ -494,6 +502,11 @@ function CardPost({ uid, showModal, ...props }) {
 
 	function dislikeLink() {
 		async function toggleDislike() {
+			if (!uid) {
+				his.push("/signup");
+				return;
+			}
+
 			try {
 				if (!disliked) {
 					setDisliked(true);

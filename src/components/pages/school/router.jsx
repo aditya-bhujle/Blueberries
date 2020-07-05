@@ -14,10 +14,10 @@ import Classes from "./classes/classes";
 import Clubs from "./clubs/clubs";
 import Events from "./events/events";
 import Chats from "./chats/chats";
-import NotFoundSection from "../../NotFoundSection";
+import NotFoundSection from "../../WarningPage/NotFound";
 import SinglePostModal from "../post/SinglePostModal";
 
-export default function SchoolRouter({ match }) {
+export default function SchoolRouter({ match, isLoggedIn }) {
 	let { schoolId } = match.params;
 	const schoolRef = db.collection("schools").doc(schoolId);
 
@@ -118,6 +118,7 @@ export default function SchoolRouter({ match }) {
 					short={schoolInfo.short}
 					schoolId={schoolId}
 					loading={schoolInfoLoading}
+					isLoggedIn={isLoggedIn}
 				/>
 				<PageNav type="school" baseLink={match.url} />
 			</div>
