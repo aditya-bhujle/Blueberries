@@ -7,6 +7,8 @@ import {
 import { Redirect } from "react-router-dom";
 
 export default function Login({ location }) {
+	document.title = "Log In | Blueberries"
+
 	const [loggedIn, setLoggedIn] = useState(false);
 
 	const [email, setEmail] = useState("");

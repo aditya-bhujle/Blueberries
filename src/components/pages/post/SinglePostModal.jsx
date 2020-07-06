@@ -26,6 +26,10 @@ export default function SinglePostModal() {
 
 				let hubInfo = await postRef.parent.parent.get();
 				setClassInfo(hubInfo.data());
+
+				document.title = `${fetchPosts.data().title} - ${
+					hubInfo.data().short
+				} - ${hubInfo.data().name} | Blueberries`;
 			} catch (error) {
 				console.error(error);
 			}

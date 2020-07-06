@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { signup } from "../../../firebase/auth";
 
 export default function Signup() {
+	document.title = "Sign Up | Blueberries"
+
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");

@@ -11,6 +11,8 @@ import FallPlanImage from "./resources/fall_plan.PNG";
 import NotesImage from "./resources/notes.PNG";
 
 export default function LandingPage() {
+	document.title = "Blueberries | The Perfect Class Communication Hub";
+	
 	const SectionLanding = ({ className, children }) => (
 		<div className={"section landing " + (className ? className : "")}>
 			{children}

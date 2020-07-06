@@ -6,7 +6,7 @@ import { useLocation, Redirect, useParams } from "react-router-dom";
 import SearchMajors from "./SearchMajors";
 import { CardSearch } from "../../../cards/CenterCards";
 
-export default function SchoolPosts({ sidebar, schoolRef }) {
+export default function SchoolPosts({ sidebar, schoolRef, schoolInfo }) {
 	const [sortQuery, setSortQuery] = useState({
 		title: "Top",
 		query: "members",
@@ -23,6 +23,13 @@ export default function SchoolPosts({ sidebar, schoolRef }) {
 		setSearchQuery(searchHash);
 		setLoading(false);
 	}, [loc.search]);
+
+	let documentTitle;
+	if (searchQuery) documentTitle = `Search Results for "${searchQuery}"`;
+	else if (schoolInfo && schoolInfo.short)
+		documentTitle = "Majors - " + schoolInfo.short + " - " + schoolInfo.name;
+	else documentTitle = "Majors";
+	document.title = documentTitle + " | Blueberries";
 
 	return (
 		<>
@@ -62,7 +69,9 @@ export default function SchoolPosts({ sidebar, schoolRef }) {
 						/>
 					)}
 
-					{searchQuery && <SearchMajors searchQuery={searchQuery} schoolId={schoolId}/>}
+					{searchQuery && (
+						<SearchMajors searchQuery={searchQuery} schoolId={schoolId} />
+					)}
 				</div>
 				{sidebar}
 			</div>

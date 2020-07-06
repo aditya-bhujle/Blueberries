@@ -159,6 +159,8 @@ export default function FindSchools() {
 		);
 	}
 
+	document.title = "Search All Schools | Blueberries"
+
 	return (
 		<Section>
 			{!urlLoading && (

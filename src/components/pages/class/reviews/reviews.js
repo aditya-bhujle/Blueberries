@@ -10,6 +10,10 @@ export default function SchoolPosts({
 	sidebar,
 }) {
 	const numReviews = classInfo.reviews && classInfo.reviews.counter;
+	if (classInfo.last_name)
+		document.title = `Overview for Professor ${classInfo.last_name} - ${classInfo.short} - ${classInfo.name} | Blueberries`;
+	else document.title = "Overview | Blueberries";
+
 	return (
 		<>
 			{Object.keys(classInfo).length > 0 && (

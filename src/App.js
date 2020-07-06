@@ -30,12 +30,14 @@ export const UserContext = createContext({ user: null });
 
 export default function App() {
 	const [loading, setLoading] = useState(true);
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(true);
 	const [userInfo, setUserInfo] = useState();
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
 		auth().onAuthStateChanged((userAuth) => {
+			console.log(userAuth);
+			console.log(!!userAuth);
 			setIsLoggedIn(!!userAuth);
 			setUser(userAuth);
 		});

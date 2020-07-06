@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function ProtectedAccess() {
 	const buttonStyle = { width: "100%", borderStyle: "solid" };
+	document.title = "Log In Required! | Blueberries"
 
 	return (
 		<WarningPage icon="lock" back>

@@ -156,6 +156,7 @@ export default function SchoolRouter({ match, isLoggedIn }) {
 							{...props}
 							sidebar={NewSidebar}
 							schoolRef={schoolRef.collection("majors")}
+							schoolInfo={schoolInfo}
 						/>
 					)}
 				/>
@@ -167,6 +168,7 @@ export default function SchoolRouter({ match, isLoggedIn }) {
 							{...props}
 							sidebar={NewSidebar}
 							schoolRef={schoolRef.collection("classes")}
+							schoolInfo={schoolInfo}
 						/>
 					)}
 				/>

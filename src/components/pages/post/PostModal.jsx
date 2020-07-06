@@ -27,6 +27,8 @@ export default function PostModal({ postRef, postProps, close, info }) {
 		return () => rootElement.classList.remove("section_full");
 	}, []);
 
+	document.title = `${postProps.title} - ${newInfo.short} - ${newInfo.name} | Blueberries`;
+
 	return (
 		<div className="section modal" id="section_modal">
 			<div className="w-container" style={{ width: "100%" }}>

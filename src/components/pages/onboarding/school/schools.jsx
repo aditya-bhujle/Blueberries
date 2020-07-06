@@ -38,6 +38,8 @@ export default function SchoolOnboarding({ schoolId, setSchool }) {
 		fetchData();
 	}, []);
 
+	document.title = "Onboarding - Schools | Blueberries";
+
 	function SchoolIcon() {
 		return (
 			<svg

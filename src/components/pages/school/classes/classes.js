@@ -6,7 +6,7 @@ import { useLocation, Redirect, useParams } from "react-router-dom";
 import { CardSearch } from "../../../cards/CenterCards";
 import SearchClasses from "./SearchClasses";
 
-export default function SchoolPosts({ sidebar, schoolRef }) {
+export default function SchoolPosts({ sidebar, schoolRef, schoolInfo }) {
 	const [searchQuery, setSearchQuery] = useState("");
 	const loc = useLocation();
 	const [loading, setLoading] = useState(true);
@@ -17,6 +17,13 @@ export default function SchoolPosts({ sidebar, schoolRef }) {
 		setSearchQuery(searchHash);
 		setLoading(false);
 	}, [loc.search]);
+
+	let documentTitle;
+	if (searchQuery) documentTitle = `Search Results for "${searchQuery}"`;
+	else if (schoolInfo && schoolInfo.short)
+		documentTitle = "Classes - " + schoolInfo.short + " - " + schoolInfo.name;
+	else documentTitle = "Classes";
+	document.title = documentTitle + " | Blueberries";
 
 	return (
 		<>

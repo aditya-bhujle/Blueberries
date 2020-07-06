@@ -45,6 +45,8 @@ export default function MajorOnboarding({
 		if (schoolID) fetchData();
 	}, [schoolID]);
 
+	document.title = "Onboarding - Major | Blueberries"
+
 	function conditionalRender() {
 		if (!schoolID)
 			return (

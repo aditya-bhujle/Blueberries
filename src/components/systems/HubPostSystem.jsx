@@ -31,6 +31,18 @@ export default function HubPostSystem({
 		setLoading(false);
 	}, [loc.search]);
 
+	let documentTitle;
+	if (searchQuery) documentTitle = `Search Results for "${searchQuery}"`;
+	else if (hubInfo && hubInfo.short)
+		documentTitle =
+			(contentTitle || "Popular Posts") +
+			" - " +
+			hubInfo.short +
+			" - " +
+			hubInfo.name;
+	else documentTitle = contentTitle || "Popular Posts";
+	document.title = documentTitle + " | Blueberries";
+
 	return (
 		<>
 			{!loading && (

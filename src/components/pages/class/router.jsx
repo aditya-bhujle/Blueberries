@@ -40,7 +40,9 @@ export default function ClassRouter({ match }) {
 				console.log("Class info fetched!");
 
 				if (!fetchInfo.exists) setClassInfo(404);
-				else setClassInfo(fetchInfo.data());
+				else {
+					setClassInfo(fetchInfo.data());
+				}
 			} catch (error) {
 				console.error(error);
 			}

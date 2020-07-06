@@ -45,6 +45,8 @@ export default function ClassesOnboarding({
 		if (schoolID) fetchData();
 	}, [schoolID]);
 
+	document.title = "Onboarding - Classes | Blueberries";
+
 	function conditionalRender() {
 		if (!schoolID)
 			return (

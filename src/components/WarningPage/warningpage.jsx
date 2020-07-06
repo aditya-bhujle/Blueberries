@@ -5,8 +5,15 @@ export default function WarningPage({ icon, children }) {
 
 	return (
 		<div className={"section center" + (user ? "" : " content")}>
-			<div className="hub_card" style={{ padding: "25px 30px 15px" }}>
-				<div className="back_link" onClick={() => window.history.back()}>
+			<div
+				className="hub_card"
+				style={{ padding: "25px 30px 15px", textAlign: "center" }}
+			>
+				<div
+					className="back_link"
+					onClick={() => window.history.back()}
+					style={{ textAlign: "left", width: "100%" }}
+				>
 					<svg className="back_link_svg">
 						<use xlinkHref="#left" />
 					</svg>
