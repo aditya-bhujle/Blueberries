@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext, Component } from "react";
+import React, { useEffect, useState, createContext } from "react";
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -24,6 +24,7 @@ import ClassRouter from "./components/pages/class/router";
 import OnboardingRouter from "./components/pages/onboarding/router";
 import ProtectedAccess from "./components/WarningPage/ProtectedAccess";
 import FindSchools from "./components/pages/findHubs/findSchools";
+import LandingPage from "./components/pages/landing/landing";
 
 export const UserContext = createContext({ user: null });
 
@@ -87,7 +88,17 @@ export default function App() {
 
 					<Route path="/protected" component={ProtectedAccess} />
 
-					<Route exact path="/" component={DashboardHub} />
+					<Route
+						exact
+						path="/"
+						render={(props) =>
+							isLoggedIn ? (
+								<DashboardHub {...props} />
+							) : (
+								<LandingPage {...props} />
+							)
+						}
+					/>
 
 					<PrivateRoute
 						path="/schools/:schoolId/major/:majorId"
