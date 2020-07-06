@@ -28,8 +28,8 @@ export default function Navbar({ user }) {
 
 	const signedoutLinks = !user && (
 		<>
-			<Link to="/protected" className="button no_margin">
-				Creates an Account
+			<Link to="/signup" className="button no_margin">
+				Create an Account
 			</Link>
 			<Link
 				to={{ pathname: "/login", state: location.pathname }}

@@ -27,7 +27,9 @@ export default function PostModal({ postRef, postProps, close, info }) {
 		return () => rootElement.classList.remove("section_full");
 	}, []);
 
-	document.title = `${postProps.title} - ${newInfo.short} - ${newInfo.name} | Blueberries`;
+	if (newInfo)
+		document.title = `${postProps.title} - ${newInfo.short} - ${newInfo.name} | Blueberries`;
+	else document.title = postProps.title + " - | Blueberries";
 
 	return (
 		<div className="section modal" id="section_modal">
