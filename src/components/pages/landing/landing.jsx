@@ -12,7 +12,7 @@ import NotesImage from "./resources/notes.PNG";
 
 export default function LandingPage() {
 	document.title = "Blueberries | The Perfect Class Communication Hub";
-	
+
 	const SectionLanding = ({ className, children }) => (
 		<div className={"section landing " + (className ? className : "")}>
 			{children}
@@ -29,8 +29,10 @@ export default function LandingPage() {
 
 	const LandingRight = ({ left, title, children }) => (
 		<div className={"landing_right" + (left ? " switch" : "")}>
-			<h1 className="landing_content_title">{title}</h1>
-			<div className="landing_subtitle content">{children}</div>
+			<div className="landing_right_child">
+				<h1 className="landing_content_title">{title}</h1>
+				<div className="landing_subtitle content">{children}</div>
+			</div>
 		</div>
 	);
 
@@ -39,10 +41,9 @@ export default function LandingPage() {
 			<SectionLanding className="main">
 				<TalkSVG className="landing_home_svg_2" width="400px" height="245px" />
 				<StudySVG className="landing_home_svg" width="400px" height="298px" />
-				<div className="w-container">
+				<div className="w-container" style={{ position: "relative" }}>
 					<h1 className="landing_title">
-						The perfect class
-						<br />
+						The perfect class{" "}
 						<strong style={{ fontWeight: 700, color: "#1a73e8" }}>
 							communication hub
 						</strong>
@@ -56,7 +57,7 @@ export default function LandingPage() {
 				</div>
 			</SectionLanding>
 
-			<SectionLanding className="blue">
+			<SectionLanding className="blue vertical_swap">
 				<LandingLeft className="apart">
 					<img
 						alt="Major Hub"
@@ -66,52 +67,24 @@ export default function LandingPage() {
 					/>
 					<img alt="Different Hubs" src={MenuImage} className="landing_image" />
 				</LandingLeft>
-				<LandingRight
-					title={
-						<>
-							Hubs for every
-							<br />
-							class, club, and
-							<br />
-							major
-						</>
-					}
-				>
-					Your Blueberries college page is arranged
-					<br />
-					into classes, clubs, and majors so that you
-					<br />
-					can join specific hubs that uniquely match
-					<br />
-					you
+				<LandingRight title={<>Hubs for every class, club, and major</>}>
+					Your Blueberries college page is arranged into classes, clubs, and
+					majors so that you can join specific hubs that uniquely match you
 				</LandingRight>
 			</SectionLanding>
 
 			<SectionLanding className="grey">
-				<LandingRight
-					title={
-						<>
-							Completely safe
-							<br />
-							and secure
-						</>
-					}
-					left
-				>
-					You are completely anonymous when
-					<br />
-					using Blueberries. There's nothing tying you
-					<br />
-					to your student profile and other students
-					<br />
-					will only be able to see your username.
+				<LandingRight title={<>Completely safe and secure</>} left>
+					You are completely anonymous when using Blueberries. There's nothing
+					tying you to your student profile and other students will only be able
+					to see your username.
 				</LandingRight>
 				<LandingLeft>
 					<SecuritySVG width="642px" height="430px" />
 				</LandingLeft>
 			</SectionLanding>
 
-			<SectionLanding>
+			<SectionLanding className="vertical_swap">
 				<LandingLeft className="left">
 					<img
 						alt="Post and Comments"
@@ -119,22 +92,10 @@ export default function LandingPage() {
 						className="landing_image curved"
 					/>
 				</LandingLeft>
-				<LandingRight
-					title={
-						<>
-							Talk about what
-							<br />
-							matters
-						</>
-					}
-				>
-					Share concerns, express issues, and make
-					<br />
-					your voice heard. Let others know how
-					<br />
-					you feel about certain topics and hear other
-					<br />
-					students opinions.
+				<LandingRight title={<>Talk about what matters</>}>
+					Share concerns, express issues, and make your voice heard. Let others
+					know how you feel about certain topics and hear other students
+					opinions.
 				</LandingRight>
 			</SectionLanding>
 
