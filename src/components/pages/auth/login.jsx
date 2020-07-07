@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import {
-	signinWithGoogle,
-	signin,
-} from "../../../firebase/auth";
-import { Redirect } from "react-router-dom";
+import { signinWithGoogle, signin } from "../../../firebase/auth";
+import { Redirect, Link } from "react-router-dom";
 
 export default function Login({ location }) {
-	document.title = "Log In | Blueberries"
+	document.title = "Log In | Blueberries";
 
 	const [loggedIn, setLoggedIn] = useState(false);
 
@@ -95,7 +92,9 @@ export default function Login({ location }) {
 				<div className="line"></div>
 				<p>
 					Don't have an account? 
-					<strong className="main_color">Sign up</strong>
+					<Link to="/signup">
+						<strong className="text_link main_color">Sign up</strong>
+					</Link>
 				</p>
 			</div>
 		</div>

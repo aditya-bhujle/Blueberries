@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { signinWithGoogle, signup } from "../../../firebase/auth";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 export default function Signup() {
 	document.title = "Sign Up | Blueberries";
@@ -89,7 +89,9 @@ export default function Signup() {
 				<div className="line"></div>
 				<p>
 					Already have an account? 
-					<strong className="main_color">Log in</strong>
+					<Link to="/login">
+						<strong className="text_link main_color">Login here</strong>
+					</Link>
 				</p>
 				<p>
 					By signing up to Blueberries, you're agreeing to our
