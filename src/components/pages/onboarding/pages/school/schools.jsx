@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { CardSearch } from "../../../cards/CenterCards";
+import { CardSearch } from "../../../../cards/CenterCards";
 import { useLocation, Redirect } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
-import { db } from "../../../../firebase/config";
+import { db } from "../../../../../firebase/config";
 import SchoolResults from "./SchoolResults";
-import OnboardingNavigation from "../Navigation";
+import OnboardingNavigation from "../../Navigation";
 import SchoolResultCard from "./SchoolResultCard";
 
-export default function SchoolOnboarding({ schoolId, setSchool }) {
+export default function SchoolOnboarding({ schoolId, setSchool, username }) {
 	const [schools, setSchools] = useState([]);
 	const [loading, setLoading] = useState(true);
 
@@ -133,7 +133,7 @@ export default function SchoolOnboarding({ schoolId, setSchool }) {
 				/>
 			)}
 
-			<h3>Choose Your Schools</h3>
+			<h2 style={{ fontWeight: 700, marginBottom: "10px" }}>Choose Your School</h2>
 
 			<p>Can't find your school? Request it here</p>
 			<CardSearch
@@ -150,7 +150,7 @@ export default function SchoolOnboarding({ schoolId, setSchool }) {
 
 			{conditionalRender()}
 
-			<OnboardingNavigation pageNum={0} hideNext={!schoolId} />
+			<OnboardingNavigation page="schools" hideNext={!schoolId} />
 		</>
 	);
 }

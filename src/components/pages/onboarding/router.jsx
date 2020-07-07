@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import SchoolOnboarding from "./school/schools";
-import MajorOnboarding from "./major/major";
-import ClassesOnboarding from "./class/classes";
+import SchoolOnboarding from "./pages/school/schools";
+import MajorOnboarding from "./pages/major";
+import ClassesOnboarding from "./pages/classes";
 import { UserContext } from "../../../App";
 import OnboardingOverview from "./overview";
+import UsernameOnboarding from "./pages/username";
 
 export default function OnboardingRouter() {
+	const [username, setUsername] = useState("");
 	const [school, setSchool] = useState();
 	const [major, setMajor] = useState();
 	const [classes, setClasses] = useState([]);
@@ -32,12 +34,23 @@ export default function OnboardingRouter() {
 		<div className="section onboarding">
 			<div className="w-container content_container" style={{ height: "100%" }}>
 				<Switch>
+					<Route path="/onboarding/welcome">
+						<UsernameOnboarding
+							username={username}
+							setUsername={(username) => setUsername(username)}
+						/>
+					</Route>
+					{console.log("Past username")}
+					{!username && <Redirect to="/onboarding/welcome" />}
 					<Route path="/onboarding/schools">
 						<SchoolOnboarding
 							schoolId={school ? school.id : false}
 							setSchool={(school) => setSchool(school)}
+							username={username}
 						/>
 					</Route>
+					{console.log("Past school")}
+					{!school && <Redirect to="/onboarding/schools" />}
 					<Route path="/onboarding/major">
 						<MajorOnboarding
 							schoolID={school ? school.id : false}
@@ -54,15 +67,16 @@ export default function OnboardingRouter() {
 					</Route>
 					<Route path="/onboarding/overview">
 						<OnboardingOverview
+							username={username}
 							school={school}
 							major={major}
 							classes={classes}
 							userId={userInfo ? userInfo.id : null}
 						/>
 					</Route>
-					<Route>
-						<Redirect to="/onboarding/schools" />
-					</Route>
+					{console.log("Past all")}
+
+					<Redirect to="/onboarding/welcome" />
 				</Switch>
 			</div>
 		</div>

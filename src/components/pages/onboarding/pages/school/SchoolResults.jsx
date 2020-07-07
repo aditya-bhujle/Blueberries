@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import algoliasearch from "algoliasearch/lite";
-import SpinLoad from "../../../SpinLoad";
+import SpinLoad from "../../../../SpinLoad";
 
 export default function SchoolResults({ searchQuery, schoolId, children }) {
 	const [algoliaLoading, setAlgoliaLoading] = useState(true);

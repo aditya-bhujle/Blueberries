@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function OnboardingNavigation({
-	pageNum: num,
-	hideNext,
-	submit,
-}) {
-	const pages = ["schools", "major", "classes", "overview"];
+export default function OnboardingNavigation({ page, hideNext }) {
+	const pages = ["welcome", "schools", "major", "classes", "overview"];
+
+	let pageNum;
+	pages.forEach((setPage, index) => {
+		if (page === setPage) pageNum = index;
+	});
 
 	const hideNextButton = (
 		<div
@@ -19,18 +20,21 @@ export default function OnboardingNavigation({
 
 	return (
 		<div className="onboarding_navigation">
-			{num > 0 ? (
-				<Link to={`./${pages[num - 1]}`} className="button select no_margin">
+			{pageNum > 0 ? (
+				<Link
+					to={`./${pages[pageNum - 1]}`}
+					className="button select no_margin"
+				>
 					Go Back
 				</Link>
 			) : (
 				<div></div>
 			)}
-			{num < pages.length - 1 &&
+			{pageNum < pages.length - 1 &&
 				(hideNext ? (
 					hideNextButton
 				) : (
-					<Link to={`./${pages[num + 1]}`} className="button no_margin">
+					<Link to={`./${pages[pageNum + 1]}`} className="button no_margin">
 						Next
 					</Link>
 				))}

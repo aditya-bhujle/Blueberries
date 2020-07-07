@@ -16,7 +16,7 @@ export default function DashboardPost({ postRef, ...props }) {
 	const [collectionRefs, setCollectionRefs] = useState([]);
 
 	useEffect(() => {
-		if (userInfo && userInfo.school) {
+		if (userInfo && userInfo.school.id) {
 			const schoolDoc = db.collection("schools").doc(userInfo.school.id);
 			const tempCollectionRefs = [];
 

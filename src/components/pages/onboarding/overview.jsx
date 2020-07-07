@@ -4,7 +4,13 @@ import OnboardingNavigation from "./Navigation";
 import { db } from "../../../firebase/config";
 import SpinLoad from "../../SpinLoad";
 
-export default function OnboardingOverview({ school, major, classes, userId }) {
+export default function OnboardingOverview({
+	username,
+	school,
+	major,
+	classes,
+	userId,
+}) {
 	const [sending, setSending] = useState(false);
 	const [sent, setSent] = useState(false);
 
@@ -14,6 +20,7 @@ export default function OnboardingOverview({ school, major, classes, userId }) {
 		const userRef = db.collection("users").doc(userId);
 		try {
 			await userRef.update({
+				username: username,
 				school: school,
 				major: major,
 				classes: classes,
@@ -72,14 +79,14 @@ export default function OnboardingOverview({ school, major, classes, userId }) {
 						onClick={submitSelection}
 						style={{ height: 38 }}
 					>
-						{sending ? <SpinLoad small /> : "Go to your feed"}
+						{sending ? <SpinLoad small /> : "Create your profile!"}
 					</button>
 				</div>
 			)}
 
 			<div className="flex_stretch"></div>
 
-			<OnboardingNavigation pageNum={3} />
+			<OnboardingNavigation page="overview" />
 		</>
 	);
 }

@@ -6,7 +6,7 @@ import { UserContext } from "../../../App";
 import { CardSearch } from "../../cards/CenterCards";
 import Section from "../../Section";
 import { useToasts } from "react-toast-notifications";
-import SchoolResults from "../onboarding/school/SchoolResults";
+import SchoolResults from "../onboarding/pages/school/SchoolResults";
 
 export default function FindSchools() {
 	const [schools, setSchools] = useState([]);
@@ -169,7 +169,7 @@ export default function FindSchools() {
 				/>
 			)}
 
-			<h3>Choose Your Schools</h3>
+			<h3>Choose Your School</h3>
 
 			<p>Can't find your school? Request it here</p>
 			<CardSearch

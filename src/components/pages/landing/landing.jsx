@@ -113,7 +113,7 @@ export default function LandingPage() {
 			</SectionLanding>
 
 			<SectionLanding className="end">
-				<JoinSVG className="landing_home_svg" width="365px" height="217px" />
+				<JoinSVG className="landing_home_svg svg_hide_mobile" width="365px" height="217px" />
 				<div>
 					<h2 style={{ marginBottom: "25px" }}>Ready to join Blueberries?</h2>
 					<ButtonCombo />

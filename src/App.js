@@ -36,8 +36,6 @@ export default function App() {
 
 	useEffect(() => {
 		auth().onAuthStateChanged((userAuth) => {
-			console.log(userAuth);
-			console.log(!!userAuth);
 			setIsLoggedIn(!!userAuth);
 			setUser(userAuth);
 		});
@@ -47,7 +45,7 @@ export default function App() {
 		const fetchData = async () => {
 			try {
 				db.collection("users")
-					.doc("i24nevgPdghkfXgSAmx8")
+					.doc(user.uid)
 					.onSnapshot((querySnapshot) => {
 						console.log("UserInfo fetched!");
 
@@ -69,9 +67,14 @@ export default function App() {
 	const PrivateRoute = ({ component: Component, ...props }) => (
 		<Route
 			{...props}
-			render={(props) =>
-				isLoggedIn ? <Component {...props} /> : <Redirect to="/protected" />
-			}
+			render={(props) => {
+				if (!isLoggedIn) return <Redirect to="/protected" />;
+				else {
+					if (userInfo && !userInfo.username)
+						return <Redirect to="/onboarding" />;
+					else return <Component {...props} />;
+				}
+			}}
 		/>
 	);
 
@@ -93,13 +96,14 @@ export default function App() {
 					<Route
 						exact
 						path="/"
-						render={(props) =>
-							isLoggedIn ? (
-								<DashboardHub {...props} />
-							) : (
-								<LandingPage {...props} />
-							)
-						}
+						render={(props) => {
+							if (!isLoggedIn) return <LandingPage {...props} />;
+							else {
+								if (userInfo && !userInfo.username)
+									return <Redirect to="/onboarding" />;
+								else return <DashboardHub {...props} />;
+							}
+						}}
 					/>
 
 					<PrivateRoute

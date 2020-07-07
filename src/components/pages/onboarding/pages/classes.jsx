@@ -162,7 +162,7 @@ export default function ClassesOnboarding({
 
 			<div className="flex_stretch"></div>
 
-			<OnboardingNavigation pageNum={2} />
+			<OnboardingNavigation page="classes" />
 		</>
 	);
 }

@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { signup } from "../../../firebase/auth";
+import { signinWithGoogle, signup } from "../../../firebase/auth";
+import { Redirect } from "react-router-dom";
 
 export default function Signup() {
-	document.title = "Sign Up | Blueberries"
+	document.title = "Sign Up | Blueberries";
 
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	const [loginError, setLoginError] = useState("");
+	const [signedUp, setSignedUp] = useState(false);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -19,17 +21,31 @@ export default function Signup() {
 		setPassword("");
 	}
 
+	async function handleLogin(auth) {
+		try {
+			await auth();
+			setEmail("");
+			setPassword("");
+			setSignedUp(true);
+		} catch (error) {
+			console.error(error);
+			setLoginError("An unexpected error has occured, please try again later");
+		}
+	}
+
+	if (signedUp) return <Redirect to="/onboarding" />;
+
 	return (
 		<div className="section content">
 			<div className="w-container hub_card modal">
 				<h2 className="main_color">Welcome to Blueberries!</h2>
 				<div className="signup_button_div">
-					<a href="www.google.com" className="button no_margin w-button">
+					<button
+						onClick={() => handleLogin(signinWithGoogle)}
+						className="button no_margin w-button"
+					>
 						Sign up with Google
-					</a>
-					<a href="www.google.com" className="button w-button">
-						Sign up with Facebook
-					</a>
+					</button>
 				</div>
 
 				<form className="w-form" onSubmit={handleSubmit}>

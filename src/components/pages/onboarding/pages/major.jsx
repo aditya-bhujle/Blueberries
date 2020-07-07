@@ -125,7 +125,7 @@ export default function MajorOnboarding({
 
 			{conditionalRender()}
 
-			<OnboardingNavigation pageNum={1} />
+			<OnboardingNavigation page="major" />
 		</>
 	);
 }

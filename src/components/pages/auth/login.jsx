@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
 	signinWithGoogle,
-	signInWithFacebook,
 	signin,
 } from "../../../firebase/auth";
 import { Redirect } from "react-router-dom";
@@ -61,12 +60,6 @@ export default function Login({ location }) {
 						onClick={() => handleLogin(signinWithGoogle)}
 					>
 						Sign in with Google
-					</button>
-					<button
-						className="button w-button"
-						onClick={() => handleLogin(signInWithFacebook)}
-					>
-						Sign in with Facebook
 					</button>
 				</div>
 
