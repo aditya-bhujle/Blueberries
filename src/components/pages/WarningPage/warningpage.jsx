@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { UserContext } from "../../../App";
+
 export default function WarningPage({ icon, children }) {
 	const user = useContext(UserContext);
 

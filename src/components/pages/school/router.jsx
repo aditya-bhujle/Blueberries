@@ -14,7 +14,7 @@ import Classes from "./classes/classes";
 import Clubs from "./clubs/clubs";
 import Events from "./events/events";
 import Chats from "./chats/chats";
-import NotFoundSection from "../WarningPage/NotFound";
+import NotFoundSection from "../WarningPage/HubNotFound";
 import SinglePostModal from "../post/SinglePostModal";
 
 export default function SchoolRouter({ match, isLoggedIn }) {

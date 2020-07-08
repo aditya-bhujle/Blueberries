@@ -4,8 +4,6 @@ import { Redirect, Link } from "react-router-dom";
 
 export default function Signup() {
 	document.title = "Sign Up | Blueberries";
-
-	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -16,12 +14,12 @@ export default function Signup() {
 		e.preventDefault();
 
 		setLoginError(await signup(email, password));
-		setUsername("");
 		setEmail("");
 		setPassword("");
+		setSignedUp(true);
 	}
 
-	async function handleLogin(auth) {
+	async function handleThirdPartyLogin(auth) {
 		try {
 			await auth();
 			setEmail("");
@@ -41,7 +39,7 @@ export default function Signup() {
 				<h2 className="main_color">Welcome to Blueberries!</h2>
 				<div className="signup_button_div">
 					<button
-						onClick={() => handleLogin(signinWithGoogle)}
+						onClick={() => handleThirdPartyLogin(signinWithGoogle)}
 						className="button no_margin w-button"
 					>
 						Sign up with Google
@@ -49,15 +47,6 @@ export default function Signup() {
 				</div>
 
 				<form className="w-form" onSubmit={handleSubmit}>
-					<label>Username</label>
-					<input
-						type="text"
-						className="hub_card input w-input"
-						maxLength="256"
-						placeholder="Enter your username"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-					/>
 					<label>Email Address</label>
 					<input
 						type="email"

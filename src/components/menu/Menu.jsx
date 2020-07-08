@@ -70,7 +70,8 @@ export default function Menu({ data, loading }) {
 				</>
 			)}
 
-			{classes &&
+			{school.short &&
+				classes &&
 				mapLinks(
 					classes,
 					"classes",
@@ -86,7 +87,8 @@ export default function Menu({ data, loading }) {
 					"Add Your Classes!"
 				)}
 
-			{clubs &&
+			{school.short &&
+				clubs &&
 				mapLinks(
 					clubs,
 					"clubs",
@@ -104,7 +106,7 @@ export default function Menu({ data, loading }) {
 					"Join Some Clubs!"
 				)}
 
-			{chats.length > 0 && (
+			{school.short && chats.length > 0 && (
 				<>
 					{chats.map((chat) => (
 						<MenuLink

@@ -26,6 +26,7 @@ import ProtectedAccess from "./components/pages/WarningPage/ProtectedAccess";
 import FindSchools from "./components/pages/findHubs/findSchools";
 import LandingPage from "./components/pages/landing/landing";
 import ComingSoon from "./components/pages/WarningPage/comingsoon";
+import NotFoundAlert from "./components/pages/WarningPage/NotFound";
 
 export const UserContext = createContext({ user: null });
 
@@ -51,7 +52,9 @@ export default function App() {
 						console.log("UserInfo fetched!");
 
 						let userInfoWithId = querySnapshot.data();
-						userInfoWithId.id = querySnapshot.id;
+
+						if (userInfoWithId) userInfoWithId.id = querySnapshot.id;
+						else console.log("User data is undefined!");
 
 						setUserInfo(userInfoWithId);
 					});
@@ -87,13 +90,6 @@ export default function App() {
 				{isLoggedIn && <Menu data={userInfo} loading={loading} />}
 
 				<Switch>
-					<Route path="/login" component={Login}></Route>
-					<Route path="/signup" component={Signup} />
-
-					<Route path="/onboarding" component={OnboardingRouter} />
-
-					<Route path="/protected" component={ProtectedAccess} />
-
 					<Route
 						exact
 						path="/"
@@ -134,6 +130,17 @@ export default function App() {
 						)}
 					/>
 					<Route path="/schools" component={FindSchools} />
+
+					<Route path="/login" component={Login}></Route>
+					<Route path="/signup" component={Signup} />
+
+					<Route path="/onboarding" component={OnboardingRouter} />
+
+					<Route path="/protected" component={ProtectedAccess} />
+
+					<Route path="/404" component={NotFoundAlert} />
+
+					<Redirect to="/404" />
 				</Switch>
 			</Router>
 		</UserContext.Provider>
