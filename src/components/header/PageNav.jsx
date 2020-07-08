@@ -21,7 +21,7 @@ export default function PageNav({ type, baseLink }) {
 				{ content: "Posts", path: "", icon: "post" },
 				{ content: "Chat", path: "/chat", icon: "chat" },
 				{ content: "Notes", path: "/notes", icon: "notes" },
-				{ content: "Calendar", path: "/calendar", icon: "calendar" },
+				//{ content: "Calendar", path: "/calendar", icon: "calendar" },
 				{ content: "Thoughts", path: "/thoughts", icon: "thoughts" },
 				{ content: "Reviews", path: "/reviews", icon: "reviews" },
 			];
