@@ -3,14 +3,15 @@ import { CardPreviewList } from "../../cards/PreviewCards";
 import PreviewHub from "../../cards/PreviewHub";
 
 export default function DashboardSidebar({ userInfo }) {
+	if (userInfo && !userInfo.school.id) return null;
+
 	return (
 		<div className="hub_column_right">
-			<PreviewHub
-				title={userInfo ? userInfo.school.name : ""}
-				subtitle="Your Classes"
-				elements={
-					userInfo &&
-					userInfo.classes.map((userClass) => ({
+			{userInfo && (
+				<PreviewHub
+					title={userInfo.school.name}
+					subtitle={userInfo.classes.length > 0 ? "Your Classes" : false}
+					elements={userInfo.classes.map((userClass) => ({
 						header: userClass.name,
 						content: [
 							`${userClass.short} ⋅ `,
@@ -19,13 +20,18 @@ export default function DashboardSidebar({ userInfo }) {
 							</span>,
 						],
 						link: `/schools/${userInfo.school.id}/classes/${userClass.id}`,
-					}))
-				}
-				button={{
-					content: "Add More Classes",
-				}}
-				loading={!userInfo}
-			/>
+					}))}
+					button={{
+						content:
+							userInfo.classes.length > 0
+								? "Add More Classes"
+								: "Add Your Classes",
+						link: `/schools/${userInfo.school.id}/classes`,
+					}}
+					loading={!userInfo}
+				/>
+			)}
+
 			<CardPreviewList
 				title="Upcoming UNCC Events"
 				elements={[

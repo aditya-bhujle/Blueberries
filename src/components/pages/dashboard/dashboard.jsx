@@ -5,6 +5,7 @@ import Sidebar from "./Sidebar";
 import { UserContext } from "../../../App";
 import { db } from "../../../firebase/config";
 import HubPostSystem from "../../systems/HubPostSystem";
+import NoSchoolAlert from "./NoSchool";
 
 export default function DashboardHub() {
 	const userInfo = useContext(UserContext);
@@ -21,6 +22,14 @@ export default function DashboardHub() {
 		createPlaceholder: "Post Title",
 		category: ["Question", "Resource", "Other"],
 	};
+
+	if (userInfo && !userInfo.school.id)
+		return (
+			<Section>
+				<NoSchoolAlert />
+			</Section>
+		);
+
 	return (
 		<Section>
 			<HubPostSystem

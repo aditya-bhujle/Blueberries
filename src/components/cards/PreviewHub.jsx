@@ -51,9 +51,9 @@ export default function PreviewHub({
 			{loading ? (
 				<Skeleton height={37} width={125} />
 			) : (
-				<button className="button no_margin w-button" onClick={button.onClick}>
+				<Link className="button no_margin w-button select" style={{borderStyle: "solid"}} to={button.link}>
 					{button.content}
-				</button>
+				</Link>
 			)}
 		</div>
 	);
