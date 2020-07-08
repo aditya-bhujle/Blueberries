@@ -78,7 +78,6 @@ export default function ClassRouter({ match }) {
 				/>
 				<PageNav type="class" baseLink={match.url} />
 			</div>
-			<div className="line" />
 			<Switch>
 				<Route
 					exact

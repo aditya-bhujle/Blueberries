@@ -4,13 +4,15 @@ import { signOut } from "../../firebase/auth";
 
 import Search from "./Search";
 
-export default function Navbar({ user }) {
+export default function Navbar({ user, userInfo }) {
 	const location = useLocation();
 
 	const signedinLinks = user && (
 		<>
 			<button className="button select no_margin">Messages</button>
-			<button className="button select">{user.email}</button>
+			{userInfo && (
+				<button className="button select">{userInfo.username}</button>
+			)}
 			<div className="button_div margin">
 				<button
 					className="button no_margin"
@@ -46,7 +48,14 @@ export default function Navbar({ user }) {
 				<h3 className="logo">Blueberries</h3>
 			</Link>
 
-			<Search />
+			<form
+				noValidate
+				className="form_block w-form nav user"
+				style={{ position: "relative" }}
+				role="search"
+			>
+				{user && <Search />}
+			</form>
 
 			{signedinLinks || signedoutLinks}
 		</div>

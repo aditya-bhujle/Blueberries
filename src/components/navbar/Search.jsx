@@ -91,12 +91,7 @@ export default function Search() {
 	};
 
 	return (
-		<form
-			noValidate
-			className="form_block w-form nav user"
-			style={{ position: "relative" }}
-			role="search"
-		>
+		<>
 			<div className={"hub_card search nav" + (searchQuery ? " open" : "")}>
 				<svg className="nav_search_icon">
 					<use xlinkHref="#search" />
@@ -120,7 +115,7 @@ export default function Search() {
 					)}
 				</div>
 			)}
-		</form>
+		</>
 	);
 
 	function sortHits(hits) {

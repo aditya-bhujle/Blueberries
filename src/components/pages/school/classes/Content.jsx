@@ -25,7 +25,7 @@ export default function SchoolClassesContent({ schoolRef }) {
 		};
 
 		fetchData();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	//[{name: "College of Computing and Informatics", content: [{header: "test", content: "ITSC 2214"}]}]
@@ -38,9 +38,17 @@ export default function SchoolClassesContent({ schoolRef }) {
 			if (classData.field !== previousField)
 				fieldArray.push({ name: classData.field, content: [] });
 
+			const students =
+				classData.members +
+				(classData.members === 1 ? " Student" : " Students");
+
+			const teachers =
+				classData.teachers.length +
+				(classData.teachers.length === 1 ? " Teacher" : " Teachers");
+
 			fieldArray[fieldArray.length - 1].content.push({
 				header: classData.name,
-				content: `${classData.short} ⋅ ${classData.members} Students`,
+				content: `${classData.short} ⋅ ${teachers}`,
 				id: schoolClass.id,
 			});
 			previousField = classData.field;

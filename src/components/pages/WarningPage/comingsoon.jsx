@@ -2,10 +2,10 @@ import React from "react";
 import Section from "../../Section";
 import { ReactComponent as ConstructionSVG } from "../../../SVGs/construction.svg";
 
-export default function ComingSoon() {
-	document.title = "Coming Soon! - Blueberries"
-	return (
-		<Section>
+export default function ComingSoon({ nosection }) {
+	document.title = "Coming Soon! - Blueberries";
+	const content = (
+		<>
 			<h1>Under construction!</h1>
 			<div
 				className="landing_subtitle"
@@ -15,6 +15,10 @@ export default function ComingSoon() {
 				soon
 			</div>
 			<ConstructionSVG width="470px" height="289px" />
-		</Section>
+		</>
 	);
+
+	if (nosection) return content;
+
+	return <Section>{content}</Section>;
 }

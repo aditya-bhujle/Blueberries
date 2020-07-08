@@ -29,17 +29,18 @@ import ComingSoon from "./components/pages/WarningPage/comingsoon";
 import NotFoundAlert from "./components/pages/WarningPage/NotFound";
 
 export const UserContext = createContext({ user: null });
+export const UserLoadingContext = createContext(false);
 
 export default function App() {
 	const [loading, setLoading] = useState(true);
-	const [isLoggedIn, setIsLoggedIn] = useState(true);
 	const [userInfo, setUserInfo] = useState();
 	const [user, setUser] = useState(null);
+	const [userLoading, setUserLoading] = useState(true);
 
 	useEffect(() => {
 		auth().onAuthStateChanged((userAuth) => {
-			setIsLoggedIn(!!userAuth);
 			setUser(userAuth);
+			setUserLoading(false);
 		});
 	}, []);
 
@@ -72,7 +73,7 @@ export default function App() {
 		<Route
 			{...props}
 			render={(props) => {
-				if (!isLoggedIn) return <Redirect to="/protected" />;
+				if (!userLoading && !user) return <Redirect to="/protected" />;
 				else {
 					if (userInfo && !userInfo.username)
 						return <Redirect to="/onboarding" />;
@@ -84,65 +85,67 @@ export default function App() {
 
 	return (
 		<UserContext.Provider value={userInfo}>
-			<Router>
-				<SVG />
-				<Navbar user={user} />
-				{isLoggedIn && <Menu data={userInfo} loading={loading} />}
+			<UserLoadingContext.Provider value={userLoading}>
+				<Router>
+					<SVG />
+					<Navbar user={user} userInfo={userInfo} />
+					{user && <Menu data={userInfo} loading={loading} />}
 
-				<Switch>
-					<Route
-						exact
-						path="/"
-						render={(props) => {
-							if (!isLoggedIn) return <LandingPage {...props} />;
-							else {
-								if (userInfo && !userInfo.username)
-									return <Redirect to="/onboarding" />;
-								else return <DashboardHub {...props} />;
-							}
-						}}
-					/>
+					<Switch>
+						<Route
+							exact
+							path="/"
+							render={(props) => {
+								if (!user) return <LandingPage {...props} />;
+								else {
+									if (userInfo && !userInfo.username)
+										return <Redirect to="/onboarding" />;
+									else return <DashboardHub {...props} />;
+								}
+							}}
+						/>
 
-					<PrivateRoute
-						path="/schools/:schoolId/majors/:majorId"
-						component={ComingSoon}
-					/>
-					<PrivateRoute
-						path="/schools/:schoolId/classes/:classId/teachers/:teacherId"
-						component={ClassRouter}
-					/>
-					<PrivateRoute
-						path="/schools/:schoolId/classes/:classId"
-						component={ClassRouter}
-					/>
-					<PrivateRoute
-						path="/schools/:schoolId/club/:clubId"
-						component={ClassRouter}
-					/>
-					<PrivateRoute
-						path="/schools/:schoolId/chat/:chatId"
-						component={ClassRouter}
-					/>
-					<Route
-						path="/schools/:schoolId"
-						render={(props) => (
-							<SchoolRouter {...props} isLoggedIn={isLoggedIn} />
-						)}
-					/>
-					<Route path="/schools" component={FindSchools} />
+						<PrivateRoute path="/community" component={ComingSoon} />
 
-					<Route path="/login" component={Login}></Route>
-					<Route path="/signup" component={Signup} />
+						<PrivateRoute
+							path="/schools/:schoolId/majors/:majorId"
+							component={ComingSoon}
+						/>
+						<PrivateRoute
+							path="/schools/:schoolId/classes/:classId/teachers/:teacherId"
+							component={ClassRouter}
+						/>
+						<PrivateRoute
+							path="/schools/:schoolId/classes/:classId"
+							component={ClassRouter}
+						/>
+						<PrivateRoute
+							path="/schools/:schoolId/club/:clubId"
+							component={ClassRouter}
+						/>
+						<PrivateRoute
+							path="/schools/:schoolId/chat/:chatId"
+							component={ClassRouter}
+						/>
+						<Route
+							path="/schools/:schoolId"
+							render={(props) => <SchoolRouter {...props} isLoggedIn={user} />}
+						/>
+						<Route path="/schools" component={FindSchools} />
 
-					<Route path="/onboarding" component={OnboardingRouter} />
+						<Route path="/login" component={Login}></Route>
+						<Route path="/signup" component={Signup} />
 
-					<Route path="/protected" component={ProtectedAccess} />
+						<Route path="/onboarding" component={OnboardingRouter} />
 
-					<Route path="/404" component={NotFoundAlert} />
+						<Route path="/protected" component={ProtectedAccess} />
 
-					<Redirect to="/404" />
-				</Switch>
-			</Router>
+						<Route path="/404" component={NotFoundAlert} />
+
+						<Redirect to="/404" />
+					</Switch>
+				</Router>
+			</UserLoadingContext.Provider>
 		</UserContext.Provider>
 	);
 }

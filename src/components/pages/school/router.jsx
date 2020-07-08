@@ -122,7 +122,6 @@ export default function SchoolRouter({ match, isLoggedIn }) {
 				/>
 				<PageNav type="school" baseLink={match.url} />
 			</div>
-			<div className="line" />
 			<Switch>
 				<Route
 					exact
