@@ -67,7 +67,6 @@ export default function DashboardPost({ postRef, ...props }) {
 					tempCollectionDocs = tempCollectionDocs.concat(collectionDoc);
 
 					if (collectionDoc[collectionDoc.length - 1]) {
-						console.log(collectionDoc[collectionDoc.length - 1]);
 						tempQueryCursors = tempQueryCursors.concat(
 							collectionDoc[collectionDoc.length - 1]
 						);
@@ -97,21 +96,17 @@ export default function DashboardPost({ postRef, ...props }) {
 
 				const collectionRef = collectionRefs[i];
 
-				console.log(queryCursors);
 				const fetchPosts = await collectionRef
 					.orderBy("date_posted", "desc")
 					.startAfter(queryCursors[i])
 					.limit(loadPostNum)
 					.get();
 				const collectionDoc = fetchPosts.docs;
-				console.log(collectionDoc);
 
 				tempCollectionDocs = tempCollectionDocs.concat(collectionDoc);
 				tempQueryCursor = tempQueryCursor.concat(
 					collectionDoc[collectionDoc.length - 1]
 				);
-
-				console.log(tempCollectionDocs);
 			}
 
 			if (!tempCollectionDocs.length) {

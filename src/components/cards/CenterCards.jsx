@@ -588,13 +588,6 @@ function CardPost({ uid, showModal, ...props }) {
 					)}
 					{props.author} ⋅ <TimeAgo date={props.date_posted.toDate()} />
 				</div>
-				{props.category !== "Thoughts" && (
-					<strong className="main_color">
-						{props.followed
-							? "Followed!"
-							: "Follow" + (props.follows ? " ⋅ " + props.follows : "")}
-					</strong>
-				)}
 			</div>
 
 			{!props.modal && showImages.length > 0 && (
@@ -690,10 +683,6 @@ function CardPost({ uid, showModal, ...props }) {
 					{props.dislikes && dislikeLink()}
 					{actionLink(`Comment ⋅ ${props.comments}`, "chat")}
 				</div>
-				<div>
-					{actionLink("Share")}
-					{actionLink("Report")}
-				</div>
 			</div>
 		</div>
 	);
@@ -704,7 +693,6 @@ function CardPostSkeleton() {
 		<div className="hub_card">
 			<div className="hub_post_details">
 				<Skeleton width={200} />
-				<Skeleton width={75} />
 			</div>
 
 			<h3 style={{ lineHeight: "24px" }}>
@@ -724,14 +712,6 @@ function CardPostSkeleton() {
 					</div>
 					<div className="action_div post">
 						<Skeleton width={75} />
-					</div>
-				</div>
-				<div>
-					<div className="action_div post">
-						<Skeleton width={50} />
-					</div>
-					<div className="action_div post">
-						<Skeleton width={50} />
 					</div>
 				</div>
 			</div>
