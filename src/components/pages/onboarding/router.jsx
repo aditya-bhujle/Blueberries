@@ -40,8 +40,8 @@ export default function OnboardingRouter() {
 							setUsername={(username) => setUsername(username)}
 						/>
 					</Route>
-					{console.log("Past username")}
 					{!username && <Redirect to="/onboarding/welcome" />}
+
 					<Route path="/onboarding/schools">
 						<SchoolOnboarding
 							schoolId={school ? school.id : false}
@@ -49,8 +49,8 @@ export default function OnboardingRouter() {
 							username={username}
 						/>
 					</Route>
-					{console.log("Past school")}
 					{!school && <Redirect to="/onboarding/schools" />}
+					
 					<Route path="/onboarding/major">
 						<MajorOnboarding
 							schoolID={school ? school.id : false}
@@ -74,7 +74,6 @@ export default function OnboardingRouter() {
 							userId={userInfo ? userInfo.id : null}
 						/>
 					</Route>
-					{console.log("Past all")}
 
 					<Redirect to="/onboarding/welcome" />
 				</Switch>

@@ -22,9 +22,10 @@ import Signup from "./components/pages/auth/signup";
 import SchoolRouter from "./components/pages/school/router";
 import ClassRouter from "./components/pages/class/router";
 import OnboardingRouter from "./components/pages/onboarding/router";
-import ProtectedAccess from "./components/WarningPage/ProtectedAccess";
+import ProtectedAccess from "./components/pages/WarningPage/ProtectedAccess";
 import FindSchools from "./components/pages/findHubs/findSchools";
 import LandingPage from "./components/pages/landing/landing";
+import ComingSoon from "./components/pages/WarningPage/comingsoon";
 
 export const UserContext = createContext({ user: null });
 
@@ -107,8 +108,8 @@ export default function App() {
 					/>
 
 					<PrivateRoute
-						path="/schools/:schoolId/major/:majorId"
-						component={ClassRouter}
+						path="/schools/:schoolId/majors/:majorId"
+						component={ComingSoon}
 					/>
 					<PrivateRoute
 						path="/schools/:schoolId/classes/:classId/teachers/:teacherId"

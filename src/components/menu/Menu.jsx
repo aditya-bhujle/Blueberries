@@ -89,7 +89,7 @@ export default function Menu({ data, loading }) {
 			{clubs &&
 				mapLinks(
 					clubs,
-					"club",
+					"clubs",
 					"football",
 					[
 						{ content: "Posts", icon: "post", link: "" },
@@ -104,7 +104,7 @@ export default function Menu({ data, loading }) {
 					"Join Some Clubs!"
 				)}
 
-			{chats && (
+			{chats.length > 0 && (
 				<>
 					{chats.map((chat) => (
 						<MenuLink

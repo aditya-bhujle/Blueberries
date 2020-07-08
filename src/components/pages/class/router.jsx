@@ -15,7 +15,7 @@ import Thoughts from "./thoughts/thoughts";
 import Reviews from "./reviews/reviews";
 import ClassHeader from "../../header/ClassHeader";
 import SinglePostModal from "../post/SinglePostModal";
-import NotFoundSection from "../../WarningPage/NotFound";
+import NotFoundSection from "../WarningPage/NotFound";
 
 export default function ClassRouter({ match }) {
 	let { schoolId, classId, teacherId } = match.params;
