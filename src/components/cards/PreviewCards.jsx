@@ -97,7 +97,7 @@ function CardPreviewList({
 						<Link
 							className="list_div"
 							key={index}
-							to={element.link || "/notfound"}
+							to={element.link || "/404"}
 						>
 							{listContent(element)}
 						</Link>

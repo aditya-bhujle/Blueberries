@@ -43,6 +43,7 @@ export default function SchoolSidebar({
 						elements={previewInfo.majors.map((major) => ({
 							header: major.data().name,
 							content: `${major.data().members} Students`,
+							link: `/schools/${currentParams.schoolId}/majors/${major.id}`,
 						}))}
 						link="See All Majors"
 						isDouble
@@ -63,11 +64,12 @@ export default function SchoolSidebar({
 							content: `${schoolClass.data().short} ⋅ ${
 								schoolClass.data().members
 							} Students`,
+							link: `/schools/${currentParams.schoolId}/classes/${schoolClass.id}`,
 						}))}
 						link="See All Classes"
 					/>
 				))}
-
+			{/*
 			{current !== "/clubs" &&
 				(previewLoading ? (
 					<CardPreviewListSkeleton title="Join Clubs" link="See All Clubs" />
@@ -113,7 +115,7 @@ export default function SchoolSidebar({
 						}))}
 						link="See All Chats"
 					/>
-				))}
+				))}*/}
 		</div>
 	);
 }

@@ -11,8 +11,8 @@ export default function PageNav({ type, baseLink }) {
 				{ content: "Majors", path: "/majors", icon: "rocket" },
 				{ content: "Classes", path: "/classes", icon: "flask" },
 				{ content: "Clubs", path: "/clubs", icon: "football" },
-				{ content: "Chats", path: "/chats", icon: "chat" },
-				{ content: "Events", path: "/events", icon: "calendar" },
+				//{ content: "Chats", path: "/chats", icon: "chat" },
+				//{ content: "Events", path: "/events", icon: "calendar" },
 			];
 			break;
 
