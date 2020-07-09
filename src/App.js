@@ -141,6 +141,7 @@ export default function App() {
 						<Route path="/protected" component={ProtectedAccess} />
 
 						<Route path="/404" component={NotFoundAlert} />
+						<Route path="/comingsoon" component={ComingSoon} />
 
 						<Redirect to="/404" />
 					</Switch>

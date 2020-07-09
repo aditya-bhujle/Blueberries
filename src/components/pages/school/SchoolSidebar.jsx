@@ -21,6 +21,8 @@ export default function SchoolSidebar({
 		""
 	);
 
+	const schoolURL = `/schools/${currentParams.schoolId}`;
+
 	return (
 		<div className="hub_column_right">
 			<CardPreviewInfo
@@ -43,9 +45,12 @@ export default function SchoolSidebar({
 						elements={previewInfo.majors.map((major) => ({
 							header: major.data().name,
 							content: `${major.data().members} Students`,
-							link: `/schools/${currentParams.schoolId}/majors/${major.id}`,
+							link: `${schoolURL}/majors/${major.id}`,
 						}))}
-						link="See All Majors"
+						link={{
+							name: "See All Majors",
+							pathname: `${schoolURL}/majors`,
+						}}
 						isDouble
 					/>
 				))}
@@ -64,9 +69,12 @@ export default function SchoolSidebar({
 							content: `${schoolClass.data().short} ⋅ ${
 								schoolClass.data().members
 							} Students`,
-							link: `/schools/${currentParams.schoolId}/classes/${schoolClass.id}`,
+							link: `${schoolURL}/classes/${schoolClass.id}`,
 						}))}
-						link="See All Classes"
+						link={{
+							name: "See All Classes",
+							pathname: `${schoolURL}/classes`,
+						}}
 					/>
 				))}
 			{/*

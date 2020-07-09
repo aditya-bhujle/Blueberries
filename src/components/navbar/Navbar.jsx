@@ -9,9 +9,8 @@ export default function Navbar({ user, userInfo }) {
 
 	const signedinLinks = user && (
 		<>
-			<button className="button select no_margin">Messages</button>
 			{userInfo && (
-				<button className="button select">{userInfo.username}</button>
+				<div className="button select no_margin">{userInfo.username}</div>
 			)}
 			<div className="button_div margin">
 				<button

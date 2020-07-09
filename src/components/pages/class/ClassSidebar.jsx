@@ -18,6 +18,10 @@ export default function ClassSidebar({ classInfo, classLoading }) {
 
 	if (current === "/chat") return null;
 
+	const classURL =
+		`/schools/${currentParams.schoolId}/classes/${currentParams.classId}` +
+		(currentParams.teacherId ? `/teachers/${currentParams.teacherId}` : "");
+
 	return (
 		<div className="hub_column_right">
 			<CardPreviewInfo
@@ -35,6 +39,7 @@ export default function ClassSidebar({ classInfo, classLoading }) {
 					title="Professor Bruce Long"
 					{...classInfo.reviews}
 					loading={classLoading}
+					classURL={classURL}
 					titleLoading
 				/>
 			)}
@@ -51,9 +56,9 @@ export default function ClassSidebar({ classInfo, classLoading }) {
 								100 +
 							" / 5",
 						content: `${teacher.members} Students`,
-						link: `/schools/${currentParams.schoolId}/classes/${currentParams.classId}/teachers/${teacher.id}`,
+						link: `${classURL}/teachers/${teacher.id}`,
 					}))}
-					link="Add New Professor"
+					link={{ name: "Add New Professor", pathname: "/comingsoon" }}
 				/>
 			)}
 
@@ -70,7 +75,10 @@ export default function ClassSidebar({ classInfo, classLoading }) {
 						content: "ITSC 2214 Group Chat",
 					},
 				]}
-				link="Open Group Chat"
+				link={{
+					name: "Open Group Chat",
+					pathname: `${classURL}/chat`,
+				}}
 			/>
 		</div>
 	);

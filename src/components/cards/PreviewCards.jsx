@@ -94,11 +94,7 @@ function CardPreviewList({
 			<div className={isDouble ? "list_grid_div" : ""}>
 				{elements.map((element, index) =>
 					element.link ? (
-						<Link
-							className="list_div"
-							key={index}
-							to={element.link || "/404"}
-						>
+						<Link className="list_div" key={index} to={element.link || "/404"}>
 							{listContent(element)}
 						</Link>
 					) : (
@@ -115,16 +111,16 @@ function CardPreviewList({
 					{Array.isArray(link) ? (
 						<div className="hub_card_links multiple">
 							{link.map((link) => (
-								<a href="www.google.com" className="link" key={link}>
-									{link}
-								</a>
+								<Link to={link.pathname} className="link" key={link.name}>
+									{link.name}
+								</Link>
 							))}
 						</div>
 					) : (
 						<div className="hub_card_links">
-							<a href="www.google.com" className="link">
-								{link}
-							</a>
+							<Link to={link.pathname} className="link">
+								{link.name}
+							</Link>
 						</div>
 					)}
 				</>
@@ -212,7 +208,10 @@ function CardPreviewReview(props) {
 				{ header: "Textbook Use", content: (textbook_perc || 0) + "%" },
 			]}
 			isDouble
-			link={["Add Review", "See All Reviews"]}
+			link={[
+				{ name: "Add Review", pathname: `${props.classURL}/reviews` },
+				{ name: "See All Reviews", pathname: `${props.classURL}/reviews` },
+			]}
 			loading={loading}
 			titleLoading={props.titleLoading}
 		>
