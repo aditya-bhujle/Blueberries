@@ -44,21 +44,19 @@ export default function Search() {
 
 	if (!userInfo)
 		return (
-			<form noValidate className="form_block w-form nav user" role="search">
-				<div className="hub_card search nav">
-					<svg className="nav_search_icon">
-						<use xlinkHref="#search" />
-					</svg>
-					<input
-						type="search"
-						value={searchQuery}
-						onChange={(e) => setSearchQuery(e.target.value)}
-						className="search_input w-input"
-						placeholder="Type something here..."
-						style={{ padding: "4px" }}
-					/>
-				</div>
-			</form>
+			<div className="hub_card search nav">
+				<svg className="nav_search_icon">
+					<use xlinkHref="#search" />
+				</svg>
+				<input
+					type="search"
+					value={searchQuery}
+					onChange={(e) => setSearchQuery(e.target.value)}
+					className="search_input w-input"
+					placeholder="Type something here..."
+					style={{ padding: "4px" }}
+				/>
+			</div>
 		);
 
 	const SchoolHits = ({ hits }) => {

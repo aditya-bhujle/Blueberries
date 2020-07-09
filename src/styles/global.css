@@ -620,7 +620,7 @@ strong {
 }
 
 .hub_card.modal {
-	padding: 36px;
+	padding: 36px 36px 24px;
 	min-width: 400px;
 	position: relative;
 }

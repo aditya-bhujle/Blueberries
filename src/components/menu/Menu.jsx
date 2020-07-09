@@ -3,9 +3,11 @@ import MenuLink from "./MenuLink";
 import SubMenuHead from "./SubMenuHead";
 import { useLocation } from "react-router-dom";
 import SchoolLink from "./SchoolLink";
+import { useToasts } from "react-toast-notifications";
 
 export default function Menu({ data, loading }) {
 	const loc = useLocation();
+	const { addToast } = useToasts();
 
 	if (loc.pathname.startsWith("/onboarding")) return null;
 
@@ -121,11 +123,22 @@ export default function Menu({ data, loading }) {
 			)}
 
 			<div className="nav_menu_details">
-				<p>Settings</p>
+				{/*<p>Settings</p>
 				<p>Download the Android App</p>
 				<p>Download the iOS App</p>
 				<p>Send Feedback</p>
-				<p>About ⋅ Privacy ⋅ Terms</p>
+				<p>About ⋅ Privacy ⋅ Terms</p>*/}
+				<p
+					className="text_link"
+					onClick={() =>
+						addToast("Send Us an Email at feedback@blueberries.app!", {
+							appearance: "success",
+						})
+					}
+					style={{ cursor: "pointer" }}
+				>
+					Send Feedback
+				</p>
 				<p>Blueberries © 2020</p>
 			</div>
 		</div>

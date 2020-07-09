@@ -82,12 +82,12 @@ export default function Signup() {
 						<strong className="text_link main_color">Login here</strong>
 					</Link>
 				</p>
-				<p>
+				{/*<p>
 					By signing up to Blueberries, you're agreeing to our
 					<br />‍<strong className="main_color">
 						Terms of Service{" "}
 					</strong>and <strong className="main_color">Privacy Policy</strong>
-				</p>
+				</p>*/}
 			</div>
 		</div>
 	);
