@@ -4,7 +4,7 @@ import ChatCard from "../../../chat/ChatCard";
 import Message from "../../../chat/Message";
 import { UserContext } from "../../../../App";
 
-export default function ClassMessageContent({ classRef }) {
+export default function ClassMessageContent({ classRef, teacherId }) {
 	const [messages, setMessages] = useState([]);
 
 	const userInfo = useContext(UserContext);
@@ -64,7 +64,7 @@ export default function ClassMessageContent({ classRef }) {
 			components.push(
 				<Message
 					content={groupContent}
-					time={date_posted.toDate().toString()}
+					time={date_posted.toDate()}
 					{...restOfMessage}
 					self={user_id === userInfo.id}
 					//Poll props below
@@ -80,50 +80,8 @@ export default function ClassMessageContent({ classRef }) {
 
 	return (
 		<div className="hub_content">
-			<ChatCard sendMessage={sendMessage}>
+			<ChatCard sendMessage={sendMessage} teacherId={teacherId}>
 				{groupMessages()}
-				{/*<div style={{ display: "none" }}>
-					<Message user="TestName1" time="11:30 AM" content={"Lorem ipsum"} />
-					<Message
-						user="TestName2"
-						time="12:31 AM"
-						event={{
-							title: "Graduation Ceremony",
-							date: "February 10",
-							day: "Monday",
-							time_span: "1:30 pm - 5:30 pm",
-						}}
-					/>
-					<Message
-						user="TestName1"
-						time="12:36 AM"
-						poll={{
-							title: "Should UNCC close down because of Corona",
-							votes: 23,
-							choices: [
-								{ name: "Major", votes: 13 },
-								{ name: "Classes", votes: 1 },
-								{ name: "Clubs", votes: 0 },
-								{ name: "Chats", votes: 1 },
-							],
-							multiple: true,
-						}}
-						self
-					/>
-					<Message
-						user="TestName1"
-						time="12:36 AM"
-						post={{
-							author: "Anonymous",
-							time: "Yesterday",
-							title: "Who else has Assignment 3 pushed back?",
-							alert:
-								"This post was posted in the Data Structures and Algorithms hub",
-							content:
-								"I'm in Long's class and he pushed it back to Monday. Was wondering about other teachers.",
-						}}
-					/>
-				</div>*/}
 			</ChatCard>
 		</div>
 	);

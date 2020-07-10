@@ -106,7 +106,11 @@ export default function ClassRouter({ match }) {
 					exact
 					path={`${match.path}/chat`}
 					render={(props) => (
-						<Chat {...props} classRef={classRef.collection("messages")} />
+						<Chat
+							{...props}
+							classRef={classRef.collection("messages")}
+							teacherId={teacherId}
+						/>
 					)}
 				/>
 

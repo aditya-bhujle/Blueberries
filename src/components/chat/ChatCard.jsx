@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function ChatCard({ sendMessage, children }) {
+export default function ChatCard({ sendMessage, teacherId, children }) {
 	const [content, setContent] = useState("");
 
 	function handleSubmit(e) {
@@ -15,19 +15,12 @@ export default function ChatCard({ sendMessage, children }) {
 					<h3 className="nav_link no_padding current">
 						Professor Long&#x27;s Class
 					</h3>
-					<h3 className="nav_link no_padding">ITSC 2214 Hub</h3>
+					{teacherId && <h3 className="nav_link no_padding">ITSC 2214 Hub</h3>}
 				</div>
-				<div>
-					<div className="hub_subtitle">
-						<strong>23 Members</strong>
-					</div>
-					<div className="hub_subtitle">
-						<strong className="main_color">Settings</strong>
-					</div>
-				</div>
+				<strong className="hub_subtitle">23 Members</strong>
 			</div>
 			<div className="hub_chat_content">{children}</div>
-			<div className="hub_card_line"></div>
+			<div className="hub_card_line"/>
 			<div className="hub_card_links">
 				<form className="form_block chat w-form" onSubmit={handleSubmit}>
 					<input

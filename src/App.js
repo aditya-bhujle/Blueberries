@@ -77,7 +77,7 @@ export default function App() {
 				else {
 					if (userInfo && !userInfo.username)
 						return <Redirect to="/onboarding" />;
-					else return <Component {...props} />;
+					else if (userInfo) return <Component {...props} />;
 				}
 			}}
 		/>

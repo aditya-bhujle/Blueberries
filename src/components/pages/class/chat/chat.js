@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import ChatPreview from "../../../chat/ChatPreview";
 import Content from "./Content";
 
-export default function ClassChat({ classRef }) {
+export default function ClassChat(props) {
 	useEffect(() => {
 		const rootElement = document.getElementById("root");
 
@@ -14,7 +14,7 @@ export default function ClassChat({ classRef }) {
 
 	return (
 		<div className="hub_column_layout">
-			<Content classRef={classRef} />
+			<Content {...props} />
 			<ChatPreview />
 		</div>
 	);

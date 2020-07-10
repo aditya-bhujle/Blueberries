@@ -1,12 +1,11 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { signOut } from "../../firebase/auth";
 
 import Search from "./Search";
+import SignedOutLinks from "./SignedOutLinks";
 
 export default function Navbar({ user, userInfo }) {
-	const location = useLocation();
-
 	const signedinLinks = user && (
 		<>
 			{userInfo && (
@@ -27,19 +26,7 @@ export default function Navbar({ user, userInfo }) {
 		</>
 	);
 
-	const signedoutLinks = !user && (
-		<>
-			<Link to="/signup" className="button no_margin">
-				Create an Account
-			</Link>
-			<Link
-				to={{ pathname: "/login", state: location.pathname }}
-				className="button select"
-			>
-				Log In
-			</Link>
-		</>
-	);
+	const signedoutLinks = !user && <SignedOutLinks />;
 
 	return (
 		<div className="navbar">
