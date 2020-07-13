@@ -6,8 +6,13 @@ import {
 	CardPreviewReview,
 } from "../../cards/PreviewCards";
 import { useLocation, useParams } from "react-router-dom";
+import Timeago from "react-timeago";
 
-export default function ClassSidebar({ classInfo, classLoading }) {
+export default function ClassSidebar({
+	classInfo,
+	messagePreview,
+	classLoading,
+}) {
 	const currentPath = useLocation();
 	const currentParams = useParams();
 
@@ -16,7 +21,7 @@ export default function ClassSidebar({ classInfo, classLoading }) {
 		""
 	);
 
-	if (current === "/chat") return null;
+	//if (current === "/chat") return null;
 
 	const classURL =
 		`/schools/${currentParams.schoolId}/classes/${currentParams.classId}` +
@@ -62,24 +67,24 @@ export default function ClassSidebar({ classInfo, classLoading }) {
 				/>
 			)}
 
-			<CardPreviewList
-				title="Chat"
-				elements={[
-					{
-						header: "You Have 2 Unread Messages",
-						right: "Now",
-					},
-					{
-						header: "Someone Mentioned You",
-						right: "2 Days Ago",
-						content: "ITSC 2214 Group Chat",
-					},
-				]}
-				link={{
-					name: "Open Group Chat",
-					pathname: `${classURL}/chat`,
-				}}
-			/>
+			{current !== "/chat" && !classLoading && (
+				<CardPreviewList
+					title="Chat"
+					elements={messagePreview.map((message) => {
+						const { content, date_posted, user } = message.data();
+						return {
+							header: content,
+							right: <Timeago date={date_posted.toDate()} />,
+							content: user,
+							link: `${classURL}/chat`,
+						};
+					})}
+					link={{
+						name: "Open Group Chat",
+						pathname: `${classURL}/chat`,
+					}}
+				/>
+			)}
 		</div>
 	);
 }

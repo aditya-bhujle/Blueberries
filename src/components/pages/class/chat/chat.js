@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 
 import ChatPreview from "../../../chat/ChatPreview";
 import Content from "./Content";
+import { Route, Redirect, Switch } from "react-router-dom";
 
-export default function ClassChat(props) {
+export default function ClassChat({ match, sidebar, classRef, hubRef, ...props }) {
 	useEffect(() => {
 		const rootElement = document.getElementById("root");
 
@@ -14,8 +15,35 @@ export default function ClassChat(props) {
 
 	return (
 		<div className="hub_column_layout">
-			<Content {...props} />
-			<ChatPreview />
+			<Switch>
+				<Route
+					exact
+					path={match.path}
+					render={(...routeProps) => (
+						<Content
+							classRef={classRef}
+							matchUrl={match.url}
+							{...props}
+							{...routeProps}
+						/>
+					)}
+				/>
+				<Route
+					exact
+					path={`${match.path}/hub`}
+					render={(...routeProps) => (
+						<Content
+							classRef={hubRef}
+							matchUrl={match.url}
+							{...props}
+							{...routeProps}
+						/>
+					)}
+				/>
+				<Redirect to={match.path} />
+			</Switch>
+			{/*<ChatPreview />*/}
+			{sidebar}
 		</div>
 	);
 }

@@ -82,7 +82,7 @@ export default function Menu({ data, loading }) {
 						{ content: "Posts", icon: "post", link: "" },
 						{ content: "Chat", icon: "chat", link: "chat" },
 						{ content: "Notes", icon: "notes", link: "notes" },
-						{ content: "Calendar", icon: "calendar", link: "calendar" },
+						//{ content: "Calendar", icon: "calendar", link: "calendar" },
 						{ content: "Thoughts", icon: "thoughts", link: "thoughts" },
 						{ content: "Reviews", icon: "reviews", link: "reviews" },
 					],

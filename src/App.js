@@ -73,12 +73,19 @@ export default function App() {
 		<Route
 			{...props}
 			render={(props) => {
-				if (!userLoading && !user) return <Redirect to="/protected" />;
-				else {
-					if (userInfo && !userInfo.username)
+				if (!userLoading && !user) {
+					//console.log("%c Redirecting to Protected!", "color: yellow");
+					return <Redirect to="/protected" />;
+				} else if (userInfo) {
+					if (!userInfo.username) {
+						//console.log("%c Redirecting to onboarding!", "color: yellow");
 						return <Redirect to="/onboarding" />;
-					else if (userInfo) return <Component {...props} />;
+					} else {
+						//console.log("%c Loading Component!", "color: yellow");
+						return <Component {...props} />;
+					}
 				}
+				//console.log("%c Not doing anything!", "color: yellow");
 			}}
 		/>
 	);

@@ -35,7 +35,7 @@ export default function PageNav({ type, baseLink }) {
 		<div className="hub_nav">
 			{links.map((link) => (
 				<NavLink
-					exact
+					exact={!link.path}
 					to={`${baseLink}${link.path}`}
 					className="nav_link"
 					activeClassName="current"

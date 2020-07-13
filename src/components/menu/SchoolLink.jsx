@@ -36,7 +36,7 @@ export default function SchoolLink({ school }) {
 					icon="football"
 					link={`/schools/${school.id}/clubs`}
 				/>
-				<MenuLink
+				{/*<MenuLink
 					submenu
 					content="Chats"
 					icon="chat"
@@ -48,15 +48,11 @@ export default function SchoolLink({ school }) {
 					content="Events"
 					icon="calendar"
 					link={`/schools/${school.id}/events`}
-				/>
+				/>*/}
 			</SubMenuHead>
 		);
 	else
 		return (
-			<MenuLink
-				content="Pick Your School!"
-				icon="school"
-				link={`/schools`}
-			/>
+			<MenuLink content="Pick Your School!" icon="school" link={`/schools`} />
 		);
 }

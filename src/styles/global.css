@@ -1,3 +1,12 @@
+.chat_header_link {
+	margin-top: 5px;
+	margin-bottom: 10px;
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 500;
+	display: block;
+}
+
 .landing_image.curved {
 	border-radius: 12px;
 }

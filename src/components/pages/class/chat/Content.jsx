@@ -4,7 +4,7 @@ import ChatCard from "../../../chat/ChatCard";
 import Message from "../../../chat/Message";
 import { UserContext } from "../../../../App";
 
-export default function ClassMessageContent({ classRef, teacherId }) {
+export default function ClassMessageContent({ classRef, ...props }) {
 	const [messages, setMessages] = useState([]);
 
 	const userInfo = useContext(UserContext);
@@ -80,7 +80,7 @@ export default function ClassMessageContent({ classRef, teacherId }) {
 
 	return (
 		<div className="hub_content">
-			<ChatCard sendMessage={sendMessage} teacherId={teacherId}>
+			<ChatCard sendMessage={sendMessage} {...props}>
 				{groupMessages()}
 			</ChatCard>
 		</div>

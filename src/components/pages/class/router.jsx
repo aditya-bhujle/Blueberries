@@ -30,6 +30,7 @@ export default function ClassRouter({ match }) {
 		: classCollection;
 
 	const [classInfo, setClassInfo] = useState({});
+	const [messagePreview, setMessagePreview] = useState();
 
 	const [loading, setLoading] = useState(true);
 
@@ -40,14 +41,22 @@ export default function ClassRouter({ match }) {
 				console.log("Class info fetched!");
 
 				if (!fetchInfo.exists) setClassInfo(404);
-				else {
-					setClassInfo(fetchInfo.data());
-				}
+				else setClassInfo(fetchInfo.data());
+
+				await classRef
+					.collection("messages")
+					.orderBy("date_posted", "desc")
+					.limit(3)
+					.onSnapshot((querySnapshot) => {
+						console.log("%cGetting Messages Now!", "color: yellow");
+						setMessagePreview(querySnapshot.docs.reverse());
+
+						setLoading(false);
+					});
+
 			} catch (error) {
 				console.error(error);
 			}
-
-			setLoading(false);
 		};
 
 		fetchData();
@@ -56,7 +65,13 @@ export default function ClassRouter({ match }) {
 
 	if (classInfo === 404) return <NotFoundSection text="class" />;
 
-	const NewSidebar = <Sidebar classLoading={loading} classInfo={classInfo} />;
+	const NewSidebar = (
+		<Sidebar
+			classLoading={loading}
+			classInfo={classInfo}
+			messagePreview={messagePreview}
+		/>
+	);
 
 	return (
 		<Section fullscreen>
@@ -103,12 +118,14 @@ export default function ClassRouter({ match }) {
 				/>
 
 				<Route
-					exact
 					path={`${match.path}/chat`}
 					render={(props) => (
 						<Chat
 							{...props}
+							sidebar={NewSidebar}
 							classRef={classRef.collection("messages")}
+							hubRef={classCollection.collection("messages")}
+							classInfo={classInfo}
 							teacherId={teacherId}
 						/>
 					)}
