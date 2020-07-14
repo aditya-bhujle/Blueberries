@@ -119,6 +119,7 @@ export default function SchoolRouter({ match, isLoggedIn }) {
 					schoolId={schoolId}
 					loading={schoolInfoLoading}
 					isLoggedIn={isLoggedIn}
+					schoolRef={schoolRef}
 				/>
 				<PageNav type="school" baseLink={match.url} />
 			</div>

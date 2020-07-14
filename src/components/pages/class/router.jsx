@@ -53,7 +53,6 @@ export default function ClassRouter({ match }) {
 
 						setLoading(false);
 					});
-
 			} catch (error) {
 				console.error(error);
 			}
@@ -90,8 +89,13 @@ export default function ClassRouter({ match }) {
 						}),
 					}}
 					loading={loading}
+					classRef={classRef}
+					teacherId={teacherId}
 				/>
-				<PageNav type="class" baseLink={match.url} />
+				<PageNav
+					type={teacherId ? "class" : "class-hub"}
+					baseLink={match.url}
+				/>
 			</div>
 			<Switch>
 				<Route

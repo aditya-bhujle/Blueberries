@@ -1,12 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
 import Header from "./Header";
-import firebase from "firebase/app";
 import { db } from "../../firebase/config";
 import { UserContext } from "../../App";
 import Skeleton from "react-loading-skeleton";
 import { useToasts } from "react-toast-notifications";
+import { firestore } from "firebase";
 
-export default function ClassHeader({ school, schoolClass, loading }) {
+export default function ClassHeader({
+	school,
+	schoolClass,
+	classRef,
+	teacherId,
+	loading,
+}) {
 	const userInfo = useContext(UserContext);
 	const { addToast } = useToasts();
 	const [joined, setJoined] = useState(false);
@@ -38,20 +44,38 @@ export default function ClassHeader({ school, schoolClass, loading }) {
 		const userRef = db.collection("users").doc(userInfo.id);
 
 		try {
-			if (joined)
+			if (joined) {
 				for (let i = 0; i < removeClass.length; i++)
 					await userRef.update({
-						classes: firebase.firestore.FieldValue.arrayRemove(removeClass[i]),
+						classes: firestore.FieldValue.arrayRemove(removeClass[i]),
 					});
-			else
+
+				await classRef.update({ members: firestore.FieldValue.increment(-1) });
+
+				if (teacherId) {
+					const updateObject = {};
+					updateObject[
+						`teachers.${teacherId}.members`
+					] = firestore.FieldValue.increment(-1);
+					await classRef.parent.parent.update(updateObject);
+				}
+			} else {
 				await userRef.update({
-					classes: firebase.firestore.FieldValue.arrayUnion(schoolClass),
+					classes: firestore.FieldValue.arrayUnion(schoolClass),
 				});
+				await classRef.update({ members: firestore.FieldValue.increment(1) });
+
+				if (teacherId) {
+					const updateObject = {};
+					updateObject[
+						`teachers.${teacherId}.members`
+					] = firestore.FieldValue.increment(1);
+					await classRef.parent.parent.update(updateObject);
+				}
+			}
 
 			addToast(
-				`Successfully ${joined ? "Left" : "Added to"} ${
-					schoolClass.name
-				}!`,
+				`Successfully ${joined ? "Left" : "Added to"} ${schoolClass.name}!`,
 				{ appearance: "success", autoDismiss: true }
 			);
 		} catch (error) {

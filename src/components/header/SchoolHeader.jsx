@@ -5,11 +5,13 @@ import { UserContext } from "../../App";
 import Skeleton from "react-loading-skeleton";
 import { useToasts } from "react-toast-notifications";
 import { useHistory } from "react-router-dom";
+import { firestore } from "firebase";
 
 export default function SchoolHeader({
 	schoolId,
 	loading,
 	isLoggedIn,
+	schoolRef,
 	...props
 }) {
 	const userInfo = useContext(UserContext);
@@ -18,7 +20,8 @@ export default function SchoolHeader({
 	const [joined, setJoined] = useState(false);
 
 	useEffect(() => {
-		if (userInfo && userInfo.school && userInfo.school.id === schoolId) setJoined(true);
+		if (userInfo && userInfo.school && userInfo.school.id === schoolId)
+			setJoined(true);
 	}, [schoolId, userInfo]);
 
 	if (loading)
@@ -47,6 +50,11 @@ export default function SchoolHeader({
 			await userRef.update({
 				school: joined ? {} : schoolObject,
 			});
+
+			await schoolRef.update({
+				members: firestore.FieldValue.increment(joined ? -1 : 1),
+			});
+
 			addToast(`Successfully ${joined ? "Left" : "Added to"} ${props.name}!`, {
 				appearance: "success",
 				autoDismiss: true,

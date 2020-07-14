@@ -4,6 +4,7 @@ import { UserContext } from "../../App";
 import { useToasts } from "react-toast-notifications";
 import { firestore } from "firebase";
 import { Rate } from "antd";
+import TimeAgo from "react-timeago";
 
 function AvgReviewCard({ title, id, children, h3, loading }) {
 	return (
@@ -23,13 +24,13 @@ function AvgReviewCard({ title, id, children, h3, loading }) {
 }
 
 function AvgReviews({ counter, tags, quote, loading, ...props }) {
-	const calculate = (num) => Math.round(((num || 0) / counter) * 100) / 100;
+	const calculate = (num) => (((num || 0) / counter) * 100).toFixed(0);
 
-	const overall = calculate(props.overall);
-	const difficulty = calculate(props.difficulty);
-	const take_again_perc = calculate(props.take_again) * 100;
-	const textbook_perc = calculate(props.textbook) * 100;
-	const attendance_perc = calculate(props.attendance) * 100;
+	const overall = (calculate(props.overall) / 100).toFixed(1);
+	const difficulty = (calculate(props.difficulty) / 100).toFixed(1);
+	const take_again_perc = calculate(props.take_again);
+	const textbook_perc = calculate(props.textbook);
+	const attendance_perc = calculate(props.attendance);
 
 	return (
 		<div className="hub_review_avg_div">
@@ -217,7 +218,7 @@ function ReviewCard({
 	return (
 		<div className="hub_card">
 			<div className="hub_post_details">
-				{author} ⋅ {date_posted.toDate().toString()}
+				{author} ⋅ {<TimeAgo date={date_posted.toDate()} />}
 			</div>
 
 			<h3>{title}</h3>
@@ -273,11 +274,7 @@ function ReviewCard({
 }
 
 function ReviewCreate({ classRef }) {
-	const userInfo = useContext(UserContext);
-	const { addToast } = useToasts();
-
-	const [showCreate, setShowCreate] = useState(false);
-	const [reviewInfo, setReviewInfo] = useState({
+	const defaultReviewInfo = {
 		rating: {
 			overall: 3,
 			difficulty: 3,
@@ -285,7 +282,25 @@ function ReviewCreate({ classRef }) {
 			take_again: false,
 			textbook: false,
 		},
-	});
+		tags: [],
+	};
+
+	const defaultTags = [
+		"Gives Good feedback",
+		"Respected",
+		"Lots of Homework",
+		"Lots of Writing",
+		"Test Heavy",
+		"Group Projects",
+		"Extra Credit",
+		"Tough Grader",
+	];
+
+	const userInfo = useContext(UserContext);
+	const { addToast } = useToasts();
+
+	const [showCreate, setShowCreate] = useState(false);
+	const [reviewInfo, setReviewInfo] = useState(defaultReviewInfo);
 
 	async function createReview(e) {
 		e.preventDefault();
@@ -335,15 +350,7 @@ function ReviewCreate({ classRef }) {
 			});
 
 			setShowCreate(false);
-			setReviewInfo({
-				rating: {
-					overall: 3,
-					difficulty: 3,
-					attendance: false,
-					take_again: false,
-					textbook: false,
-				},
-			});
+			setReviewInfo(defaultReviewInfo);
 		} catch (error) {
 			console.error(error);
 		}
@@ -386,6 +393,19 @@ function ReviewCreate({ classRef }) {
 		</div>
 	);
 
+	function clickTag(tag) {
+		const currentTags = reviewInfo.tags;
+		let newTags;
+
+		if (!currentTags.includes(tag)) newTags = currentTags.concat(tag);
+		else newTags = currentTags.filter((curTag) => curTag !== tag);
+
+		setReviewInfo({
+			...reviewInfo,
+			tags: newTags,
+		});
+	}
+
 	const formContent = (
 		<>
 			{ratingBox("Overall Rating:", "overall")}
@@ -417,17 +437,15 @@ function ReviewCreate({ classRef }) {
 			/>
 
 			<div className="hub_tag_div">
-				{[
-					"Gives Good feedback",
-					"Respected",
-					"Lots of Homework",
-					"Lots of Writing",
-					"Test Heavy",
-					"Group Projects",
-					"Extra Credit",
-					"Tough Grader",
-				].map((tag) => (
-					<div className="tag" key={tag}>
+				{defaultTags.map((tag) => (
+					<div
+						className={
+							"tag" + (reviewInfo.tags.includes(tag) ? " selected" : "")
+						}
+						style={{ cursor: "pointer" }}
+						key={tag}
+						onClick={() => clickTag(tag)}
+					>
 						{tag}
 					</div>
 				))}

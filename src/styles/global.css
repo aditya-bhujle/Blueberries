@@ -1500,8 +1500,8 @@ strong {
 
 .tag.selected {
 	border-color: #1a73e8;
-	color: #1a73e8;
-	background-color: #effcff;
+	color: white;
+	background-color: #1a73e8;
 }
 
 .hub_tag_div {

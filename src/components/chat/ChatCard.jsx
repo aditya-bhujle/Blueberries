@@ -40,7 +40,7 @@ export default function ChatCard({
 						</NavLink>
 					)}
 				</div>
-				<strong className="hub_subtitle">23 Members</strong>
+				<strong className="hub_subtitle">{classInfo.members} Members</strong>
 			</div>
 			<div className="hub_chat_content">{children}</div>
 			<div className="hub_card_line" />

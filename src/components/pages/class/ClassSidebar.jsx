@@ -16,10 +16,8 @@ export default function ClassSidebar({
 	const currentPath = useLocation();
 	const currentParams = useParams();
 
-	const current = currentPath.pathname.replace(
-		"/schools/" + currentParams.schoolId + "/classes/" + currentParams.classId,
-		""
-	);
+	const regInfo = /\w+$/.exec(currentPath.pathname);
+	const current = regInfo ? regInfo[0] : null;
 
 	//if (current === "/chat") return null;
 
@@ -39,7 +37,7 @@ export default function ClassSidebar({
 				teacherLink={classInfo.last_name}
 			/>
 
-			{current !== "/reviews" && classInfo.reviews && (
+			{current !== "reviews" && classInfo.reviews && (
 				<CardPreviewReview
 					title="Professor Bruce Long"
 					{...classInfo.reviews}
@@ -52,22 +50,21 @@ export default function ClassSidebar({
 			{classInfo.teachers && (
 				<CardPreviewList
 					title="Select Your Professor"
-					elements={classInfo.teachers.map((teacher) => ({
-						header: `Professor ${teacher.first_name} ${teacher.last_name}`,
-						right:
-							Math.round(
-								(teacher.rating.overall / teacher.rating.counter) * 100
-							) /
-								100 +
-							" / 5",
-						content: `${teacher.members} Students`,
-						link: `${classURL}/teachers/${teacher.id}`,
-					}))}
+					elements={Object.keys(classInfo.teachers).map((teacher_id) => {
+						const { first_name, last_name, members } = classInfo.teachers[
+							teacher_id
+						];
+						return {
+							header: `Professor ${first_name} ${last_name}`,
+							content: `${members} Students`,
+							link: `${classURL}/teachers/${teacher_id}`,
+						};
+					})}
 					link={{ name: "Add New Professor", pathname: "/comingsoon" }}
 				/>
 			)}
 
-			{current !== "/chat" && !classLoading && (
+			{current !== "chat" && !classLoading && (
 				<CardPreviewList
 					title="Chat"
 					elements={messagePreview.map((message) => {

@@ -12,12 +12,19 @@ export default function SchoolMajorsContent({
 	avgReviews,
 	reviewsLoading,
 }) {
+	const [sortQuery, setSortQuery] = useState({
+		title: "New",
+		query: "date_posted",
+		desc: true,
+	});
 	const [reviews, setReviews] = useState([]);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				let fetchReviews = await classRef.get();
+				let fetchReviews = await classRef
+					.orderBy(sortQuery.query, sortQuery.desc ? "desc" : "asc")
+					.get();
 				console.log("All reviews fetched!");
 				setReviews(fetchReviews.docs);
 			} catch (error) {
@@ -26,8 +33,8 @@ export default function SchoolMajorsContent({
 		};
 
 		fetchData();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [sortQuery.desc, sortQuery.query]);
 
 	return (
 		<div className="hub_content">
@@ -35,7 +42,12 @@ export default function SchoolMajorsContent({
 
 			<ContentTitle
 				header="All Reviews"
-				sortList={["Recent", "Most Liked", "Old"]}
+				sortList={[
+					{ title: "Old", query: "date_posted" },
+					{ title: "New", query: "date_posted", desc: true },
+				]}
+				sortQuery={sortQuery}
+				setSortQuery={(query) => setSortQuery(query)}
 				content
 			/>
 			<CardSearch placeholder="Search Reviews" />

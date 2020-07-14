@@ -27,6 +27,15 @@ export default function PageNav({ type, baseLink }) {
 			];
 			break;
 
+		case "class-hub":
+			links = [
+				{ content: "Posts", path: "", icon: "post" },
+				{ content: "Chat", path: "/chat", icon: "chat" },
+				{ content: "Notes", path: "/notes", icon: "notes" },
+				{ content: "Thoughts", path: "/thoughts", icon: "thoughts" },
+			];
+			break;
+
 		default:
 			break;
 	}

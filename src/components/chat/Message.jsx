@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { firestore } from "firebase";
 import { UserContext } from "../../App";
-import ReactTimeago from "react-timeago";
+import TimeAgo from "react-timeago";
 
 export default function Message({ user, time, content, self, ...props }) {
 	const [pollSelected, setPollSelected] = useState(-1);
@@ -150,7 +150,7 @@ export default function Message({ user, time, content, self, ...props }) {
 				<div className="flex_hor w-clearfix">
 					<strong>{self ? "You" : user}</strong>
 					<p className="list_date">
-						<ReactTimeago date={time} />
+						<TimeAgo date={time} />
 					</p>
 				</div>
 			)}

@@ -1,6 +1,6 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function CardPreviewInfo({
 	title,
@@ -12,6 +12,8 @@ function CardPreviewInfo({
 	onClick,
 	teacherLink,
 }) {
+	const match = useParams();
+
 	const content = (
 		<>
 			<h3>{loading ? <Skeleton height={24} /> : title}</h3>
@@ -25,7 +27,10 @@ function CardPreviewInfo({
 				{teacherLink ? (
 					<>
 						{" ⋅ "}
-						<Link className="text_link" to={".."}>
+						<Link
+							className="text_link"
+							to={`/schools/${match.schoolId}/classes/${match.classId}`}
+						>
 							Go to Hub
 						</Link>
 					</>
@@ -187,13 +192,13 @@ function CardPreviewPictures({ title, subtitle, pictures, link }) {
 function CardPreviewReview(props) {
 	const { loading, title } = props;
 
-	const calculate = (num) => Math.round((num / props.counter) * 100) / 100;
+	const calculate = (num) => (((num || 0) / props.counter) * 100).toFixed(0);
 
-	const overall = calculate(props.overall);
-	const difficulty = calculate(props.difficulty);
-	const take_again_perc = calculate(props.take_again) * 100;
-	const textbook_perc = calculate(props.textbook) * 100;
-	const attendance_perc = calculate(props.attendance) * 100;
+	const overall = (calculate(props.overall) / 100).toFixed(1);
+	const difficulty = (calculate(props.difficulty) / 100).toFixed(1);
+	const take_again_perc = calculate(props.take_again);
+	const textbook_perc = calculate(props.textbook);
+	const attendance_perc = calculate(props.attendance);
 
 	return (
 		<CardPreviewList
