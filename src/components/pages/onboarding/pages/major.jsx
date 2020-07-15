@@ -5,16 +5,20 @@ import { db } from "../../../../firebase/config";
 import SearchMajors from "../../school/majors/SearchMajors";
 import SpinLoad from "../../../SpinLoad";
 import OnboardingNavigation from "../Navigation";
+import { useToasts } from "react-toast-notifications";
 
 export default function MajorOnboarding({
 	schoolID,
 	selectedMajor,
 	setSelectedMajor,
 }) {
+	const { addToast } = useToasts();
+
 	const [majors, setMajors] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	const [showAddMajor, setShowAddMajor] = useState(false);
+	const [newMajorInfo, setNewMajorInfo] = useState({});
 
 	const [searchQuery, setSearchQuery] = useState("");
 	const loc = useLocation();
@@ -29,25 +33,47 @@ export default function MajorOnboarding({
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				let fetchInfo = await db
+				await db
 					.collection("schools")
 					.doc(schoolID)
 					.collection("majors")
-					.get();
-				console.log("Major info set!");
+					.onSnapshot((querySnapshot) => {
+						console.log("Major info set!");
 
-				setMajors(fetchInfo.docs);
+						setMajors(querySnapshot.docs);
+						setLoading(false);
+					});
 			} catch (error) {
 				console.error(error);
 			}
-
-			setLoading(false);
 		};
 
 		if (schoolID) fetchData();
 	}, [schoolID]);
 
 	document.title = "Onboarding - Major | Blueberries";
+
+	async function createMajor(e) {
+		e.preventDefault();
+
+		try {
+			await db
+				.collection("schools")
+				.doc(schoolID)
+				.collection("majors")
+				.add({ ...newMajorInfo, members: 0 });
+		} catch (error) {
+			console.error(error);
+		}
+
+		addToast(`${newMajorInfo.name} Successfully Created!`, {
+			appearance: "success",
+			autoDismiss: true,
+		});
+		console.log(`${newMajorInfo.name} successfully created!`);
+		setNewMajorInfo({});
+		setShowAddMajor(false);
+	}
 
 	const ConditionalRender = () => {
 		if (!schoolID)
@@ -102,15 +128,22 @@ export default function MajorOnboarding({
 		);
 	};
 
-	const InputForm = ({ title, placeholder }) => (
+	const InputForm = ({ title, placeholder, prop }) => (
 		<>
-			<p style={{ fontWeight: "500" }}>{title}</p>
+			<p style={{ fontWeight: "500" }}>{title + " *"}</p>
 			<div className="hub_card search username">
 				<input
 					type="search"
 					className="search_input w-input"
 					placeholder={placeholder}
 					style={{ padding: "4px" }}
+					value={newMajorInfo[prop]}
+					onChange={(e) => {
+						const newInfo = newMajorInfo;
+						newInfo[prop] = e.currentTarget.value;
+						setNewMajorInfo(newInfo);
+					}}
+					required
 				/>
 			</div>
 		</>
@@ -121,9 +154,13 @@ export default function MajorOnboarding({
 			noValidate
 			className="form_block w-form"
 			style={{ position: "relative" }}
-			onSubmit={(e) => e.preventDefault()}
+			onSubmit={(e) => createMajor(e)}
 		>
-			<InputForm title="Major Name:" placeholder="Ex. Computer Science" />
+			<InputForm
+				title="Major Name:"
+				placeholder="Ex. Computer Science"
+				prop="name"
+			/>
 
 			<div>
 				<button
