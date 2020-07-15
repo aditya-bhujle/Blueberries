@@ -14,10 +14,14 @@ export default function DashboardSidebar({ userInfo }) {
 					elements={userInfo.classes.map((userClass) => ({
 						header: userClass.name,
 						content: [
-							`${userClass.short} ⋅ `,
-							<span className="main_color" key="professor">
-								{`Professor ${userClass.last_name}`}
-							</span>,
+							userClass.teacher
+								? (`${userClass.short} ⋅ `,
+								  (
+										<span className="main_color" key="professor">
+											{`Professor ${userClass.teacher.name}`}
+										</span>
+								  ))
+								: userClass.short,
 						],
 						link: `/schools/${userInfo.school.id}/classes/${userClass.id}`,
 					}))}

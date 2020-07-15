@@ -569,6 +569,11 @@ function CardPost({ uid, showModal, ...props }) {
 		}
 	}
 
+	const date_posted =
+		typeof props.date_posted === "object"
+			? props.date_posted.toDate()
+			: props.date_posted;
+
 	return (
 		<div
 			className={"hub_card" + (props.followed ? " followed" : "")}
@@ -586,7 +591,7 @@ function CardPost({ uid, showModal, ...props }) {
 							<strong>{source.short}</strong> ⋅{" "}
 						</>
 					)}
-					{props.author} ⋅ <TimeAgo date={props.date_posted.toDate()} />
+					{props.author} ⋅ <TimeAgo date={date_posted} />
 				</div>
 			</div>
 

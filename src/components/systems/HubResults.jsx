@@ -62,12 +62,10 @@ export default function HubResults({ searchQuery, hubRef, info, ...props }) {
 	return (
 		<>
 			{searchResults.map((post, index) => {
-				const seconds = post.date_posted._seconds;
-				const nanoseconds = post.date_posted._nanoseconds;
-
-				const newPost = Object.assign({}, post, {
-					date_posted: new firestore.Timestamp(seconds, nanoseconds),
-				});
+				const newPost = {
+					...post,
+					date_posted: Date.parse(post.date_posted),
+				};
 				return (
 					<CardPost
 						{...newPost}
