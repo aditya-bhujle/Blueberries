@@ -14,6 +14,8 @@ export default function ClassesOnboarding({
 	const [classes, setClasses] = useState([]);
 	const [loading, setLoading] = useState(true);
 
+	const [showAddClass, setShowAddClass] = useState(false);
+
 	const [searchQuery, setSearchQuery] = useState("");
 	const loc = useLocation();
 	const [urlLoading, setUrlLoading] = useState(true);
@@ -47,7 +49,7 @@ export default function ClassesOnboarding({
 
 	document.title = "Onboarding - Classes | Blueberries";
 
-	function conditionalRender() {
+	function ConditionalRender() {
 		if (!schoolID)
 			return (
 				<div style={{ textAlign: "center" }} className="flex_stretch">
@@ -135,17 +137,69 @@ export default function ClassesOnboarding({
 		);
 	}
 
-	return (
+	const InputForm = ({ title, placeholder, icon }) => (
 		<>
-			{!urlLoading && (
-				<Redirect
-					to={loc.pathname + (searchQuery ? `?search=${searchQuery}` : "")}
+			<p style={{ fontWeight: "500" }}>{title}</p>
+			<div className="hub_card search username">
+				<svg className="nav_search_icon">
+					<use xlinkHref={"#" + icon} />
+				</svg>
+				<input
+					type="search"
+					className="search_input w-input"
+					placeholder={placeholder}
+					style={{ padding: "4px" }}
 				/>
-			)}
+			</div>
+		</>
+	);
 
-			<h3>Add Your Classes</h3>
+	const AddClassForm = () => (
+		<form
+			noValidate
+			className="form_block w-form"
+			style={{ position: "relative" }}
+			onSubmit={(e) => e.preventDefault()}
+		>
+			<InputForm
+				title="Class Name:"
+				placeholder="Ex. Data Structures and Algorithms"
+				icon="user_add"
+			/>
 
-			<p>Can't find your classes? Request it here</p>
+			<InputForm
+				title="Class Code:"
+				placeholder="Ex. ITSC 2214"
+				icon="user_add"
+			/>
+
+			<InputForm
+				title="Teacher First Name:"
+				placeholder="Ex. Bruce"
+				icon="user_add"
+			/>
+
+			<InputForm
+				title="Teacher Last Name:"
+				placeholder="Ex. Long"
+				icon="user_add"
+			/>
+
+			<div>
+				<button
+					className="button select no_margin"
+					onClick={() => setShowAddClass(false)}
+					type="button"
+				>
+					Cancel
+				</button>
+				<button className="button">Send Request</button>
+			</div>
+		</form>
+	);
+
+	const DefaultContent = () => (
+		<>
 			<CardSearch
 				placeholder="Search All Classes"
 				searchHub={(query) => setSearchQuery(query)}
@@ -158,7 +212,32 @@ export default function ClassesOnboarding({
 				</strong>
 			)}
 
-			{conditionalRender()}
+			<ConditionalRender />
+
+			<div>
+				<button
+					className="button select no_margin"
+					onClick={() => setShowAddClass(!showAddClass)}
+				>
+					Request New Class
+				</button>
+			</div>
+		</>
+	);
+
+	return (
+		<>
+			{!urlLoading && (
+				<Redirect
+					to={loc.pathname + (searchQuery ? `?search=${searchQuery}` : "")}
+				/>
+			)}
+
+			<h3>{showAddClass ? "Request Your Class!" : "Add Your Classes"}</h3>
+
+			<p>Can't find your classes? Request them below!</p>
+
+			{showAddClass ? <AddClassForm /> : <DefaultContent />}
 
 			<div className="flex_stretch"></div>
 

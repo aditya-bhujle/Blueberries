@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 
-import ChatPreview from "../../../chat/ChatPreview";
 import Content from "./Content";
 import { Route, Redirect, Switch } from "react-router-dom";
 

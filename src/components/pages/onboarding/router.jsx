@@ -24,6 +24,7 @@ export default function OnboardingRouter() {
 
 	useEffect(() => {
 		if (userInfo) {
+			if (userInfo.username) setUsername(userInfo.username);
 			if (userInfo.school) setSchool(userInfo.school);
 			if (userInfo.major) setMajor(userInfo.major);
 			if (userInfo.classes) setClasses(userInfo.classes);
@@ -50,7 +51,7 @@ export default function OnboardingRouter() {
 						/>
 					</Route>
 					{!school && <Redirect to="/onboarding/schools" />}
-					
+
 					<Route path="/onboarding/major">
 						<MajorOnboarding
 							schoolID={school ? school.id : false}
