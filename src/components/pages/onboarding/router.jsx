@@ -64,6 +64,7 @@ export default function OnboardingRouter() {
 							schoolID={school ? school.id : false}
 							selectedClasses={classes}
 							setSelectedClasses={(classes) => setClasses(classes)}
+							schoolShort={school ? school.short : false}
 						/>
 					</Route>
 					<Route path="/onboarding/overview">

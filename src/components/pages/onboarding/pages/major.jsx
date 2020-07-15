@@ -14,6 +14,8 @@ export default function MajorOnboarding({
 	const [majors, setMajors] = useState([]);
 	const [loading, setLoading] = useState(true);
 
+	const [showAddMajor, setShowAddMajor] = useState(false);
+
 	const [searchQuery, setSearchQuery] = useState("");
 	const loc = useLocation();
 	const [urlLoading, setUrlLoading] = useState(true);
@@ -45,9 +47,9 @@ export default function MajorOnboarding({
 		if (schoolID) fetchData();
 	}, [schoolID]);
 
-	document.title = "Onboarding - Major | Blueberries"
+	document.title = "Onboarding - Major | Blueberries";
 
-	function conditionalRender() {
+	const ConditionalRender = () => {
 		if (!schoolID)
 			return (
 				<div style={{ textAlign: "center" }} className="flex_stretch">
@@ -64,7 +66,7 @@ export default function MajorOnboarding({
 
 		if (!searchQuery)
 			return (
-				<div className="list_grid_div onboarding_school">
+				<div className="list_grid_div onboarding_classes">
 					{majors.map((major, index) => {
 						const isSelected = selectedMajor && selectedMajor.id === major.id;
 						return (
@@ -98,19 +100,46 @@ export default function MajorOnboarding({
 				setSelectedMajor={setSelectedMajor}
 			/>
 		);
-	}
+	};
 
-	return (
+	const InputForm = ({ title, placeholder }) => (
 		<>
-			{!urlLoading && (
-				<Redirect
-					to={loc.pathname + (searchQuery ? `?search=${searchQuery}` : "")}
+			<p style={{ fontWeight: "500" }}>{title}</p>
+			<div className="hub_card search username">
+				<input
+					type="search"
+					className="search_input w-input"
+					placeholder={placeholder}
+					style={{ padding: "4px" }}
 				/>
-			)}
+			</div>
+		</>
+	);
 
-			<h3>Add Your Major</h3>
+	const AddMajorForm = () => (
+		<form
+			noValidate
+			className="form_block w-form"
+			style={{ position: "relative" }}
+			onSubmit={(e) => e.preventDefault()}
+		>
+			<InputForm title="Major Name:" placeholder="Ex. Computer Science" />
 
-			<p>Can't find your major? Request it here</p>
+			<div>
+				<button
+					className="button select no_margin"
+					onClick={() => setShowAddMajor(false)}
+					type="button"
+				>
+					Cancel
+				</button>
+				<button className="button">Send Request</button>
+			</div>
+		</form>
+	);
+
+	const DefaultContent = () => (
+		<>
 			<CardSearch
 				placeholder="Search All Majors"
 				searchHub={(query) => setSearchQuery(query)}
@@ -123,7 +152,34 @@ export default function MajorOnboarding({
 				</strong>
 			)}
 
-			{conditionalRender()}
+			<ConditionalRender />
+
+			<div>
+				<button
+					className="button select no_margin"
+					onClick={() => setShowAddMajor(!showAddMajor)}
+				>
+					Request New Major
+				</button>
+			</div>
+		</>
+	);
+
+	return (
+		<>
+			{!urlLoading && (
+				<Redirect
+					to={loc.pathname + (searchQuery ? `?search=${searchQuery}` : "")}
+				/>
+			)}
+
+			<h3>{showAddMajor ? "Request Your Major!" : "Add Your Major"}</h3>
+
+			{!showAddMajor && <p>Can't find your major? Request it below!</p>}
+
+			{showAddMajor ? <AddMajorForm /> : <DefaultContent />}
+
+			<div className="flex_stretch"></div>
 
 			<OnboardingNavigation page="major" />
 		</>

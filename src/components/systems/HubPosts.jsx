@@ -22,7 +22,9 @@ export default function HubPost({ collectionRef, ...props }) {
 				setQueryCursor(fetchPosts.docs[fetchPosts.docs.length - 1]);
 
 				console.log("Post data fetched!");
-				
+
+				if (fetchPosts.empty) setHasMorePosts(false);
+
 				setPosts(fetchPosts.docs);
 			} catch (error) {
 				console.error(error);

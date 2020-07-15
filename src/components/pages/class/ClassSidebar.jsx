@@ -64,7 +64,7 @@ export default function ClassSidebar({
 				/>
 			)}
 
-			{current !== "chat" && !classLoading && (
+			{current !== "chat" && !classLoading && messagePreview.length > 0 && (
 				<CardPreviewList
 					title="Chat"
 					elements={messagePreview.map((message) => {

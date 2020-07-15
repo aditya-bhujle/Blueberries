@@ -1541,6 +1541,11 @@ strong {
 	flex: 1;
 }
 
+.flex_stretch.onboarding {
+	overflow: auto;
+	margin-bottom: 15px;
+}
+
 .post_header_close {
 	margin-left: 15px;
 }
@@ -1663,8 +1668,6 @@ strong {
 	overflow: auto;
 	-ms-flex-line-pack: start;
 	align-content: start;
-	-ms-flex-preferred-size: 0%;
-	flex-basis: 0%;
 	grid-column-gap: 15px;
 	grid-template-columns: 1fr 1fr 1fr;
 }

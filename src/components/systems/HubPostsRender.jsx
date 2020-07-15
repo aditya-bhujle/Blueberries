@@ -56,8 +56,7 @@ export default function HubPostsRender({ hasMorePosts, loading, posts, fetchMore
 			>
 				{posts.map((post) => cardPost(post, true))}
 			</InfiniteScroll>
-
-			{!posts.length && <p style={{ textAlign: "center" }}>No posts yet...</p>}
+			
 			{showModal && (
 				<PostModal
 					postRef={modalRef}

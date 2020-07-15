@@ -60,7 +60,7 @@ export default function ClassRouter({ match }) {
 
 		fetchData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [teacherId]);
+	}, [teacherId, classId]);
 
 	if (classInfo === 404) return <NotFoundSection text="class" />;
 

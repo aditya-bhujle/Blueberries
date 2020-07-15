@@ -5,16 +5,21 @@ import { db } from "../../../../firebase/config";
 import SpinLoad from "../../../SpinLoad";
 import SearchClasses from "../../school/classes/SearchClasses";
 import OnboardingNavigation from "../Navigation";
+import { useToasts } from "react-toast-notifications";
 
 export default function ClassesOnboarding({
 	schoolID,
+	schoolShort,
 	selectedClasses,
 	setSelectedClasses,
 }) {
+	const { addToast } = useToasts();
+
 	const [classes, setClasses] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	const [showAddClass, setShowAddClass] = useState(false);
+	const [newClassInfo, setNewClassInfo] = useState({});
 
 	const [searchQuery, setSearchQuery] = useState("");
 	const loc = useLocation();
@@ -29,25 +34,77 @@ export default function ClassesOnboarding({
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				let fetchInfo = await db
+				await db
 					.collection("schools")
 					.doc(schoolID)
 					.collection("classes")
-					.get();
-				console.log("Class info set!");
+					.onSnapshot((querySnapshot) => {
+						console.log("Class info set!");
 
-				setClasses(fetchInfo.docs);
+						setClasses(querySnapshot.docs);
+						setLoading(false);
+					});
 			} catch (error) {
 				console.error(error);
 			}
-
-			setLoading(false);
 		};
 
 		if (schoolID) fetchData();
 	}, [schoolID]);
 
 	document.title = "Onboarding - Classes | Blueberries";
+
+	async function createClass(e) {
+		e.preventDefault();
+
+		const { teacher_first, teacher_last, field, ...classInfo } = newClassInfo;
+		classInfo.members = 0;
+		classInfo.school_short = schoolShort;
+
+		try {
+			const classCollection = db
+				.collection("schools")
+				.doc(schoolID)
+				.collection("classes");
+
+			const classData = {
+				...classInfo,
+				field: field,
+			};
+
+			const teacherData = {
+				...classInfo,
+				first_name: teacher_first,
+				last_name: teacher_last,
+			};
+
+			const { id: classId } = await classCollection.add(classData);
+
+			const { id: teacherId } = await classCollection
+				.doc(classId)
+				.collection("teachers")
+				.add(teacherData);
+
+			const teachers = {};
+			teachers["teachers." + teacherId] = {
+				first_name: teacher_first,
+				last_name: teacher_last,
+				members: 0,
+			};
+
+			await classCollection.doc(classId).update(teachers);
+		} catch (error) {
+			console.error(error);
+		}
+
+		addToast(`${newClassInfo.name} Successfully Created!`, {
+			appearance: "success",
+			autoDismiss: true,
+		});
+		console.log(`${newClassInfo.name} successfully created!`);
+		setNewClassInfo({});
+		setShowAddClass(false);
+	}
 
 	function ConditionalRender() {
 		if (!schoolID)
@@ -137,18 +194,21 @@ export default function ClassesOnboarding({
 		);
 	}
 
-	const InputForm = ({ title, placeholder, icon }) => (
+	const InputForm = ({ title, placeholder, prop }) => (
 		<>
-			<p style={{ fontWeight: "500" }}>{title}</p>
+			<p style={{ fontWeight: "500" }}>{title + " *"}</p>
 			<div className="hub_card search username">
-				<svg className="nav_search_icon">
-					<use xlinkHref={"#" + icon} />
-				</svg>
 				<input
-					type="search"
 					className="search_input w-input"
 					placeholder={placeholder}
 					style={{ padding: "4px" }}
+					value={newClassInfo[prop]}
+					onChange={(e) => {
+						const newInfo = newClassInfo;
+						newInfo[prop] = e.currentTarget.value;
+						setNewClassInfo(newInfo);
+					}}
+					required
 				/>
 			</div>
 		</>
@@ -156,33 +216,34 @@ export default function ClassesOnboarding({
 
 	const AddClassForm = () => (
 		<form
-			noValidate
-			className="form_block w-form"
+			className="form_block w-form flex_stretch onboarding"
 			style={{ position: "relative" }}
-			onSubmit={(e) => e.preventDefault()}
+			onSubmit={createClass}
 		>
 			<InputForm
 				title="Class Name:"
 				placeholder="Ex. Data Structures and Algorithms"
-				icon="user_add"
+				prop="name"
 			/>
 
+			<InputForm title="Class Code:" placeholder="Ex. ITSC 2214" prop="short" />
+
 			<InputForm
-				title="Class Code:"
-				placeholder="Ex. ITSC 2214"
-				icon="user_add"
+				title="Class Department:"
+				placeholder="Ex. College of Computing and Informatics"
+				prop="field"
 			/>
 
 			<InputForm
 				title="Teacher First Name:"
 				placeholder="Ex. Bruce"
-				icon="user_add"
+				prop="teacher_first"
 			/>
 
 			<InputForm
 				title="Teacher Last Name:"
 				placeholder="Ex. Long"
-				icon="user_add"
+				prop="teacher_last"
 			/>
 
 			<div>
@@ -199,7 +260,7 @@ export default function ClassesOnboarding({
 	);
 
 	const DefaultContent = () => (
-		<>
+		<div className="flex_stretch onboarding">
 			<CardSearch
 				placeholder="Search All Classes"
 				searchHub={(query) => setSearchQuery(query)}
@@ -222,7 +283,7 @@ export default function ClassesOnboarding({
 					Request New Class
 				</button>
 			</div>
-		</>
+		</div>
 	);
 
 	return (
@@ -235,11 +296,9 @@ export default function ClassesOnboarding({
 
 			<h3>{showAddClass ? "Request Your Class!" : "Add Your Classes"}</h3>
 
-			<p>Can't find your classes? Request them below!</p>
+			{!showAddClass && <p>Can't find your classes? Request them below!</p>}
 
 			{showAddClass ? <AddClassForm /> : <DefaultContent />}
-
-			<div className="flex_stretch"></div>
 
 			<OnboardingNavigation page="classes" />
 		</>
