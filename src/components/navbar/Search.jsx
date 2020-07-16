@@ -119,6 +119,7 @@ export default function Search() {
 	function sortHits(hits) {
 		let categories = {
 			school: { name: "Schools", icon: "school", elements: [] },
+			major: { name: "Majors", icon: "hub", elements: [] },
 			class: { name: "Classes", icon: "flask", elements: [] },
 			other: { name: "other", icon: "school", elements: [] },
 		};
@@ -130,6 +131,14 @@ export default function Search() {
 						name: element.name,
 						description: element.short,
 						link: "/schools/" + element.objectID,
+					});
+					break;
+
+				case "major":
+					categories.major.elements.push({
+						name: element.name,
+						link:
+							"/schools/" + userInfo.school.id + "/majors/" + element.objectID,
 					});
 					break;
 

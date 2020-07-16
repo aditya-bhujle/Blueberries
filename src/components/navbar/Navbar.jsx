@@ -39,6 +39,7 @@ export default function Navbar({ user, userInfo }) {
 				className="form_block w-form nav user"
 				style={{ position: "relative" }}
 				role="search"
+				onSubmit={(e) => e.preventDefault()}
 			>
 				{user && <Search />}
 			</form>

@@ -42,6 +42,9 @@ export default function PostComments({ postProps, postRef }) {
 				setQueryCursor(fetchPosts.docs[fetchPosts.docs.length - 1]);
 
 				console.log("Comment data fetched!");
+
+				if (fetchPosts.empty) sethasMoreComments(false);
+
 				setComments(fetchPosts.docs);
 			} catch (error) {
 				console.error(error);
