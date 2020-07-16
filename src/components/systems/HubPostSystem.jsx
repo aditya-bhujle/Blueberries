@@ -57,14 +57,16 @@ export default function HubPostSystem({
 						: contentTitle || "Popular Posts"
 				}
 				sortList={
-					contentList || [
-						{ title: "Hot", query: "likeCount", desc: true },
-						{ title: "Top", query: "likeCount", desc: true },
-						{ title: "Disputed", query: "likeCount" },
-						{ title: "New", query: "date_posted", desc: true },
-						{ title: "Old", query: "date_posted" },
-						{ title: "Comments", query: "comments", desc: true },
-					]
+					searchQuery
+						? false
+						: contentList || [
+								{ title: "Hot", query: "likeCount", desc: true },
+								{ title: "Top", query: "likeCount", desc: true },
+								{ title: "Disputed", query: "likeCount" },
+								{ title: "New", query: "date_posted", desc: true },
+								{ title: "Old", query: "date_posted" },
+								{ title: "Comments", query: "comments", desc: true },
+						  ]
 				}
 				sortQuery={sortQuery}
 				setSortQuery={(query) => setSortQuery(query)}

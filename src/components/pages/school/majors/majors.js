@@ -42,7 +42,7 @@ export default function SchoolPosts({ sidebar, schoolRef, schoolInfo }) {
 				header={
 					searchQuery ? `Search results for "${searchQuery}"` : "All Majors"
 				}
-				sortList={[
+				sortList={searchQuery ? false : [
 					{ title: "Top", query: "members", desc: true },
 					{ title: "Alphabetical", query: "name" },
 				]}
