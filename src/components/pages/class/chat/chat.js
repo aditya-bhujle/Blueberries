@@ -3,7 +3,13 @@ import React, { useEffect } from "react";
 import Content from "./Content";
 import { Route, Redirect, Switch } from "react-router-dom";
 
-export default function ClassChat({ match, sidebar, classRef, hubRef, ...props }) {
+export default function ClassChat({
+	match,
+	sidebar,
+	classRef,
+	hubRef,
+	...props
+}) {
 	useEffect(() => {
 		const rootElement = document.getElementById("root");
 
@@ -13,7 +19,7 @@ export default function ClassChat({ match, sidebar, classRef, hubRef, ...props }
 	}, []);
 
 	return (
-		<div className="hub_column_layout">
+		<div className="hub_column_layout" style={{ height: "100%" }}>
 			<Switch>
 				<Route
 					exact

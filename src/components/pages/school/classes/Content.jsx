@@ -43,8 +43,10 @@ export default function SchoolClassesContent({ schoolRef }) {
 				(classData.members === 1 ? " Student" : " Students");
 
 			const teachers =
-				classData.teachers.length +
-				(classData.teachers.length === 1 ? " Teacher" : " Teachers");
+				Object.keys(classData.teachers).length +
+				(Object.keys(classData.teachers).length === 1
+					? " Teacher"
+					: " Teachers");
 
 			fieldArray[fieldArray.length - 1].content.push({
 				header: classData.name,

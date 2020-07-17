@@ -99,6 +99,7 @@ export default function ClassHeader({
 		try {
 			if (joined) {
 				removeClassFromUser();
+				await classRef.update({ members: firestore.FieldValue.increment(-1) });
 
 				if (teacherId) {
 					const updateObject = {};
