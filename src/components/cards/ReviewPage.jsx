@@ -218,7 +218,9 @@ function ReviewCard({
 	return (
 		<div className="hub_card">
 			<div className="hub_post_details">
-				{author} ⋅ {<TimeAgo date={date_posted.toDate()} />}
+				<div>
+					{author} ⋅ {<TimeAgo date={date_posted.toDate()} />}
+				</div>
 			</div>
 
 			<h3>{title}</h3>

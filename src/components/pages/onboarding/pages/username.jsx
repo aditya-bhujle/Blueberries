@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import OnboardingNavigation from "../Navigation";
 import { db } from "../../../../firebase/config";
+import { UserContext } from "../../../../App";
 
 export default function UsernameOnboarding({ username, setUsername }) {
 	const [validUsername, setValidUsername] = useState(false);
@@ -8,13 +9,15 @@ export default function UsernameOnboarding({ username, setUsername }) {
 	const [usernameAvailable, setUsernameAvailable] = useState(false);
 	const [loading, setLoading] = useState(true);
 
+	const userInfo = useContext(UserContext);
+
 	useEffect(() => {
 		const checkAvailability = async () => {
 			setLoading(true);
 			try {
 				const fetchUsers = await db
 					.collection("users")
-					.where("lowercase_username", "==", username)
+					.where("username", "==", username)
 					.limit(1)
 					.get();
 
@@ -30,7 +33,10 @@ export default function UsernameOnboarding({ username, setUsername }) {
 
 		if (usernameRegex.test(username)) {
 			setValidUsername(true);
-			checkAvailability();
+
+			if (userInfo && userInfo.username === username)
+				setUsernameAvailable(true);
+			else checkAvailability();
 		} else setValidUsername(false);
 	}, [username]);
 
@@ -39,6 +45,8 @@ export default function UsernameOnboarding({ username, setUsername }) {
 		else if (username.length < 8) return "Must be over 8 characters";
 		else if (username.length > 20) return "Must be between 8 and 20 characters";
 		else if (!validUsername) return "Invalid characters!";
+		else if (userInfo && userInfo.username === username)
+			return "This is your existing username!";
 		else if (!loading) {
 			if (usernameAvailable) return "That username is available!";
 			else return "Unfortunately, that username is taken";
