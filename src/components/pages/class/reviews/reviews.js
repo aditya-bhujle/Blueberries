@@ -9,7 +9,7 @@ export default function SchoolPosts({
 	reviewsLoading,
 	sidebar,
 }) {
-	const numReviews = classInfo.reviews && classInfo.reviews.counter;
+	const numReviews = (classInfo.reviews && classInfo.reviews.counter) || "No";
 	if (classInfo.last_name)
 		document.title = `Overview for Professor ${classInfo.last_name} - ${classInfo.short} - ${classInfo.name} | Blueberries`;
 	else document.title = "Overview | Blueberries";

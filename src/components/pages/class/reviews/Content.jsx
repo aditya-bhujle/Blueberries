@@ -33,12 +33,23 @@ export default function SchoolMajorsContent({
 		};
 
 		fetchData();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [sortQuery.desc, sortQuery.query]);
 
 	return (
 		<div className="hub_content">
-			<AvgReviews {...avgReviews} loading={reviewsLoading} />
+			{reviewsLoading && avgReviews}
+
+			{reviewsLoading && (
+				<AvgReviews {...avgReviews} loading={reviewsLoading} />
+			)}
+			{!reviewsLoading && avgReviews ? (
+				<AvgReviews {...avgReviews} />
+			) : (
+				<div style={{ padding: "45px", textAlign: "center" }}>
+					<h2>No Reviews Yet!</h2>
+				</div>
+			)}
 
 			<ContentTitle
 				header="All Reviews"
