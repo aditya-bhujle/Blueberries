@@ -167,15 +167,18 @@ export default function Menu({ data, loading }) {
 									notExact
 								>
 									{submenu &&
-										submenu.map(({ content, icon, link }) => (
-											<MenuLink
-												submenu
-												content={content}
-												icon={icon}
-												key={content}
-												link={`${itemURL}/${link}`}
-											/>
-										))}
+										submenu.map(({ content, icon, link }) => {
+											if (content === "Reviews" && !item.teacher) return null;
+											return (
+												<MenuLink
+													submenu
+													content={content}
+													icon={icon}
+													key={content}
+													link={`${itemURL}/${link}`}
+												/>
+											);
+										})}
 								</SubMenuHead>
 							</div>
 						);
