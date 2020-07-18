@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { UserContext } from "../../App";
 import { useToasts } from "react-toast-notifications";
-import { firestore } from "firebase";
+import { db } from "../../firebase/config";
 import { Rate } from "antd";
 import TimeAgo from "react-timeago";
 
@@ -145,18 +145,18 @@ function ReviewCard({
 						setUnhelped(false);
 						setUnHelps(unhelps - 1);
 						await reviewRef.update({
-							unhelpful: firestore.FieldValue.arrayRemove(uid),
+							unhelpful: db.FieldValue.arrayRemove(uid),
 						});
 					}
 					await reviewRef.update({
-						helpful: firestore.FieldValue.arrayUnion(uid),
+						helpful: db.FieldValue.arrayUnion(uid),
 					});
 				} else {
 					setHelped(false);
 					setHelps(helps - 1);
 
 					await reviewRef.update({
-						helpful: firestore.FieldValue.arrayRemove(uid),
+						helpful: db.FieldValue.arrayRemove(uid),
 					});
 				}
 			} catch (error) {
@@ -185,19 +185,19 @@ function ReviewCard({
 						setHelped(false);
 						setHelps(helps - 1);
 						await reviewRef.update({
-							helpful: firestore.FieldValue.arrayRemove(uid),
+							helpful: db.FieldValue.arrayRemove(uid),
 						});
 					}
 
 					await reviewRef.update({
-						unhelpful: firestore.FieldValue.arrayUnion(uid),
+						unhelpful: db.FieldValue.arrayUnion(uid),
 					});
 				} else {
 					setUnhelped(false);
 					setUnHelps(unhelps - 1);
 
 					await reviewRef.update({
-						unhelpful: firestore.FieldValue.arrayRemove(uid),
+						unhelpful: db.FieldValue.arrayRemove(uid),
 					});
 				}
 			} catch (error) {
@@ -321,27 +321,27 @@ function ReviewCreate({ classRef }) {
 				helpful: [],
 				unhelpful: [],
 				author: userInfo.username,
-				date_posted: firestore.Timestamp.now(),
+				date_posted: db.Timestamp.now(),
 			};
 
 			let avgUpdate = {
-				"reviews.counter": firestore.FieldValue.increment(1),
-				"reviews.overall": firestore.FieldValue.increment(
+				"reviews.counter": db.FieldValue.increment(1),
+				"reviews.overall": db.FieldValue.increment(
 					reviewInfo.rating.overall
 				),
-				"reviews.difficulty": firestore.FieldValue.increment(
+				"reviews.difficulty": db.FieldValue.increment(
 					reviewInfo.rating.difficulty
 				),
 			};
 
 			if (reviewInfo.rating.attendance)
-				avgUpdate["reviews.attendance"] = firestore.FieldValue.increment(1);
+				avgUpdate["reviews.attendance"] = db.FieldValue.increment(1);
 
 			if (reviewInfo.rating.textbook)
-				avgUpdate["reviews.textbook"] = firestore.FieldValue.increment(1);
+				avgUpdate["reviews.textbook"] = db.FieldValue.increment(1);
 
 			if (reviewInfo.rating.take_again)
-				avgUpdate["reviews.take_again"] = firestore.FieldValue.increment(1);
+				avgUpdate["reviews.take_again"] = db.FieldValue.increment(1);
 
 			await classRef.add(firestoreAdd);
 			await classRef.parent.update(avgUpdate);

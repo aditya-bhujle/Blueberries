@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Skeleton from "react-loading-skeleton";
-import { firestore, storage } from "firebase/app";
+import { db, storage } from "../../firebase/config";
 import { Checkbox } from "antd";
 import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../../App";
@@ -260,7 +260,7 @@ function CardCreate({
 				likes: [],
 				comments: 0,
 				author: anon ? "Anonymous" : userInfo.username,
-				date_posted: firestore.Timestamp.now(),
+				date_posted: db.Timestamp.now(),
 			};
 
 			if (props.notes) firestoreAdd.category = "Notes";
@@ -471,18 +471,18 @@ function CardPost({ uid, showModal, ...props }) {
 						setDisliked(false);
 						setDislikes(dislikes - 1);
 						await props.postRef.update({
-							dislikes: firestore.FieldValue.arrayRemove(uid),
+							dislikes: db.FieldValue.arrayRemove(uid),
 						});
 					}
 					await props.postRef.update({
-						likes: firestore.FieldValue.arrayUnion(uid),
+						likes: db.FieldValue.arrayUnion(uid),
 					});
 				} else {
 					setLiked(false);
 					setLikes(likes - 1);
 
 					await props.postRef.update({
-						likes: firestore.FieldValue.arrayRemove(uid),
+						likes: db.FieldValue.arrayRemove(uid),
 					});
 				}
 			} catch (error) {
@@ -516,19 +516,19 @@ function CardPost({ uid, showModal, ...props }) {
 						setLiked(false);
 						setLikes(likes - 1);
 						await props.postRef.update({
-							likes: firestore.FieldValue.arrayRemove(uid),
+							likes: db.FieldValue.arrayRemove(uid),
 						});
 					}
 
 					await props.postRef.update({
-						dislikes: firestore.FieldValue.arrayUnion(uid),
+						dislikes: db.FieldValue.arrayUnion(uid),
 					});
 				} else {
 					setDisliked(false);
 					setDislikes(dislikes - 1);
 
 					await props.postRef.update({
-						dislikes: firestore.FieldValue.arrayRemove(uid),
+						dislikes: db.FieldValue.arrayRemove(uid),
 					});
 				}
 			} catch (error) {

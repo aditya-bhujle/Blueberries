@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../../App";
-import { firestore } from "firebase/app";
 import { useToasts } from "react-toast-notifications";
 import TimeAgo from "react-timeago";
+import { db } from "../../../firebase/config";
 
 export default function PostComment({
 	user,
@@ -89,16 +89,16 @@ export default function PostComment({
 				setLikes(likes + 1);
 
 				await props.commentDocRef.update({
-					likes: firestore.FieldValue.arrayUnion(userInfo.id),
-					likeCount: firestore.FieldValue.increment(1),
+					likes: db.FieldValue.arrayUnion(userInfo.id),
+					likeCount: db.FieldValue.increment(1),
 				});
 			} else {
 				setLiked(false);
 				setLikes(likes - 1);
 
 				await props.commentDocRef.update({
-					likes: firestore.FieldValue.arrayRemove(userInfo.id),
-					likeCount: firestore.FieldValue.increment(-1),
+					likes: db.FieldValue.arrayRemove(userInfo.id),
+					likeCount: db.FieldValue.increment(-1),
 				});
 			}
 		} catch (error) {
@@ -114,7 +114,7 @@ export default function PostComment({
 			content: replyText,
 			likes: [],
 			likeCount: 0,
-			date_posted: firestore.Timestamp.now(),
+			date_posted: db.Timestamp.now(),
 			replies: 0,
 		};
 
@@ -124,11 +124,11 @@ export default function PostComment({
 				.add(replyInfo);
 
 			await props.postRef.update({
-				comments: firestore.FieldValue.increment(1),
+				comments: db.FieldValue.increment(1),
 			});
 
 			await props.commentDocRef.update({
-				replies: firestore.FieldValue.increment(1),
+				replies: db.FieldValue.increment(1),
 			});
 
 			setReplyText("");

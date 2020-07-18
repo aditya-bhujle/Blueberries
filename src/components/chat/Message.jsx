@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { firestore } from "firebase";
+import { db } from "../../firebase/config";
 import { UserContext } from "../../App";
 import TimeAgo from "react-timeago";
 
@@ -49,13 +49,13 @@ export default function Message({ user, time, content, self, ...props }) {
 				const voteObject = {};
 				voteObject[
 					`poll.choices.${pollSelected}.votes`
-				] = firestore.FieldValue.arrayUnion(userInfo.id);
+				] = db.FieldValue.arrayUnion(userInfo.id);
 
 				if (pollVoted !== -1) {
 					const pastVote = {};
 					pastVote[
 						`poll.choices.${pollVoted}.votes`
-					] = firestore.FieldValue.arrayRemove(userInfo.id);
+					] = db.FieldValue.arrayRemove(userInfo.id);
 
 					await props.messageRef.update(pastVote);
 				}

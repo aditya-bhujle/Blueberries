@@ -3,7 +3,6 @@ import algoliasearch from "algoliasearch/lite";
 import { CardPost } from "../cards/CenterCards";
 import { UserContext } from "../../App";
 import PostModal from "../pages/post/PostModal";
-import { firestore } from "firebase/app";
 import SpinLoad from "../SpinLoad";
 
 export default function HubResults({ searchQuery, hubRef, info, ...props }) {

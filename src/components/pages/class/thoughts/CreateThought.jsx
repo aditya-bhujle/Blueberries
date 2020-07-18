@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
-import { firestore } from "firebase/app";
 import { Checkbox } from "antd";
 import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../../../../App";
+import { db } from "../../../../firebase/config";
 
 export default function CreateThought({
 	title,
@@ -62,7 +62,7 @@ export default function CreateThought({
 				likeCount: 0,
 				comments: 0,
 				author: anon ? "Anonymous" : userInfo.username,
-				date_posted: firestore.Timestamp.now(),
+				date_posted: db.Timestamp.now(),
 				category: "Thoughts",
 			};
 

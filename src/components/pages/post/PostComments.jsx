@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { firestore } from "firebase";
+import { db } from "../../../firebase/config";
 import { UserContext } from "../../../App";
 import { useToasts } from "react-toast-notifications";
 
@@ -87,14 +87,14 @@ export default function PostComments({ postProps, postRef }) {
 			content: newComment,
 			likes: [],
 			likeCount: 0,
-			date_posted: firestore.Timestamp.now(),
+			date_posted: db.Timestamp.now(),
 			replies: 0,
 		};
 
 		try {
 			const tempRef = await commentColRef.add(commentInfo);
 			await postRef.update({
-				comments: firestore.FieldValue.increment(1),
+				comments: db.FieldValue.increment(1),
 			});
 
 			setNewComment("");
