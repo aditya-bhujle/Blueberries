@@ -51,9 +51,9 @@ export default function SchoolPosts({ sidebar, schoolRef, schoolInfo }) {
 			/>
 			<div className="hub_column_layout">
 				<div className="hub_content">
-					<p>
+					{/*<p>
 						Can't find your major? <a>Add it here.</a>
-					</p>
+					</p>*/}
 
 					<CardSearch
 						placeholder="Search All Majors"

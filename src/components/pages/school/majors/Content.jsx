@@ -32,7 +32,7 @@ export default function SchoolMajorsContent({
 		<div className="list_grid_div space_between">
 			{majors.map((major, index) => (
 				<Link
-					to={`/schools/${param.schoolId}/major/${major.id}`}
+					to={`/schools/${param.schoolId}/majors/${major.id}`}
 					className="hub_card bot_padding hoverable"
 					key={index}
 				>
