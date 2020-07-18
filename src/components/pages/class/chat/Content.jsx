@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import ChatCard from "../../../chat/ChatCard";
 import Message from "../../../chat/Message";
 import { UserContext } from "../../../../App";
-import { db } from "../../../../firebase/config";
+import { firestore } from "../../../../firebase/config";
 
 export default function ClassMessageContent({ classRef, ...props }) {
 	const [messages, setMessages] = useState([]);
@@ -34,7 +34,7 @@ export default function ClassMessageContent({ classRef, ...props }) {
 				content: content,
 				user: userInfo.username,
 				user_id: userInfo.id,
-				date_posted: db.Timestamp.now(),
+				date_posted: firestore.Timestamp.now(),
 			});
 			console.log("Message sent!");
 		} catch (error) {

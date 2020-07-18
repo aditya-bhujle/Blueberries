@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Skeleton from "react-loading-skeleton";
-import { db, storage } from "../../firebase/config";
+import { firestore, storage } from "../../firebase/config";
 import { Checkbox } from "antd";
 import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../../App";
@@ -260,7 +260,7 @@ function CardCreate({
 				likes: [],
 				comments: 0,
 				author: anon ? "Anonymous" : userInfo.username,
-				date_posted: db.Timestamp.now(),
+				date_posted: firestore.Timestamp.now(),
 			};
 
 			if (props.notes) firestoreAdd.category = "Notes";
@@ -272,7 +272,7 @@ function CardCreate({
 			if (postFiles)
 				for (let index = 0; index < postFiles.length; index++) {
 					const file = postFiles[index];
-					await storage()
+					await storage
 						.ref()
 						.child(postRef.path)
 						.child(createdPost.id)
@@ -386,7 +386,7 @@ function CardPost({ uid, showModal, ...props }) {
 			let fileCounter = [];
 			let imageCounter = [];
 			for (let index = 0; index < props.files.length; index++) {
-				const ref = storage()
+				const ref = storage
 					.ref()
 					.child(props.postRef.path)
 					.child(props.files[index]);
@@ -471,18 +471,18 @@ function CardPost({ uid, showModal, ...props }) {
 						setDisliked(false);
 						setDislikes(dislikes - 1);
 						await props.postRef.update({
-							dislikes: db.FieldValue.arrayRemove(uid),
+							dislikes: firestore.FieldValue.arrayRemove(uid),
 						});
 					}
 					await props.postRef.update({
-						likes: db.FieldValue.arrayUnion(uid),
+						likes: firestore.FieldValue.arrayUnion(uid),
 					});
 				} else {
 					setLiked(false);
 					setLikes(likes - 1);
 
 					await props.postRef.update({
-						likes: db.FieldValue.arrayRemove(uid),
+						likes: firestore.FieldValue.arrayRemove(uid),
 					});
 				}
 			} catch (error) {
@@ -516,19 +516,19 @@ function CardPost({ uid, showModal, ...props }) {
 						setLiked(false);
 						setLikes(likes - 1);
 						await props.postRef.update({
-							likes: db.FieldValue.arrayRemove(uid),
+							likes: firestore.FieldValue.arrayRemove(uid),
 						});
 					}
 
 					await props.postRef.update({
-						dislikes: db.FieldValue.arrayUnion(uid),
+						dislikes: firestore.FieldValue.arrayUnion(uid),
 					});
 				} else {
 					setDisliked(false);
 					setDislikes(dislikes - 1);
 
 					await props.postRef.update({
-						dislikes: db.FieldValue.arrayRemove(uid),
+						dislikes: firestore.FieldValue.arrayRemove(uid),
 					});
 				}
 			} catch (error) {

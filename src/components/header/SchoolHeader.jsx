@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import Header from "./Header";
-import { db } from "../../firebase/config";
+import { db, firestore } from "../../firebase/config";
 import { UserContext } from "../../App";
 import Skeleton from "react-loading-skeleton";
 import { useToasts } from "react-toast-notifications";
@@ -51,7 +51,7 @@ export default function SchoolHeader({
 			});
 
 			await schoolRef.update({
-				members: db.FieldValue.increment(joined ? -1 : 1),
+				members: firestore.FieldValue.increment(joined ? -1 : 1),
 			});
 
 			addToast(`Successfully ${joined ? "Left" : "Added to"} ${props.name}!`, {

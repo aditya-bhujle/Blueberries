@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import Header from "./Header";
-import { db } from "../../firebase/config";
+import { db, firestore } from "../../firebase/config";
 import { UserContext } from "../../App";
 import Skeleton from "react-loading-skeleton";
 import { useToasts } from "react-toast-notifications";
@@ -56,7 +56,7 @@ export default function ClassHeader({
 
 		for (let i = 0; i < removeClasses.length; i++) {
 			await userRef.update({
-				classes: db.FieldValue.arrayRemove(removeClasses[i]),
+				classes: firestore.FieldValue.arrayRemove(removeClasses[i]),
 			});
 		}
 	}
@@ -81,13 +81,13 @@ export default function ClassHeader({
 		let otherRef = otherTeacherId
 			? classRef.collection("teachers").doc(otherTeacherId)
 			: classRef.parent.parent;
-		await otherRef.update({ members: db.FieldValue.increment(-1) });
+		await otherRef.update({ members: firestore.FieldValue.increment(-1) });
 
 		if (otherTeacherId) {
 			const updateObject = {};
 			updateObject[
 				`teachers.${otherTeacherId}.members`
-			] = db.FieldValue.increment(-1);
+			] = firestore.FieldValue.increment(-1);
 			await classRef.update(updateObject);
 		}
 	}
@@ -98,13 +98,13 @@ export default function ClassHeader({
 		try {
 			if (joined) {
 				removeClassFromUser();
-				await classRef.update({ members: db.FieldValue.increment(-1) });
+				await classRef.update({ members: firestore.FieldValue.increment(-1) });
 
 				if (teacherId) {
 					const updateObject = {};
 					updateObject[
 						`teachers.${teacherId}.members`
-					] = db.FieldValue.increment(-1);
+					] = firestore.FieldValue.increment(-1);
 					await classRef.parent.parent.update(updateObject);
 				}
 			} else {
@@ -121,15 +121,15 @@ export default function ClassHeader({
 				// Add to class
 
 				await userRef.update({
-					classes: db.FieldValue.arrayUnion(schoolClass),
+					classes: firestore.FieldValue.arrayUnion(schoolClass),
 				});
-				await classRef.update({ members: db.FieldValue.increment(1) });
+				await classRef.update({ members: firestore.FieldValue.increment(1) });
 
 				if (teacherId) {
 					const updateObject = {};
 					updateObject[
 						`teachers.${teacherId}.members`
-					] = db.FieldValue.increment(1);
+					] = firestore.FieldValue.increment(1);
 					await classRef.parent.parent.update(updateObject);
 				}
 			}
