@@ -74,6 +74,9 @@ export default function DashboardPost({ postRef, ...props }) {
 				}
 
 				console.log("Dashboard data fetched!");
+
+				if (!tempCollectionDocs.length) setHasMorePosts(false);
+
 				setQueryCursors(tempQueryCursors);
 				setPosts(tempCollectionDocs);
 			} catch (error) {
