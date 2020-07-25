@@ -6,6 +6,7 @@ import { useToasts } from "react-toast-notifications";
 import { UserContext } from "../../App";
 import TimeAgo from "react-timeago";
 import { useHistory } from "react-router-dom";
+import Linkify from "react-linkify";
 
 function CardCreate({
 	title,
@@ -651,7 +652,11 @@ function CardPost({ uid, showModal, ...props }) {
 				</p>
 			)}
 
-			{props.content && <p>{props.content}</p>}
+			{props.content && (
+				<Linkify textDecorator = "blue">
+					<p>{props.content}</p>
+				</Linkify>
+			)}
 
 			{props.modal &&
 				showImages.map((url) => (
