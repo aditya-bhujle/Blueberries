@@ -37,6 +37,8 @@ export default function App() {
 	const [user, setUser] = useState(null);
 	const [userLoading, setUserLoading] = useState(true);
 
+	const [showMobileMenu, setShowMobileMenu] = useState(false);
+
 	useEffect(() => {
 		auth().onAuthStateChanged((userAuth) => {
 			setUser(userAuth);
@@ -95,8 +97,18 @@ export default function App() {
 			<UserLoadingContext.Provider value={userLoading}>
 				<Router>
 					<SVG />
-					<Navbar user={user} userInfo={userInfo} />
+					<Navbar
+						user={user}
+						userInfo={userInfo}
+						menuVisible = {showMobileMenu}
+						toggleMenu={() => setShowMobileMenu(!showMobileMenu)}
+					/>
+
 					{user && <Menu data={userInfo} loading={loading} />}
+
+					{user && showMobileMenu && (
+						<Menu data={userInfo} loading={loading} mobile />
+					)}
 
 					<Switch>
 						<Route

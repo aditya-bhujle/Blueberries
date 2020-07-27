@@ -6,12 +6,12 @@ export default function SignedOutLinks() {
 
 	return (
 		<>
-			<Link to="/signup" className="button no_margin">
+			<Link to="/signup" className="button no_margin nav_mobile">
 				Create an Account
 			</Link>
 			<Link
 				to={{ pathname: "/login", state: location.pathname }}
-				className="button select"
+				className="button select nav_mobile"
 			>
 				Log In
 			</Link>

@@ -653,7 +653,7 @@ function CardPost({ uid, showModal, ...props }) {
 			)}
 
 			{props.content && (
-				<Linkify textDecorator = "blue">
+				<Linkify>
 					<p>{props.content}</p>
 				</Linkify>
 			)}

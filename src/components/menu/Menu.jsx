@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import SchoolLink from "./SchoolLink";
 import { useToasts } from "react-toast-notifications";
 
-export default function Menu({ data, loading }) {
+export default function Menu({ data, loading, mobile }) {
 	const loc = useLocation();
 	const { addToast } = useToasts();
 
@@ -13,7 +13,7 @@ export default function Menu({ data, loading }) {
 
 	if (loading) {
 		return (
-			<div className="nav_menu">
+			<div className={"nav_menu" + (mobile ? " mobile" : "")}>
 				<MenuLink loading={loading} />
 				<MenuLink loading={loading} />
 				<MenuLink loading={loading} />
@@ -52,7 +52,7 @@ export default function Menu({ data, loading }) {
 	const { school, major, chats, classes, clubs } = data;
 
 	return (
-		<div className="nav_menu">
+		<div className={"nav_menu" + (mobile ? " mobile" : "")}>
 			<MenuLink content="Your Feed" icon="home" link="/" />
 
 			<SchoolLink school={school} />

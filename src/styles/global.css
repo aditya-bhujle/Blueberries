@@ -1,3 +1,16 @@
+.mobile_navbar {
+	position: absolute;
+	top: 100%;
+	left: 0px;
+	right: 0px;
+	padding: 0px 10px 5px;
+	background-color: #effcff;
+}
+
+.button.show_mobile {
+	display: none;
+}
+
 .chat_header_link {
 	margin-top: 5px;
 	margin-bottom: 10px;
@@ -901,10 +914,6 @@ strong {
 
 	margin-right: 15px;
 	margin-left: 15px;
-	-webkit-box-flex: 1;
-	-webkit-flex: 1;
-	-ms-flex: 1;
-	flex: 1;
 }
 
 .form_block.nav.user {
@@ -2218,6 +2227,10 @@ strong {
 	.nav_menu {
 		display: none;
 	}
+
+	.nav_menu.mobile {
+		display: block;
+	}
 }
 
 @media screen and (max-width: 767px) {
@@ -2259,6 +2272,23 @@ strong {
 }
 
 @media screen and (max-width: 479px) {
+	.button.show_mobile {
+		display: block;
+	}
+
+	.hide_mobile {
+		display: none;
+	}
+
+	.form_block.nav.user {
+		display: none;
+	}
+
+	.nav_mobile {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
 	.hub_card.modal {
 		width: 100%;
 		min-width: auto;
