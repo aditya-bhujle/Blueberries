@@ -1,3 +1,5 @@
+Check this app out at www.blueberries.app!
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
